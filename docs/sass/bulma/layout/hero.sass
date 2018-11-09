@@ -1,0 +1,38 @@
+// Main container
+
+.hero
+  align-items: stretch
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  // Colors
+  @each $name, $pair in $colors
+    $color: nth($pair, 1)
+    $color-invert: nth($pair, 2)
+    &.is-#{$name}
+      background-color: $color
+      color: $color-invert
+      a:not(.button):not(.dropdown-item):not(.tag),
+      strong
+        color: inherit
+      .title
+        color: $color-invert
+
+  // Sizes
+  &.is-medium
+    +tablet
+      .hero-body
+        padding-bottom: 9rem
+        padding-top: 9rem
+
+// Containers
+.hero-head,
+.hero-foot
+  flex-grow: 0
+  flex-shrink: 0
+  padding: 1rem 1.5rem
+
+.hero-body
+  flex-grow: 1
+  flex-shrink: 0
+  padding: 3rem 1.5rem

@@ -1,0 +1,114 @@
+/*
+ * flexCarousel.js v0.0.1
+ * https://github.com/tomhrtly/flexCarousel.js
+ *
+ * Copyright 2018 Tom Hartley
+ * Released under the MIT license
+ */
+
+$prev-next-min-width: 64px
+
+.flexCarousel
+  display: flex
+  &:not(.flexCarousel-has-overlay)
+    .flexCarousel-next,
+    .flexCarousel-prev
+      align-items: center
+      cursor: pointer
+      display: flex
+      justify-content: center
+      min-width: $prev-next-min-width
+  &.flexCarousel-has-overlay
+    .flexCarousel-next,
+    .flexCarousel-prev
+      cursor: pointer
+      height: 100%
+      min-width: $prev-next-min-width
+      position: absolute
+      z-index: 1
+    .flexCarousel-next
+      right: 0
+      .flexCarousel-icon
+        right: 16px
+    .flexCarousel-prev
+      .flexCarousel-icon
+        left: 16px
+
+.flexCarousel-has-overlay
+  position: relative
+
+.flexCarousel-next,
+.flexCarousel-prev
+  &:hover
+    .flexCarousel-icon
+      color: rgba(0, 0, 0, 0.50)
+  .flexCarousel-icon
+    align-items: center
+    color: rgba(0, 0, 0, 0.25)
+    display: inline-flex
+    font-size: 32px
+    height: 32px
+    justify-content: center
+    width: 32px
+    position: absolute
+    top: 50%
+    transform: translateY(-50%)
+    z-index: 1
+
+.flexCarousel-thumbnails
+  &:not(.flexCarousel-is-overlay)
+    display: flex
+    justify-content: center
+    margin-top: 16px
+  &.flexCarousel-is-overlay
+    bottom: 5%
+    display: flex
+    justify-content: center
+    position: absolute
+    width: 100%
+  .flexCarousel-thumbnail
+    color: rgba(0, 0, 0, 0.25)
+    cursor: pointer
+    &:not(:last-child)
+      margin-right: 8px
+    &:hover,
+    &.flexCarousel-is-active
+      color: rgba(0, 0, 0, 0.50)
+
+.flexCarousel-container
+  display: flex
+  flex-direction: column
+  flex-grow: 20
+  overflow: hidden
+
+.flexCarousel-slides
+  display: flex
+  left: -100%
+  flex-grow: 1
+  position: relative
+  transform: translateX(100%)
+
+.flexCarousel-reverse
+  transform: translateX(-100%)
+
+.flexCarousel-animate
+  transform: none
+  transition: all 250ms ease-in-out
+
+.flexCarousel-slide
+  align-items: center
+  display: flex
+  flex-grow: 1
+  justify-content: center
+  min-width: calc(100% / 1)
+
+.flexCarousel-image
+  display: block
+  position: relative
+  img
+    display: block
+    height: auto
+    width: 100%
+  figcaption
+    margin-top: 16px
+    text-align: center
