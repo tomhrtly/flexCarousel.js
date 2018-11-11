@@ -61,6 +61,26 @@ $prev-next-min-width: 64px
 .flexCarousel-has-overlay
   position: relative
 
+.flexCarousel-thumbnails
+  &:not(.flexCarousel-is-overlay)
+    display: flex
+    justify-content: center
+    margin-top: 16px
+  &.flexCarousel-is-overlay
+    bottom: 5%
+    display: flex
+    justify-content: center
+    position: absolute
+    width: 100%
+  .flexCarousel-thumbnail
+    color: rgba(0, 0, 0, 0.40)
+    cursor: pointer
+    &:not(:last-child)
+      margin-right: 8px
+    &:hover,
+    &.flexCarousel-is-active
+      color: rgba(0, 0, 0, 0.80)
+
 .flexCarousel-container
   display: flex
   flex-direction: column

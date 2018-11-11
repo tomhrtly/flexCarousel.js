@@ -12,6 +12,8 @@
       arrowsOverlay: true,
       autoplay: false,
       autoplaySpeed: 5000,
+      circles: true,
+      circlesOverlay: true,
       height: null,
       loop: true,
       nextArrow: '<i class="fas fa-angle-right"></i>',
@@ -134,6 +136,13 @@
           $('.flexCarousel-prev .flexCarousel-icon').click(onLeftClick);
           $('.flexCarousel-next .flexCarousel-icon').click(onRightClick);
         }
+
+        if(settings.arrowsOverlay && settings.circles) {
+          if(settings.circlesOverlay === false) {
+            flexCarouselNext.css('height', '92%');
+            flexCarouselPrev.css('height', '92%');
+          }
+        }
       }
     }
 
@@ -155,6 +164,30 @@
             flexCarouselNext.addClass('is-active');
           }
         }
+      }
+    }
+
+    if(settings.circles) {
+      $('.flexCarousel-container').append('<div class="flexCarousel-thumbnails"></div>');
+
+      var circles = flexCarouselSlide.length / settings.slidesVisible;
+
+      for(var i=0; i < circles; i++){
+        $('.flexCarousel-thumbnails').append('<div class="flexCarousel-thumbnail"><span class="flexCarousel-icon"><i class="fas fa-circle fa-xs"></i></span></div>');
+      }
+
+      // Add active states for clicking on the circles
+      $('.flexCarousel-thumbnail').click(function() {
+        $(this).addClass('flexCarousel-is-active');
+        $('.flexCarousel-thumbnail').not($(this)).removeClass('flexCarousel-is-active');
+      });
+
+      // Add the thumbnail wrapping element if circles is true
+      if(settings.circlesOverlay) {
+
+        // Set the overlay classes if circlesOverlay is true
+        $('.flexCarousel-container').addClass('flexCarousel-has-overlay');
+        $('.flexCarousel-thumbnails').addClass('flexCarousel-is-overlay');
       }
     }
 

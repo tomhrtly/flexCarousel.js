@@ -5,18 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Carousel</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomhrtly/flexCarousel.js@0.0.2/src/flexCarousel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css">
+    <link rel="stylesheet" href="flexCarousel.css"
   </head>
   <body>
     <div class="hero is-fullheight">
       <div class="hero-body">
         <div class="container">
-          <article class="message">
-            <div class="message-body">
-              <p>Notice: The background color is to simply highlight the carousel's container element and is not included in the source code.</p>
-            </div>
-          </article>
           <div class="flexCarousel">
             <div class="flexCarousel-container">
               <div class="flexCarousel-slides">
@@ -25,6 +20,9 @@
                 <div class="flexCarousel-slide">3</div>
                 <div class="flexCarousel-slide">4</div>
                 <div class="flexCarousel-slide">5</div>
+                <div class="flexCarousel-slide">6</div>
+                <div class="flexCarousel-slide">7</div>
+                <div class="flexCarousel-slide">8</div>
               </div>
             </div>
           </div>
@@ -32,13 +30,13 @@
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/tomhrtly/flexCarousel.js@0.0.2/src/flexCarousel.js"></script>
+    <script src="flexCarousel.js"></script>
     <script>
     $(document).ready(function() {
       $('.flexCarousel').flexCarousel({
-        autoplay: true,
-        autoplaySpeed: 1000,
-        height: '400px'
+        height: '500px',
+        arrowsOverlay: false,
+        slidesVisible: 2
       });
     });
     </script>

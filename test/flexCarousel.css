@@ -75,6 +75,33 @@
   position: relative;
 }
 
+.flexCarousel-thumbnails:not(.flexCarousel-is-overlay) {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.flexCarousel-thumbnails.flexCarousel-is-overlay {
+  bottom: 5%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.flexCarousel-thumbnails .flexCarousel-thumbnail {
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.flexCarousel-thumbnails .flexCarousel-thumbnail:not(:last-child) {
+  margin-right: 8px;
+}
+
+.flexCarousel-thumbnails .flexCarousel-thumbnail:hover, .flexCarousel-thumbnails .flexCarousel-thumbnail.flexCarousel-is-active {
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .flexCarousel-container {
   display: flex;
   flex-direction: column;

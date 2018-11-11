@@ -17,6 +17,13 @@
         color: inherit
       .title
         color: $color-invert
+      &.is-bold
+          $gradient-top-left: darken(saturate(adjust-hue($color, -10deg), 10%), 10%)
+          $gradient-bottom-right: lighten(saturate(adjust-hue($color, 10deg), 5%), 5%)
+          background-image: linear-gradient(141deg, $gradient-top-left 0%, $color 71%, $gradient-bottom-right 100%)
+          +mobile
+            .navbar-menu
+              background-image: linear-gradient(141deg, $gradient-top-left 0%, $color 71%, $gradient-bottom-right 100%)
 
   // Sizes
   &.is-medium
@@ -24,6 +31,16 @@
       .hero-body
         padding-bottom: 9rem
         padding-top: 9rem
+  &.is-fullheight
+    .hero-body
+      align-items: center
+      display: flex
+      & > .container
+        flex-grow: 1
+        flex-shrink: 1
+  &.is-fullheight
+    min-height: 100vh
+
 
 // Containers
 .hero-head,

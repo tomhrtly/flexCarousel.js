@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>flexCarousel.js - A simple, lightweight Flexbox carousel jQuery plugin.</title>
-    <link rel="canonical" href="https://tomhrtly.com/flexCarousel.js">
+    <link rel="canonical" href="https://flexcarousel.com">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif">
@@ -76,7 +76,7 @@
             </a>
           </div>
           <p class="is-size-7 has-text-centered">
-            <a href="https://github.com/tomhrtly/flexCarousel.js/releases">v0.0.1</a>
+            <a href="https://github.com/tomhrtly/flexCarousel.js/releases">v0.0.2</a>
           </p>
         </div>
       </div>
@@ -87,7 +87,7 @@
           <div class="column">
             <div class="content">
               <h2>Introduction</h1>
-              <p>flexCarousel.js is a simple, lightweight, responsive jQuery plugin which allows you to create carousels with Flexbox.</p>
+              <p>flexCarousel.js is a simple, lightweight, responsive jQuery plugin which allows you to create carousels with Flexbox. It was based on the brilliant job done by <a href="https://codepen.io/ShamanisTe/pen/aNjRMZ">Killian Charpentier</a>.</p>
               <ul>
                 <li><a href="#gettingstarted">Getting Started</a></li>
                 <li><a href="#compabitility">Compabitility</a></li>
@@ -110,11 +110,6 @@
               <h2>Getting Started</h1>
               <p>You can get started with using flexCarousel.js by downloading the required files from the <a href="https://github.com/tomhrtly/flexCarousel.js">GitHub repository</a>.</p>
               <p>The only dependency that flexCarousel.js has is jQuery which you need to load before the plugin. After you have loaded both jQuery and flexCarousel.js, you need to initialize the plugin.</p>
-              <article class="message">
-                <div class="message-body">
-                  <p>flexCarousel.js is currently in the early stages of development and only supports <strong>1 slide</strong> to be visible at once for the time being. Feel free to submit a <a href="https://github.com/tomhrtly/flexCarousel.js/pulls">pull request</a> on GitHub to help contribute!</p>
-                </div>
-              </article>
               <p>This is what your HTML structure should look like:</p>
               <pre><span class="clipboard"><span class="button is-warning is-clipboard" data-clipboard-target="#example"><span class="icon"><i class="fas fa-clipboard"></i></span></span></span><code id="example">&#x3C;!DOCTYPE html&#x3E;
 &#x3C;<span class="is-element">html</span>&#x3E;
@@ -144,6 +139,12 @@
     &#x3C;/<span class="is-element">script</span>&#x3E;
   &#x3C;/<span class="is-element">body</span>&#x3E;
 &#x3C;/<span class="is-element">html</span>&#x3E;</code></pre>
+              <h3>CDN</h3>
+              <p>Instead of hosting the two required files locally, feel free to use the CDN links provided by jsDelivr.</p>
+              <p>CSS:</p>
+              <pre><span class="clipboard"><span class="button is-warning is-small is-clipboard" data-clipboard-target="#css"><span class="icon"><i class="fas fa-clipboard"></i></span></span></span><code id="css">&#x3C;<span class="is-element">link</span> <span class="is-attribute">rel</span>=<span class="is-value">&#x22;stylesheet&#x22;</span> <span class="is-attribute">href</span>=<span class="is-value">&#x22;https://cdn.jsdelivr.net/gh/tomhrtly/flexCarousel.js@0.0.2/src/flexCarousel.min.css&#x22;</span>&#x3E;</code></pre>
+              <p>JS:</p>
+              <pre><span class="clipboard"><span class="button is-warning is-small is-clipboard" data-clipboard-target="#js"><span class="icon"><i class="fas fa-clipboard"></i></span></span></span><code id="js">&#x3C;<span class="is-element">script</span> <span class="is-attribute">src</span>=<span class="is-value">&#x22;https://cdn.jsdelivr.net/gh/tomhrtly/flexCarousel.js@0.0.2/src/flexCarousel.min.js&#x22;</span>&#x3E;&#x3C;/<span class="is-element">script</span>&#x3E;</code></pre>
               <p class="has-text-right"><a href="#">Back to top</a></p>
             </div>
           </div>
@@ -211,7 +212,7 @@
               <pre><span class="clipboard"><span class="button is-warning is-clipboard" data-clipboard-target="#fixedheight"><span class="icon"><i class="fas fa-clipboard"></i></span></span></span><code id="fixedheight">&#x3C;<span class="is-element">script</span>&#x3E;
 <span class="is-function">$</span>(<span class="is-element">document</span>).<span class="is-function">ready</span>(<span class="is-keyword">function</span>() {
   <span class="is-function">$</span>(<span class="is-value">&#x27;.flexCarousel&#x27;</span>).<span class="is-function">flexCarousel</span>({
-    height: <span class="is-value">'600px'</span>,
+    height: <span class="is-value">'400px'</span>
   });
 });
 &#x3C;/<span class="is-element">script</span>&#x3E;</code></pre>
@@ -252,12 +253,30 @@
   &#x3C;/<span class="is-element">figure</span>&#x3E;
   &#x3C;<span class="is-element">figcaption</span>&#x3E;A cute puppy&#x3C;/<span class="is-element">figcaption</span>&#x3E;
 &#x3C;/<span class="is-element">div</span>&#x3E;</code></pre>
+              <h3>Loop</h3>
+              <p>By default, the carousel will continously show the next slide and start at the beginning again when the user reaches the end. If you want your carousel to stop when it gets to the last slide, just simply disable the option <strong>(boolean)</strong> when you initialize the plugin.</p>
+              <pre><span class="clipboard"><span class="button is-warning is-clipboard" data-clipboard-target="#loop"><span class="icon"><i class="fas fa-clipboard"></i></span></span></span><code id="loop">&#x3C;<span class="is-element">script</span>&#x3E;
+<span class="is-function">$</span>(<span class="is-element">document</span>).<span class="is-function">ready</span>(<span class="is-keyword">function</span>() {
+  <span class="is-function">$</span>(<span class="is-value">&#x27;.flexCarousel&#x27;</span>).<span class="is-function">flexCarousel</span>({
+    loop: <span class="is-attribute">false</span>
+  });
+});
+&#x3C;/<span class="is-element">script</span>&#x3E;</code></pre>
+              <h3>Multiple Slides</h3>
+              <p>If you want to display multiple slides for your carousel, just simply set a value <strong>(integer)</strong> to the option when you initialize the plugin.</p>
+              <pre><span class="clipboard"><span class="button is-warning is-clipboard" data-clipboard-target="#multipleslides"><span class="icon"><i class="fas fa-clipboard"></i></span></span></span><code id="multipleslides">&#x3C;<span class="is-element">script</span>&#x3E;
+<span class="is-function">$</span>(<span class="is-element">document</span>).<span class="is-function">ready</span>(<span class="is-keyword">function</span>() {
+  <span class="is-function">$</span>(<span class="is-value">&#x27;.flexCarousel&#x27;</span>).<span class="is-function">flexCarousel</span>({
+    slidesVisible: <span class="is-attribute">3</span>
+  });
+});
+&#x3C;/<span class="is-element">script</span>&#x3E;</code></pre>
               <h3>Prev/Next Slide Overlay Icons</h3>
               <p>By default, the prev/next icons are placed outside of the <code>flexCarousel-slides</code> container. If you prefer the icons to overlay onto the slides, just simply enable the option <strong>(boolean)</strong> when you initialize the plugin.</p>
               <pre><span class="clipboard"><span class="button is-warning is-clipboard" data-clipboard-target="#overlayarrows"><span class="icon"><i class="fas fa-clipboard"></i></span></span></span><code id="overlayarrows">&#x3C;<span class="is-element">script</span>&#x3E;
 <span class="is-function">$</span>(<span class="is-element">document</span>).<span class="is-function">ready</span>(<span class="is-keyword">function</span>() {
   <span class="is-function">$</span>(<span class="is-value">&#x27;.flexCarousel&#x27;</span>).<span class="is-function">flexCarousel</span>({
-    arrowsOverlay: <span class="is-attribute">true</span>,
+    arrowsOverlay: <span class="is-attribute">true</span>
   });
 });
 &#x3C;/<span class="is-element">script</span>&#x3E;</code></pre>
@@ -282,15 +301,17 @@
               <h2>Examples</h2>
               <p>Click on a link below and you can view many examples of how versatile flexCarousel.js is. Feel free to use the source code to get started quickly.</p>
               <ul>
-                <li><a href="../examples/autoplay.html">Autoplay carousel</a></li>
-                <li><a href="../examples/basic.html">Basic carousel</a></li>
-                <li><a href="../examples/autoplay-speed.html">Different autoplay speed</a></li>
-                <li><a href="../examples/different-icons.html">Different prev/next icons</a></li>
-                <li><a href="../examples/fixed-height.html">Fixed height carousel</a></li>
-                <li><a href="../examples/image.html">Image carousel</a></li>
-                <li><a href="../examples/image-captions.html">Image with captions carousel</a></li>
-                <li><a href="../examples/arrows-overlay.html">Prev/next slide overlay icons</a></li>
-                <li><a href="../examples/video.html">Video carousel</a></li>
+                <li><a href="examples/autoplay.html">Autoplay carousel</a></li>
+                <li><a href="examples/basic.html">Basic carousel</a></li>
+                <li><a href="examples/autoplay-speed.html">Different autoplay speed</a></li>
+                <li><a href="examples/different-icons.html">Different prev/next icons</a></li>
+                <li><a href="examples/fixed-height.html">Fixed height carousel</a></li>
+                <li><a href="examples/image.html">Image carousel</a></li>
+                <li><a href="examples/image-captions.html">Image with captions carousel</a></li>
+                <li><a href="examples/multiple-slides-visible.html">Multiple Slides carousel</a></li>
+                <li><a href="examples/loop.html">No loop carousel</a></li>
+                <li><a href="examples/arrows-overlay.html">Prev/next slide overlay icons</a></li>
+                <li><a href="examples/video.html">Video carousel</a></li>
               </ul>
               <p class="has-text-right"><a href="#">Back to top</a></p>
             </div>
@@ -321,10 +342,16 @@
                   <code>height</code>: (default: <code>null</code>). Defines whether a fixed height is to be added to the <code>.flexCarousel</code> parent element.
                 </li>
                 <li>
+                  <code>loop</code>: (default: <code>true</code>). Determines whether the carousel should continously scroll or stop at the last slide.
+                </li>
+                <li>
                   <code>nextArrow</code>: (default <code>&#x3C;i <span class="is-attribute">class=</span>&#x22;fas fa-angle-right&#x22;&#x3E;&#x3C;/i&#x3E;</code>). Defines the HTML code for the element which changes the active slide to the next slide when clicked on. Out of the box, flexCarousel.js supports <a href="https://fontawesome.com/icons?d=gallery">Font Awesome 5</a>.
                 </li>
                 <li>
                   <code>prevArrow</code>: (default <code>&#x3C;i <span class="is-attribute">class=</span>&#x22;fas fa-angle-left&#x22;&#x3E;&#x3C;/i&#x3E;</code>). Defines the HTML code for the element which changes the active slide to the previous slide when clicked on. Out of the box, flexCarousel.js supports <a href="https://fontawesome.com/icons?d=gallery">Font Awesome 5</a>.
+                </li>
+                <li>
+                  <code>slidesVisible</code>: (default <code>1</code>). Defines how many slides are visible at any given time.
                 </li>
               </ul>
               <p class="has-text-right"><a href="#">Back to top</a></p>
@@ -389,6 +416,7 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-70809338-11"></script>
     <script src="js/script.js"></script>
   </body>
 </html>
