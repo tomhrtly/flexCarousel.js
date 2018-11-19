@@ -16,13 +16,13 @@
 
 .flexCarousel .flexCarousel-next.is-active .flexCarousel-icon,
 .flexCarousel .flexCarousel-prev.is-active .flexCarousel-icon {
+  align-items: center;
   color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
   display: inline-flex;
   font-size: 32px;
   height: 32px;
   justify-content: center;
-  min-width: 64px;
   position: absolute;
   width: 32px;
 }
@@ -96,7 +96,6 @@
 
 .flexCarousel-slide {
   align-items: center;
-  background-color: tomato;
   display: flex;
   flex-grow: 1;
   justify-content: center;
