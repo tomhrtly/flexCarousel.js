@@ -1,0 +1,48 @@
+---
+title: Images
+subtitle: How to display images correctly in your slides using flexCarousel.js
+layout: default
+---
+
+{% capture html %}
+<div class="my-class">
+  <div>
+    <figure class="fc-image">
+      <img src="{{ site.url }}/assets/img/puppy1.jpg" alt="Puppy" width="697" height="400">
+    </figure>
+  </div>
+  <div>
+    <figure class="fc-image">
+      <img src="{{ site.url }}/assets/img/puppy2.jpg" alt="Puppy" width="600" height="400">
+    </figure>
+  </div>
+  <div>
+    <figure class="fc-image">
+      <img src="{{ site.url }}/assets/img/puppy3.jpg" alt="Puppy" width="692" height="400">
+    </figure>
+  </div>
+  <div>
+    <figure class="fc-image">
+      <img src="{{ site.url }}/assets/img/puppy4.jpg" alt="Puppy" width="600" height="400">
+    </figure>
+  </div>
+</div>
+{% endcapture %}
+{% capture js %}
+<script>
+$(document).ready(function() {
+  $('.my-class').flexCarousel();
+});
+</script>
+{% endcapture %}
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        {% include snippethtml.html content=html %}
+        {% include snippetjs.html content=js %}
+      </div>
+    </div>
+  </div>
+</section>

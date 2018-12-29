@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include header.html %}
+  </head>
+  <body>
+    <nav class="navbar is-primary is-spaced">
+      <div class="overlay"></div>
+      {% include navbar.html %}
+    </nav>
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            {% if page.title %}<p class="title">{{ page.title }}</p>{% endif %}
+            {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+          </div>
+        </div>
+        <hr>
+      </div>
+    </section>
+    {{ content }}
+    {% include github-section.html %}
+    {% include footer.html %}
+  </body>
+</html>

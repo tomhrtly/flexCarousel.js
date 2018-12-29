@@ -1,32 +1,64 @@
 /*
- * flexCarousel.js v0.0.2
+ * flexCarousel.js v0.0.3
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
  * Released under the MIT license
  */
+
 (function ($) {
   $.fn.flexCarousel = function(options) {
     var settings = $.extend({
-      arrows: true,
-      arrowsOverlay: true,
-      autoplay: false,
-      autoplaySpeed: 5000,
-      height: null,
-      loop: true,
-      nextArrow: '<i class="fas fa-angle-right"></i>',
-      prevArrow: '<i class="fas fa-angle-left"></i>',
-      slidesVisible: 1,
+      arrows:           true,
+      arrowsOverlay:    true,
+      autoplay:         false,
+      autoplaySpeed:    5000,
+      height:           null,
+      loop:             true,
+      nextArrow:        '<i class="fas fa-angle-right"></i>',
+      prevArrow:        '<i class="fas fa-angle-left"></i>',
+      slidesVisible:    1,
+      transition:       'slide',
     }, options);
 
-    var flexCarouselSlides = $('.flexCarousel-slides');
-    var flexCarouselSlide = $('.flexCarousel-slide');
 
-    // This adds the animation class to the slides element
-    flexCarouselSlides.addClass('flexCarousel-animate');
+    /**
+     * Global variables
+     *
+     * @since 0.0.1
+     */
 
-    // Functions to execute when the onLeftClick var has been called
-    var onLeftClick = function() {
+    var flexCarousel =            $(this);
+    var flexCarouselContainer =   $(this).find('.fc-container');
+    var flexCarouselSlides =      $(this).find('.fc-slides');
+    var flexCarouselSlide =       $(this).find('div').addClass('fc-slide');
+
+    flexCarousel.addClass('fc');
+    flexCarouselSlide.wrapAll('<div class="fc-container"><div class="fc-slides ' + slidesClasses() + '" /></div>');
+
+
+    /**
+     * Returns the CSS classes needed for the different transitions.
+     *
+     * @since 0.0.3
+     */
+
+    function slidesClasses() {
+      if(settings.transition === 'slide') {
+        return 'fc-animate';
+      } else {
+        return '';
+      }
+    }
+
+
+    /**
+     * Functions to call when the prev arrow var has been called.
+     *
+     * @since 0.0.1
+     */
+
+    var onPrevClick = function() {
       setTimeout(toggleAnimate, 50);
       toggleReverse(true);
       setOrder('left');
@@ -34,8 +66,14 @@
       toggleAnimate();
     }
 
-    // Functions to execute when the onRightClick var has been called
-    var onRightClick = function() {
+
+    /**
+     * Functions to call when the next arrow var has been called.
+     *
+     * @since 0.0.1
+     */
+
+    var onNextClick = function() {
       setTimeout(toggleAnimate, 50);
       toggleReverse(false);
       setOrder('right');
@@ -43,41 +81,62 @@
       toggleAnimate();
     }
 
-    // Set the left property value to auto if the amount of slides visible is the same as the total number of slides
-    if(settings.slidesVisible === flexCarouselSlide.length) {
-      flexCarouselSlides.css('left', 'auto');
-    }
 
-    // What happens when the toggleReverse var is called
+    /**
+     * Percentage to use for slide transition.
+     *
+     * @since 0.0.1
+     */
+
+    var percentageToSlide = 100 / settings.slidesVisible + '%';
+
+
+    /**
+     * Toggle reverse variable to check if the slides are reversing or not.
+     *
+     * @param string
+     *
+     * @since 0.0.1
+     */
+
     var toggleReverse = function(check) {
-      percentageToScroll = 100 / settings.slidesVisible + '%';
-
-      if(check === true) {
-        flexCarouselSlides.css('transform', 'translateX(-' + percentageToScroll + ')');
-      } else {
-        flexCarouselSlides.css('transform', 'translateX(' + percentageToScroll + ')');
+      if(settings.transition === 'slide') {
+        if(check === true) {
+          $('.fc-slides').css('transform', 'translateX(-' + percentageToSlide + ')');
+        } else {
+          $('.fc-slides').css('transform', 'translateX(' + percentageToSlide + ')');
+        }
       }
     }
 
-    // What happens when the toggleAnimate var is called
+
+    /**
+     * Toggle animate variable to toggle the animate class when moving the slides.
+     *
+     * @since 0.0.1
+     */
+
     var toggleAnimate = function() {
-      flexCarouselSlides.toggleClass('flexCarousel-animate');
+      if(settings.transition === 'slide') {
+        $('.fc-slides').toggleClass('fc-animate');
+      }
     }
 
-    // Sets the order CSS property for all the slides
-    var setOrder = function(direction) {
 
-      // If the order amount is going to decrease or increase
+    /**
+     * Variable to check which direction the slides are to move and to change the CSS order property value accordingly.
+     *
+     * @param string
+     *
+     * @since 0.0.1
+     */
+
+    var setOrder = function(direction) {
       if(direction === 'left') {
         flexCarouselSlide.each(function() {
-
-          // Sets the order property for all slides
           var convertedOrder = parseInt($(this).css('order'));
-
-          // Increase the order property value
           var orderIncrease = convertedOrder + 1;
 
-          // If the order property of the slide is the same as the total amount of slides, set the value to 1, else increase the value
           if(convertedOrder === flexCarouselSlide.length) {
             $(this).css('order', '1');
           } else {
@@ -86,14 +145,9 @@
         });
       } else if(direction === 'right') {
         flexCarouselSlide.each(function() {
-
-          // Sets the order property for all slides
           var convertedOrder = parseInt($(this).css('order'));
-
-          // Decrease the order property value
           var orderDecrease = convertedOrder - 1;
 
-          // If the order property of the slide is 1, set the value to total amount of slides, else decrease the value
           if(convertedOrder === 1) {
             $(this).css('order', flexCarouselSlide.length);
           } else {
@@ -103,36 +157,80 @@
       }
     }
 
+
+    /**
+     * Removes the arrows if the amount of slides visible is the same as the total amount of slides.
+     *
+     * @since 0.0.2
+     */
+
+    if(settings.slidesVisible === flexCarouselSlide.length) {
+      $('.fc-slides').css('left', 'auto');
+    }
+
     if(settings.arrows) {
+
+
+      /**
+       * If the total amount of slides is not the same as the amount of slides visible.
+       */
+
       if(settings.slidesVisible !== flexCarouselSlide.length) {
-        // Adds the prev and next div elements to the carousel element
-        $('.flexCarousel').prepend('<div class="flexCarousel-prev"><span class="flexCarousel-icon">' + settings.prevArrow + '</span></div>');
-        $('.flexCarousel').append('<div class="flexCarousel-next"><span class="flexCarousel-icon">' + settings.nextArrow + '</span></div>');
 
-        var flexCarouselNext = $('.flexCarousel-next');
-        var flexCarouselPrev = $('.flexCarousel-prev');
 
-        // Adds the active class to the next element as this should always be visible if the arrows are enabled
-        flexCarouselNext.addClass('is-active');
+        /**
+         * Prepends and appends the arrows to the parent container.
+         */
 
-        // If the loop is set, the prev element must be always active
-        if(settings.loop == true) {
-          flexCarouselPrev.addClass('is-active');
+        flexCarousel.prepend('<div class="fc-prev"><span class="fc-icon">' + settings.prevArrow + '</span></div>');
+        flexCarousel.append('<div class="fc-next"><span class="fc-icon">' + settings.nextArrow + '</span></div>');
+
+
+        /**
+         * Variable to hold the next and prev arrows in the carousel container to prevent multiple carousel conflicts.
+         *
+         * @since 0.0.3
+         */
+
+        var flexCarouselNext = $(this).find('.fc-next');
+        var flexCarouselPrev = $(this).find('.fc-prev');
+
+
+        /**
+         * By default, both arrows are visible.
+         */
+
+        flexCarouselNext.addClass('fc-is-active');
+        flexCarouselPrev.addClass('fc-is-active');
+
+        if(settings.loop == false) {
+          flexCarouselPrev.removeClass('fc-is-active');
         }
 
         if(settings.arrowsOverlay) {
 
-          // Adds the overlay class for relative positiing
-          $('.flexCarousel').addClass('flexCarousel-has-overlay');
+          /**
+           * Adds the overlay CSS class to the carousel container.
+           */
 
-          // The whole prev and next div elements should move the slide when clicked on
-          flexCarouselPrev.click(onLeftClick);
-          flexCarouselNext.click(onRightClick);
+          flexCarousel.addClass('fc-has-overlay');
+
+
+          /**
+           * Call the correct variables for when the arrows get clicked.
+           */
+
+          flexCarouselPrev.click(onPrevClick);
+          flexCarouselNext.click(onNextClick);
         } else {
 
-          // Only the icons inside the prev and next div elements should be clickable when there is no overlay
-          $('.flexCarousel-prev .flexCarousel-icon').click(onLeftClick);
-          $('.flexCarousel-next .flexCarousel-icon').click(onRightClick);
+
+          /**
+           * Only the icons inside the arrows respective containers should be clickable when there is no overlay.
+           */
+
+          $('.fc-prev .fc-icon').click(onPrevClick);
+          $('.fc-next .fc-icon').click(onNextClick);
         }
       }
     }
@@ -141,38 +239,43 @@
       if(settings.arrows) {
         if(settings.loop == false) {
 
-          // If there is no loop, when the first child has the order: 2; property, the prev div element should be hidden
-          if($('.flexCarousel-slide:first-child').css('order') === '2') {
-            flexCarouselPrev.removeClass('is-active');
+
+          /**
+           * Removes the prev arrow on the first slide if there is no loop
+           *
+           * @since 0.0.3
+           */
+
+          if($('.fc-slide:first-child').css('order') === '2') {
+            flexCarouselPrev.removeClass('fc-is-active');
           } else {
-            flexCarouselPrev.addClass('is-active');
+            flexCarouselPrev.addClass('fc-is-active');
           }
 
-          // If there is no loop, when the last child has the order: 2; property, the next div element should be hidden
-          if($('.flexCarousel-slide:last-child').css('order') === '2') {
-            flexCarouselNext.removeClass('is-active');
+
+          /**
+           * Removes the next arrow on the last slide if there is no loop
+           *
+           * @since 0.0.3
+           */
+
+          if($('.fc-slide:last-child').css('order') === '2') {
+            flexCarouselNext.removeClass('fc-is-active');
           } else {
-            flexCarouselNext.addClass('is-active');
+            flexCarouselNext.addClass('fc-is-active');
           }
         }
       }
     }
 
     flexCarouselSlide.each(function() {
-      // Adds a min width propety where the value is caculated by dividing 100% by the amount of slides visible
       flexCarouselSlide.css('min-width', 'calc(100% / ' + settings.slidesVisible + ')');
 
-      // Each slides order property value is the slides visisble amount plus one
       var index = $(this).index() + settings.slidesVisible + 1;
       $(this).css('order', index);
 
-      // The first childs order property value is the slides visisble amount plus one so that it is always the first slide visible
-      $('.flexCarousel-slide:first-child').css('order', settings.slidesVisible + 1);
-
-      // Variable that holds the amount of slides below the amount that is visible
       var slidesLeftAmount = flexCarouselSlide.slice( flexCarouselSlide.length-settings.slidesVisible, flexCarouselSlide.length );
 
-      // For each of the slides that are below the amount that is visible, increase the order property value by 1
       i = 1;
       slidesLeftAmount.each(function() {
         $(this).css('order', i++);
@@ -181,15 +284,22 @@
 
     if(settings.autoplay) {
 
-      // If the autoplay is enabled, use the autoplaySpeed value whether it is defined
+
+      /**
+       * Use the autoplaySpeed setting to determine the delay duration.
+       */
+
       setInterval(function() {
-        onRightClick();
+        onNextClick();
       }, settings.autoplaySpeed);
     }
 
-    // Set a fixed height if a value is given
     if(settings.height) {
-      $('.flexCarousel').css('height', settings.height);
+      flexCarousel.css('height', settings.height);
+    }
+
+    if(settings.transition === 'slide') {
+      $('.fc-slides').css('transform', 'translateX(' + percentageToSlide + ')');
     }
   };
 }(jQuery));

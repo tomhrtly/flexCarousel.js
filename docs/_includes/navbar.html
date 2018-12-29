@@ -1,0 +1,71 @@
+<div class="navbar-brand">
+  <a class="navbar-item" href="{{ site.url }}">
+    <h1 class="title is-3 has-text-centered has-text-white is-family-serif">fC</h1>
+  </a>
+  <div class="navbar-burger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<div class="navbar-menu">
+  <div class="navbar-start">
+    <a href="{{ site.url }}" class="navbar-item">Home</a>
+    <a href="{{ site.url }}/docs/" class="navbar-item">Docs</a>
+    <div class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link">Examples</a>
+      <div class="navbar-dropdown">
+        <a href="{{ site.url }}/examples/arrows-without-overlay/" class="navbar-item">Arrows without Overlay</a>
+        <a href="{{ site.url }}/examples/autoplay/" class="navbar-item">Autoplay</a>
+        <a href="{{ site.url }}/examples/autoplay-speed/" class="navbar-item">Autoplay Speed</a>
+        <a href="{{ site.url }}/examples/basic/" class="navbar-item">Basic</a>
+        <a href="{{ site.url }}/examples/different-icons/" class="navbar-item">Different Icons</a>
+        <a href="{{ site.url }}/examples/fixed-height/" class="navbar-item">Fixed Height</a>
+        <a href="{{ site.url }}/examples/images/" class="navbar-item">Images</a>
+        <a href="{{ site.url }}/examples/images-with-captions/" class="navbar-item">Images with Captions</a>
+        <a href="{{ site.url }}/examples/no-loop/" class="navbar-item">No Loop</a>
+        <a href="{{ site.url }}/examples/videos/" class="navbar-item">Videos</a>
+      </div>
+    </div>
+    <a href="{{ site.github }}/issues/" class="navbar-item">Support</a>
+  </div>
+  <div class="navbar-end">
+    <div class="navbar-item">
+      <div class="buttons is-hidden-desktop">
+        <a href="{{ site.github }}" class="button is-dark">
+          <span class="icon is-large">
+            <i class="fab fa-github-alt fa-lg"></i>
+          </span>
+        </a>
+        <a href="{{ site.twitter }}" class="button is-twitter">
+          <span class="icon is-large">
+            <i class="fab fa-twitter fa-lg"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+    <a href="{{ site.github }}" class="navbar-item is-hidden-touch">
+      <span class="icon is-large">
+        <i class="fab fa-github-alt fa-lg"></i>
+      </span>
+    </a>
+    <a href="{{ site.twitter }}" class="navbar-item is-hidden-touch">
+      <span class="icon is-large">
+        <i class="fab fa-twitter fa-lg"></i>
+      </span>
+    </a>
+    <a href="mailto:{{ site.mail }}" class="navbar-item is-hidden-touch">
+      <span class="icon is-large">
+        <i class="fas fa-envelope fa-lg"></i>
+      </span>
+    </a>
+    <div class="navbar-item is-hidden-touch">
+      <a href="{{ site.download }}" class="button is-primary is-inverted">
+        <span class="icon">
+          <i class="fas fa-download"></i>
+        </span>
+        <span>Download</span>
+      </a>
+    </div>
+  </div>
+</div>

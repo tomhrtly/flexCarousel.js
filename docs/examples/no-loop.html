@@ -1,6 +1,6 @@
 ---
-title: Different Icons
-subtitle: Choose a different Font Awesome icon or an image for the arrows.
+title: No Loop
+subtitle: By default, the carousel will loop continously. You can easily let the user know when they have activated the last slide if you wish.
 layout: default
 ---
 
@@ -17,8 +17,7 @@ layout: default
 <script>
 $(document).ready(function() {
   $('.my-class').flexCarousel({
-    nextArrow: '<i class="fas fa-arrow-circle-right"></i>',
-    prevArrow: '<i class="fas fa-arrow-circle-left"></i>'
+    loop: false
   });
 });
 </script>

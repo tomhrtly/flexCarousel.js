@@ -1,4 +1,4 @@
-<a href="https://flexcarousel.com"><img src="https://raw.githubusercontent.com/tomhrtly/flexCarousel.js/master/docs/img/banner.png" alt="flexCarousel.js" style="max-width:100%;" width="910" height="264"></a>
+<a href="https://flexcarousel.com"><img src="https://raw.githubusercontent.com/tomhrtly/flexCarousel.js/master/docs/assets/img/banner.png" alt="flexCarousel.js" style="max-width:100%;" width="910" height="264"></a>
 
 # [flexCarousel.js](https://flexcarousel.com)
 

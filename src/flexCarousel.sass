@@ -1,5 +1,5 @@
 /*
- * flexCarousel.js v0.0.2
+ * flexCarousel.js v0.0.3
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
@@ -8,15 +8,14 @@
 
 $prev-next-min-width: 64px
 
-.flexCarousel
+.fc
   display: flex
-  .flexCarousel-next,
-  .flexCarousel-prev
-    .flexCarousel-icon
+  .fc-next,
+  .fc-prev
+    .fc-icon
       display: none
-    &.is-active
-      .flexCarousel-icon
-        align-items: center
+    &.fc-is-active
+      .fc-icon
         color: rgba(0, 0, 0, 0.40)
         cursor: pointer
         display: inline-flex
@@ -27,63 +26,66 @@ $prev-next-min-width: 64px
         width: 32px
         &:hover
           color: rgba(0, 0, 0, 0.80)
-  &:not(.flexCarousel-has-overlay)
-    .flexCarousel-next,
-    .flexCarousel-prev
+  &:not(.fc-has-overlay)
+    .fc-next,
+    .fc-prev
       align-items: center
       display: flex
+      justify-content: center
       min-width: $prev-next-min-width
-  &.flexCarousel-has-overlay
-    .flexCarousel-next,
-    .flexCarousel-prev
-      .flexCarousel-icon
+  &.fc-has-overlay
+    .fc-next,
+    .fc-prev
+      .fc-icon
         top: 50%
         transform: translateY(-50%)
       &:hover
-        .flexCarousel-icon
+        .fc-icon
           color: rgba(0, 0, 0, 0.80)
-      &.is-active
+      &.fc-is-active
         cursor: pointer
         height: 100%
         min-width: $prev-next-min-width
         position: absolute
         z-index: 1
-    .flexCarousel-next
-      &.is-active
+    .fc-next
+      &.fc-is-active
         right: 0
-        .flexCarousel-icon
+        .fc-icon
           right: 16px
-    .flexCarousel-prev
-      &.is-active
-        .flexCarousel-icon
+    .fc-prev
+      &.fc-is-active
+        .fc-icon
           left: 16px
 
-.flexCarousel-has-overlay
+.fc-has-overlay
   position: relative
 
-.flexCarousel-container
+.fc-container
   display: flex
   flex-direction: column
-  flex-grow: 20
+  flex-grow: 1
   overflow: hidden
 
-.flexCarousel-slides
+.fc-slides
   display: flex
   left: -100%
   flex-grow: 1
   position: relative
 
-.flexCarousel-animate
+.fc-animate
   transform: none !important
   transition: all 250ms ease-in-out
 
-.flexCarousel-slide
+.fc-slide
   align-items: center
   display: flex
+  flex-direction: column
   flex-grow: 1
   justify-content: center
+  min-height: 48px
 
-.flexCarousel-image
+.fc-image
   display: block
   position: relative
   img
