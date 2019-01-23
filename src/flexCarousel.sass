@@ -7,9 +7,17 @@
  */
 
 $prev-next-min-width: 64px
+$space: 16px
+
+*
+  box-sizing: border-box
+  &::before,
+  &::after
+    box-sizing: border-box
 
 .fc
   display: flex
+  width: 100%
   .fc-next,
   .fc-prev
     .fc-icon
@@ -19,11 +27,11 @@ $prev-next-min-width: 64px
         color: rgba(0, 0, 0, 0.40)
         cursor: pointer
         display: inline-flex
-        font-size: 32px
-        height: 32px
+        font-size: $space * 2
+        height: $space * 2
         justify-content: center
         position: absolute
-        width: 32px
+        width: $space * 2
         &:hover
           color: rgba(0, 0, 0, 0.80)
   &:not(.fc-has-overlay)
@@ -52,14 +60,42 @@ $prev-next-min-width: 64px
       &.fc-is-active
         right: 0
         .fc-icon
-          right: 16px
+          right: $space
     .fc-prev
       &.fc-is-active
         .fc-icon
-          left: 16px
+          left: $space
 
 .fc-has-overlay
   position: relative
+
+.fc-circles
+  &:not(.fc-is-overlay)
+    display: flex
+    justify-content: center
+    margin-top: $space
+  &.fc-is-overlay
+    bottom: 5%
+    display: flex
+    justify-content: center
+    position: absolute
+    width: 100%
+  .fc-circle
+    cursor: pointer
+    .fc-icon
+      &.fc-is-circle
+        background-color: rgba(0, 0, 0, 0.40)
+        border-radius: 50%
+        display: flex
+        height: 12px
+        width: 12px
+    &:hover,
+    &.fc-is-active
+      .fc-icon
+        &.fc-is-circle
+          background-color: rgba(0, 0, 0, 0.80)
+    &:not(:last-child)
+      margin-right: $space / 2
 
 .fc-container
   display: flex
@@ -69,7 +105,6 @@ $prev-next-min-width: 64px
 
 .fc-slides
   display: flex
-  left: -100%
   flex-grow: 1
   position: relative
 
@@ -83,7 +118,8 @@ $prev-next-min-width: 64px
   flex-direction: column
   flex-grow: 1
   justify-content: center
-  min-height: 48px
+  min-height: $space * 4
+  padding: $space
 
 .fc-image
   display: block
@@ -91,7 +127,7 @@ $prev-next-min-width: 64px
   img
     display: block
     height: auto
-    width: 100%
+    max-width: 100%
   figcaption
-    margin-top: 16px
+    margin-top: $space
     text-align: center
