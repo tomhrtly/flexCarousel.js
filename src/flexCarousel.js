@@ -47,27 +47,27 @@
 
     // Functions for previous click
     var onPrevClick = function() {
-      setTimeout(toggleAnimate, 50);
-      toggleReverse(true);
-      setOrder('left');
+      setTimeout(transition, 50);
+      isReverse(true);
+      direction('left');
       checkLoop();
-      toggleAnimate();
+      transition();
     }
 
     // Functions for next click
     var onNextClick = function() {
-      setTimeout(toggleAnimate, 50);
-      toggleReverse(false);
-      setOrder('right');
+      setTimeout(transition, 50);
+      isReverse(false);
+      direction('right');
       checkLoop();
-      toggleAnimate();
+      transition();
     }
 
     // Percentage to slide is width of each slide
     var percentageToSlide = 100 / settings.slidesVisible + '%';
 
     // Determine whether the carousel is going forward or backward
-    var toggleReverse = function(check) {
+    var isReverse = function(check) {
       if(settings.transition === 'slide') {
         if(check === true) {
           flexCarouselSlides.css('transform', 'translateX(-' + percentageToSlide + ')');
@@ -80,18 +80,41 @@
     // Slides have to be moved to the left with the value of the slide width
     flexCarouselSlides.css('left', '-' + percentageToSlide + '');
 
+    var checkLoop = function() {
+      if(settings.arrows) {
+        if(settings.loop == false) {
+
+          // If there is no loop, the previous arrow should be hidden on the first slide
+          if(flexCarouselSlide.first().hasClass('fc-is-active')) {
+            flexCarouselPrev.removeClass('fc-is-active');
+          } else {
+            flexCarouselPrev.addClass('fc-is-active');
+          }
+
+          // If there is no loop, the next arrow should be hidden on the left slide
+          if(flexCarouselSlide.last().hasClass('fc-is-active')) {
+            flexCarouselNext.removeClass('fc-is-active');
+          } else {
+            flexCarouselNext.addClass('fc-is-active');
+          }
+        }
+      }
+    }
+
     // Toggles the animate class for slide transition
-    var toggleAnimate = function() {
+    var transition = function() {
       if(settings.transition === 'slide') {
         flexCarouselSlides.toggleClass('fc-animate');
       }
     }
 
     // Checks is the carousel is moving forward or backward and updates the order property value
-    var setOrder = function(direction) {
+    var direction = function(direction) {
+      if(direction) {
+        var convertedOrder = parseInt($(this).css('order'));
+      }
       if(direction === 'left') {
         flexCarouselSlide.each(function() {
-          var convertedOrder = parseInt($(this).css('order'));
           var orderIncrease = convertedOrder + 1;
 
           if(convertedOrder === flexCarouselSlide.length) {
@@ -102,7 +125,6 @@
         });
       } else {
         flexCarouselSlide.each(function() {
-          var convertedOrder = parseInt($(this).css('order'));
           var orderDecrease = convertedOrder - 1;
 
           if(convertedOrder === 1) {
@@ -159,27 +181,6 @@
       }
     }
 
-    var checkLoop = function() {
-      if(settings.arrows) {
-        if(settings.loop == false) {
-
-          // If there is no loop, the previous arrow should be hidden on the first slide
-          if(flexCarouselSlide.first().hasClass('fc-is-active')) {
-            flexCarouselPrev.removeClass('fc-is-active');
-          } else {
-            flexCarouselPrev.addClass('fc-is-active');
-          }
-
-          // If there is no loop, the next arrow should be hidden on the left slide
-          if(flexCarouselSlide.last().hasClass('fc-is-active')) {
-            flexCarouselNext.removeClass('fc-is-active');
-          } else {
-            flexCarouselNext.addClass('fc-is-active');
-          }
-        }
-      }
-    }
-
     if(settings.circles) {
       // Adds the circles
       flexCarouselContainer.append('<div class="fc-circles"></div>');
@@ -211,7 +212,6 @@
         if(imageCaption) {
           image.after('<figcaption>' + imageCaption + '</figcaption>');
         }
-
 
         if(settings.circles) {
           flexCarouselCircles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');

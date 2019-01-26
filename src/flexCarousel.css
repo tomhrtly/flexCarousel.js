@@ -5,8 +5,17 @@
  * Copyright 2018 Tom Hartley
  * Released under the MIT license
  */
+* {
+  box-sizing: border-box;
+}
+
+*::before, *::after {
+  box-sizing: border-box;
+}
+
 .fc {
   display: flex;
+  width: 100%;
 }
 
 .fc .fc-next .fc-icon,
@@ -75,6 +84,40 @@
   position: relative;
 }
 
+.fc-circles:not(.fc-is-overlay) {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.fc-circles.fc-is-overlay {
+  bottom: 5%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.fc-circles .fc-circle {
+  cursor: pointer;
+}
+
+.fc-circles .fc-circle .fc-icon.fc-is-circle {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  display: flex;
+  height: 12px;
+  width: 12px;
+}
+
+.fc-circles .fc-circle:hover .fc-icon.fc-is-circle, .fc-circles .fc-circle.fc-is-active .fc-icon.fc-is-circle {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.fc-circles .fc-circle:not(:last-child) {
+  margin-right: 8px;
+}
+
 .fc-container {
   display: flex;
   flex-direction: column;
@@ -84,7 +127,6 @@
 
 .fc-slides {
   display: flex;
-  left: -100%;
   flex-grow: 1;
   position: relative;
 }
@@ -100,7 +142,8 @@
   flex-direction: column;
   flex-grow: 1;
   justify-content: center;
-  min-height: 48px;
+  min-height: 64px;
+  padding: 16px;
 }
 
 .fc-image {
@@ -111,7 +154,7 @@
 .fc-image img {
   display: block;
   height: auto;
-  width: 100%;
+  max-width: 100%;
 }
 
 .fc-image figcaption {
