@@ -25,6 +25,7 @@
       prevArrow:        '<i class="fas fa-angle-left"></i>',
       slidesVisible:    1,
       transition:       'slide',
+      variableWidth:    false,
     }, options);
 
     var flexCarousel            = $(this);
@@ -63,8 +64,12 @@
       transition();
     }
 
-    // Percentage to slide is width of each slide
-    var percentageToSlide = 100 / options.slidesVisible + '%';
+    if(options.variableWidth === false) {
+      // Percentage to slide is width of each slide
+      var percentageToSlide = 100 / options.slidesVisible + '%';
+    } else {
+      var percentageToSlide = flexCarouselSlide.last().css('width');
+    }
 
     // Determine whether the carousel is going forward or backward
     var isReverse = function(check) {
@@ -179,8 +184,10 @@
       var index = $(this).index();
       console.log(index);
 
-      // Sets the width for each slide determined by how many slides visible there are
-      $(this).css('min-width', 'calc(100% / ' + options.slidesVisible + ')');
+      if(options.variableWidth === false) {
+        // Sets the width for each slide determined by how many slides visible there are
+        $(this).css('min-width', 'calc(100% / ' + options.slidesVisible + ')');
+      }
 
       // If all slides are visible, the order property is not necessary
       if(flexCarouselSlide.length > options.slidesVisible) {
@@ -203,15 +210,6 @@
 
         if(imageCaption) {
           image.after('<figcaption>' + imageCaption + '</figcaption>');
-        }
-
-        if(options.circles) {
-          flexCarouselCircles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
-
-          i = 1;
-          flexCarouselCircle.each(function() {
-            $(this).attr('data-slide', i++);
-          });
         }
       }
     });
