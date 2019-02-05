@@ -22,7 +22,7 @@ layout: default
         <div class="content">
           <h2 id="gettingstarted">Getting Started</h2>
           <p>You can get started with using flexCarousel.js by downloading the required files from the <a href="{{ site.github }}">GitHub repository</a>.</p>
-          <p>The only dependency that flexCarousel.js has is jQuery which you need to load before the plugin. After you have loaded both jQuery and flexCarousel.js, you need to initialize the plugin.</p>
+          <p>The only dependency that flexCarousel.js has, is jQuery which you need to load before the plugin. After you have loaded both jQuery and flexCarousel.js, you need to initialize the plugin. You can also use the slim version of jQuery if preferred.</p>
           <p>This is what your HTML structure should look like:</p>
           {% highlight html %}<!DOCTYPE html>
 <html>
@@ -81,13 +81,13 @@ layout: default
               <code>loop</code>: (default: <code>true</code>). Determines whether the carousel should continously scroll or stop at the last slide.
             </li>
             <li>
-              <code>nextArrow</code>: (default <code>'&#x3C;i <span class="is-attribute">class=</span>&#x22;fas fa-angle-right&#x22;&#x3E;&#x3C;/i&#x3E;'</code>). Defines the HTML code for the element which changes the active slide to the next slide when clicked on. Out of the box, flexCarousel.js supports <a href="https://fontawesome.com/icons?d=gallery">Font Awesome 5</a>.
+              <code>nextArrow</code>: (default <code>'&#x3C;i <span class="is-attribute">class=</span>&#x22;fas fa-angle-right&#x22;&#x3E;&#x3C;/i&#x3E;'</code>). Defines the HTML code for the element which changes the active slide to the next slide when clicked on.
             </li>
             <li>
-              <code>prevArrow</code>: (default <code>'&#x3C;i <span class="is-attribute">class=</span>&#x22;fas fa-angle-left&#x22;&#x3E;&#x3C;/i&#x3E;'</code>). Defines the HTML code for the element which changes the active slide to the previous slide when clicked on. Out of the box, flexCarousel.js supports <a href="https://fontawesome.com/icons?d=gallery">Font Awesome 5</a>.
+              <code>prevArrow</code>: (default <code>'&#x3C;i <span class="is-attribute">class=</span>&#x22;fas fa-angle-left&#x22;&#x3E;&#x3C;/i&#x3E;'</code>). Defines the HTML code for the element which changes the active slide to the previous slide when clicked on.
             </li>
             <li>
-              <span class="tag is-warning">Experimental</span> <code>slidesVisible</code>: (default <code>1</code>). Defines how many slides are visible at any given time.
+              <code>slidesVisible</code>: (default <code>1</code>). Defines how many slides are visible at any given time.
             </li>
             <li>
               <code>transition</code>: (default <code>'slide'</code>). Defines which transition should be used when changing the active slide. Current transitions available are: <code>'none'</code> and <code>'slide'</code>.
