@@ -4,13 +4,13 @@
  *
  * Copyright 2018 Tom Hartley
  * Released under the MIT license
+ *
+ * Icons provided by Font Awesome: https://fontawesome.com
  */
 
 (function($, window, document, Math, undefined) {
   $.fn.flexCarousel = function(options) {
-    var FC = $.fn.flexCarousel;
-
-    var options = $.extend({
+    options = $.extend({
       // Defaults
       arrows:           true,
       arrowsOverlay:    true,
@@ -20,24 +20,22 @@
       circlesOverlay:   true,
       height:           null,
       loop:             true,
-      mouseDrag:        false,
-      nextArrow:        '<i class="fas fa-angle-right"></i>',
-      prevArrow:        '<i class="fas fa-angle-left"></i>',
+      nextArrow:        '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
+      prevArrow:        '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
       slidesVisible:    1,
       transition:       'slide',
-      variableWidth:    false,
     }, options);
 
     var flexCarousel            = $(this);
-    var flexCarouselContainer   = $(this).find('.fc-container');
     var flexCarouselSlide       = $(this).find('div').addClass('fc-slide');
 
     flexCarousel.addClass('fc');
     flexCarouselSlide.wrapAll('<div class="fc-container"><div class="fc-slides ' + slidesClasses() + '" /></div>');
 
     var flexCarouselSlides      = $(this).find('.fc-slides');
-    var flexCarouselCircles     = $(this).find('.fc-circles');
-    var flexCarouselCircle      = $(this).find('.fc-circle');
+    var flexCarouselContainer   = $(this).find('.fc-container');
+
+    var percentageToSlide       = 100 / options.slidesVisible + '%';
 
     // CSS classes for different transitions
     function slidesClasses() {
@@ -46,73 +44,21 @@
       }
     }
 
-    // Functions for previous click
-    var onPrevClick = function() {
-      setTimeout(transition, 50);
-      isReverse(true);
-      direction('left');
-      checkLoop();
-      transition();
-    }
-
-    // Functions for next click
-    var onNextClick = function() {
-      setTimeout(transition, 50);
-      isReverse(false);
-      direction('right');
-      checkLoop();
-      transition();
-    }
-
-    if(options.variableWidth === false) {
-      // Percentage to slide is width of each slide
-      var percentageToSlide = 100 / options.slidesVisible + '%';
-    } else {
-      var percentageToSlide = flexCarouselSlide.last().css('width');
-    }
-
-    // Determine whether the carousel is going forward or backward
-    var isReverse = function(check) {
-      if(options.transition === 'slide') {
-        if(check === true) {
-          flexCarouselSlides.css('transform', 'translateX(-' + percentageToSlide + ')');
-        } else {
-          flexCarouselSlides.css('transform', 'translateX(' + percentageToSlide + ')');
-        }
+    function moveSlide(direction) {
+      if(direction === 'next') {
+        setTimeout(transition, 50);
+        transition();
+        changeOrder('decrease');
+      } else {
+        setTimeout(transition, 50);
+        transition();
+        changeOrder('increase');
       }
     }
 
-    var checkLoop = function() {
-      if(options.arrows) {
-        if(options.loop == false) {
-
-          // If there is no loop, the previous arrow should be hidden on the first slide
-          if(flexCarouselSlide.first().hasClass('fc-is-active')) {
-            flexCarouselPrev.removeClass('fc-is-active');
-          } else {
-            flexCarouselPrev.addClass('fc-is-active');
-          }
-
-          // If there is no loop, the next arrow should be hidden on the left slide
-          if(flexCarouselSlide.last().hasClass('fc-is-active')) {
-            flexCarouselNext.removeClass('fc-is-active');
-          } else {
-            flexCarouselNext.addClass('fc-is-active');
-          }
-        }
-      }
-    }
-
-    // Toggles the animate class for slide transition
-    var transition = function() {
-      if(options.transition === 'slide') {
-        flexCarouselSlides.toggleClass('fc-animate');
-      }
-    }
-
-    // Checks is the carousel is moving forward or backward and updates the order property value
-    var direction = function(direction) {
-      if(direction === 'left') {
+    function changeOrder(amount) {
+      // Checks is the carousel is moving forward or backward and updates the order property value
+      if(amount === 'increase') {
         flexCarouselSlide.each(function() {
           var convertedOrder = parseInt($(this).css('order'));
           var orderIncrease = convertedOrder + 1;
@@ -123,6 +69,11 @@
             $(this).css('order', orderIncrease);
           }
         });
+
+        // Determine whether the carousel is going forward or backward
+        if(options.transition === 'slide') {
+          flexCarouselSlides.css('transform', 'translateX(-' + percentageToSlide + ')');
+        }
       } else {
         flexCarouselSlide.each(function() {
           var convertedOrder = parseInt($(this).css('order'));
@@ -134,10 +85,41 @@
             $(this).css('order', orderDecrease);
           }
         });
+
+        // Determine whether the carousel is going forward or backward
+        if(options.transition === 'slide') {
+          flexCarouselSlides.css('transform', 'translateX(' + percentageToSlide + ')');
+        }
+      }
+
+      // Check loop
+      if(options.arrows && options.loop == false) {
+        // If there is no loop, the previous arrow should be hidden on the first slide
+        if(flexCarouselSlide.first().hasClass('fc-is-active')) {
+          flexCarouselPrev.removeClass('fc-is-active');
+        } else {
+          flexCarouselPrev.addClass('fc-is-active');
+        }
+
+        // If there is no loop, the next arrow should be hidden on the left slide
+        if(flexCarouselSlide.last().hasClass('fc-is-active')) {
+          flexCarouselNext.removeClass('fc-is-active');
+        } else {
+          flexCarouselNext.addClass('fc-is-active');
+        }
+      }
+    }
+
+    // Toggles the animate class for slide transition
+    var transition = function() {
+      if(options.transition === 'slide') {
+        flexCarouselSlides.toggleClass('fc-animate');
       }
     }
 
     if(options.slidesVisible > '1') {
+      var slides = flexCarouselSlide.slice(0, options.slidesVisible);
+      slides.addClass('fc-is-active')
     } else {
       flexCarouselSlide.first().addClass('fc-is-active');
     }
@@ -166,11 +148,11 @@
 
         if(options.arrowsOverlay) {
           flexCarousel.addClass('fc-has-overlay');
-          flexCarouselPrev.click(onPrevClick);
-          flexCarouselNext.click(onNextClick);
+          flexCarouselPrev.click(function(){ moveSlide('prev'); });
+          flexCarouselNext.click(function(){ moveSlide('next'); });
         } else {
-          flexCarousel.find('.fc-prev .fc-icon').click(onPrevClick);
-          flexCarousel.find('.fc-next .fc-icon').click(onNextClick);
+          flexCarousel.find('.fc-prev .fc-icon').click(function(){ moveSlide('prev'); });
+          flexCarousel.find('.fc-next .fc-icon').click(function(){ moveSlide('next'); });
         }
 
         // If there is no loop, the previous arrow should be hidden on the first slide
@@ -180,14 +162,14 @@
       }
     }
 
+    if(options.circles) {
+      flexCarouselContainer.append('<div class="fc-circles" />');
+    }
+
+    var flexCarouselCircles = $(this).find('.fc-circles');
+
     flexCarouselSlide.each(function() {
       var index = $(this).index();
-      console.log(index);
-
-      if(options.variableWidth === false) {
-        // Sets the width for each slide determined by how many slides visible there are
-        $(this).css('min-width', 'calc(100% / ' + options.slidesVisible + ')');
-      }
 
       // If all slides are visible, the order property is not necessary
       if(flexCarouselSlide.length > options.slidesVisible) {
@@ -211,11 +193,15 @@
         if(imageCaption) {
           image.after('<figcaption>' + imageCaption + '</figcaption>');
         }
+
+        $(this).css('min-width', 'calc(100% / ' + options.slidesVisible + ')');
       }
+
+      flexCarouselCircles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
     });
 
     if(options.circles) {
-      flexCarouselContainer.append('<div class="fc-circles"></div>');
+      var flexCarouselCircle = $(this).find('.fc-circle');
 
       flexCarouselCircle.first().addClass('fc-is-active');
 
@@ -236,9 +222,7 @@
 
     // Use the autoplay speed setting to set the speed.
     if(options.autoplay) {
-      setInterval(function() {
-        onNextClick();
-      }, options.autoplaySpeed);
+      setInterval(function() { moveSlide('next'); }, options.autoplaySpeed);
     }
 
     if(options.height) {

@@ -6,8 +6,9 @@
  * Released under the MIT license
  */
 
-$prev-next-min-width: 64px
 $space: 16px
+$prev-next-min-width: $space * 4
+$prev-next-height: $space * 1.75
 
 *
   box-sizing: border-box
@@ -34,11 +35,15 @@ $space: 16px
         width: $space * 2
         &:hover
           color: rgba(0, 0, 0, 0.80)
+        svg
+          height: 100%
+          width: 100%
   &:not(.fc-has-overlay)
     .fc-next,
     .fc-prev
       align-items: center
       display: flex
+      height: calc(100% - #{$prev-next-height})
       justify-content: center
       min-width: $prev-next-min-width
   &.fc-has-overlay

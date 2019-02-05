@@ -40,10 +40,17 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
+.fc .fc-next.fc-is-active .fc-icon svg,
+.fc .fc-prev.fc-is-active .fc-icon svg {
+  height: 100%;
+  width: 100%;
+}
+
 .fc:not(.fc-has-overlay) .fc-next,
 .fc:not(.fc-has-overlay) .fc-prev {
   align-items: center;
   display: flex;
+  height: calc(100% - 28px);
   justify-content: center;
   min-width: 64px;
 }
