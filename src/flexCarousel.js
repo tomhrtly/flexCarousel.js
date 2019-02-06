@@ -40,7 +40,7 @@
     // CSS classes for different transitions
     function slidesClasses() {
       if(options.transition === 'slide') {
-        return 'fc-animate';
+        return 'fc-slide-animation';
       }
     }
 
@@ -60,6 +60,8 @@
       // Checks is the carousel is moving forward or backward and updates the order property value
       if(amount === 'increase') {
         flexCarouselSlide.each(function() {
+          var index = $(this).index();
+
           var convertedOrder = parseInt($(this).css('order'));
           var orderIncrease = convertedOrder + 1;
 
@@ -93,35 +95,21 @@
       }
 
       // Check loop
-      if(options.arrows && options.loop == false) {
+      if(options.loop == false) {
         // If there is no loop, the previous arrow should be hidden on the first slide
         if(flexCarouselSlide.first().hasClass('fc-is-active')) {
           flexCarouselPrev.removeClass('fc-is-active');
         } else {
           flexCarouselPrev.addClass('fc-is-active');
         }
-
-        // If there is no loop, the next arrow should be hidden on the left slide
-        if(flexCarouselSlide.last().hasClass('fc-is-active')) {
-          flexCarouselNext.removeClass('fc-is-active');
-        } else {
-          flexCarouselNext.addClass('fc-is-active');
-        }
       }
     }
 
     // Toggles the animate class for slide transition
-    var transition = function() {
+    function transition() {
       if(options.transition === 'slide') {
-        flexCarouselSlides.toggleClass('fc-animate');
+        flexCarouselSlides.toggleClass('fc-slide-animation');
       }
-    }
-
-    if(options.slidesVisible > '1') {
-      var slides = flexCarouselSlide.slice(0, options.slidesVisible);
-      slides.addClass('fc-is-active')
-    } else {
-      flexCarouselSlide.first().addClass('fc-is-active');
     }
 
     // Sets the left property to default value so that all slides are visible
@@ -148,17 +136,26 @@
 
         if(options.arrowsOverlay) {
           flexCarousel.addClass('fc-has-overlay');
-          flexCarouselPrev.click(function(){ moveSlide('prev'); });
-          flexCarouselNext.click(function(){ moveSlide('next'); });
+          flexCarouselPrev.click(function() { moveSlide('prev'); });
+          flexCarouselNext.click(function() { moveSlide('next'); });
         } else {
           flexCarousel.find('.fc-prev .fc-icon').click(function(){ moveSlide('prev'); });
           flexCarousel.find('.fc-next .fc-icon').click(function(){ moveSlide('next'); });
         }
 
-        // If there is no loop, the previous arrow should be hidden on the first slide
-        if(options.loop == false) {
-          flexCarouselPrev.removeClass('fc-is-active');
-        }
+        var min = 0;
+
+        flexCarouselSlide.slice(min, options.slidesVisible).addClass('fc-is-active');
+
+        flexCarouselNext.click(function() {
+          flexCarouselSlide.removeClass('fc-is-active');
+          flexCarouselSlide.slice(min += 1, options.slidesVisible += 1).addClass('fc-is-active');
+        });
+
+        flexCarouselPrev.click(function() {
+          flexCarouselSlide.removeClass('fc-is-active');
+          flexCarouselSlide.slice(min -= 1, options.slidesVisible -= 1).addClass('fc-is-active');
+        });
       }
     }
 
@@ -169,7 +166,6 @@
     var flexCarouselCircles = $(this).find('.fc-circles');
 
     flexCarouselSlide.each(function() {
-      var index = $(this).index();
 
       // If all slides are visible, the order property is not necessary
       if(flexCarouselSlide.length > options.slidesVisible) {
@@ -177,10 +173,8 @@
         $(this).last().css('order', 1);
 
         // The rest of the slides, increment by 1 starting at 2
-        var slides = flexCarouselSlide.slice( 0, flexCarouselSlide.length - 1 );
-
-        i = 2;
-        slides.each(function() {
+        var i = 2;
+        flexCarouselSlide.slice( 0, flexCarouselSlide.length - 1 ).each(function() {
           $(this).css('order', i++);
         });
 
@@ -197,18 +191,29 @@
         $(this).css('min-width', 'calc(100% / ' + options.slidesVisible + ')');
       }
 
-      flexCarouselCircles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
+      if(options.circles) {
+        flexCarouselCircles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
+      }
     });
 
+    var flexCarouselCircle = $(this).find('.fc-circle');
+
     if(options.circles) {
-      var flexCarouselCircle = $(this).find('.fc-circle');
+      /*var i = 1;
+      flexCarouselCircle.each(function() {
+        $(this).attr('data-slide', i++);
+      });*/
 
       flexCarouselCircle.first().addClass('fc-is-active');
 
       // Add active states for clicking on the circles
       flexCarouselCircle.click(function() {
+        var index = $(this).index();
+
         $(this).addClass('fc-is-active');
         flexCarouselCircle.not($(this)).removeClass('fc-is-active');
+
+        flexCarouselSlide.eq(index).addClass('fc-is-active').siblings().removeClass('fc-is-active');
       });
 
       // Add the circle wrapping element if circles is true
