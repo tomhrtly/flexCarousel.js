@@ -52,10 +52,18 @@
     return flexCarousel;
   }());
 
-  flexCarousel.prototype.buildSlides = function() {
+  flexCarousel.prototype.buildArrows = function() {
     var self = this;
 
+    if(self.options.slidesVisible) {
+      console.log('yes');
+    }
+  }
+
+  flexCarousel.prototype.buildSlides = function() {
+    var self = this;
     var slide = self.selector.find('div').addClass('fc-slide');
+
     slide.wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
   }
 
@@ -70,9 +78,10 @@
   flexCarousel.prototype.init = function() {
     var self = this;
 
-    if (!$(self.selector).hasClass('fc')) {
-      $(self.selector).addClass('fc');
+    if (!self.selector.hasClass('fc')) {
+      self.selector.addClass('fc');
 
+      self.buildArrows();
       self.buildSlides();
       self.height();
     }
