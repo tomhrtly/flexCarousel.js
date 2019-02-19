@@ -24,11 +24,10 @@
   var flexCarousel = window.flexCarousel || {};
 
   flexCarousel = (function() {
-    function flexCarousel(options) {
+    function flexCarousel(selector, options) {
       var self = this;
 
-      self.options = {
-        // Defaults
+      self.defaults = {
         arrows: true,
         arrowsOverlay: true,
         autoplay: false,
@@ -43,19 +42,49 @@
         transition: 'slide',
       };
 
+      // Combine both objects
+      self.options = $.extend(self.defaults, options);
+
+      self.selector = $(selector);
       self.init();
     }
 
     return flexCarousel;
   }());
 
+  flexCarousel.prototype.buildSlides = function() {
+    var self = this;
+
+    var slide = self.selector.find('div').addClass('fc-slide');
+    slide.wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
+  }
+
+  flexCarousel.prototype.height = function() {
+    var self = this;
+
+    if(self.options.height) {
+      self.selector.css('height', self.options.height);
+    }
+  }
+
   flexCarousel.prototype.init = function() {
     var self = this;
 
-    if(self.options.arrows) {
-      console.log('yes');
+    if (!$(self.selector).hasClass('fc')) {
+      $(self.selector).addClass('fc');
+
+      self.buildSlides();
+      self.height();
     }
   };
+
+  flexCarousel.prototype.transitionClasses = function() {
+    var self = this;
+
+    if(self.options.transition === 'slide') {
+      return 'fc-slide-animation';
+    }
+  }
 
   $.fn.flexCarousel = function() {
     var self = this;
