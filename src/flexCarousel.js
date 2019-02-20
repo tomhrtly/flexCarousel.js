@@ -61,14 +61,6 @@
     }
   }
 
-  object.autoplayClear = function() {
-    var self = this;
-
-    if (self.timer) {
-      clearInterval(self.timer);
-    }
-  }
-
   object.buildArrowEvents = function() {
     var self = this;
     var prev = self.selector.find('.fc-prev');

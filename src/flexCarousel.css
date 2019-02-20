@@ -6,103 +6,142 @@
  * Released under the MIT license
  */
 * {
-  box-sizing: border-box; }
-  *::before, *::after {
-    box-sizing: border-box; }
+  box-sizing: border-box;
+}
+
+*::before, *::after {
+  box-sizing: border-box;
+}
 
 .fc {
   display: flex;
-  width: 100%; }
-  .fc .fc-next .fc-icon,
-  .fc .fc-prev .fc-icon {
-    display: none; }
-  .fc .fc-next.fc-is-active .fc-icon,
-  .fc .fc-prev.fc-is-active .fc-icon {
-    color: rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-    display: inline-flex;
-    font-size: 32px;
-    height: 32px;
-    justify-content: center;
-    position: absolute;
-    width: 32px; }
-    .fc .fc-next.fc-is-active .fc-icon:hover,
-    .fc .fc-prev.fc-is-active .fc-icon:hover {
-      color: rgba(0, 0, 0, 0.8); }
-    .fc .fc-next.fc-is-active .fc-icon svg,
-    .fc .fc-prev.fc-is-active .fc-icon svg {
-      height: 100%;
-      width: 100%; }
-  .fc:not(.fc-has-overlay) .fc-next,
-  .fc:not(.fc-has-overlay) .fc-prev {
-    align-items: center;
-    display: flex;
-    height: calc(100% - 28px);
-    justify-content: center;
-    min-width: 64px; }
-  .fc.fc-has-overlay .fc-next .fc-icon,
-  .fc.fc-has-overlay .fc-prev .fc-icon {
-    top: 50%;
-    transform: translate(-50%, -50%); }
-  .fc.fc-has-overlay .fc-next:hover .fc-icon,
-  .fc.fc-has-overlay .fc-prev:hover .fc-icon {
-    color: rgba(0, 0, 0, 0.8); }
-  .fc.fc-has-overlay .fc-next.fc-is-active,
-  .fc.fc-has-overlay .fc-prev.fc-is-active {
-    cursor: pointer;
-    height: 100%;
-    min-width: 128px;
-    position: absolute;
-    z-index: 1; }
-  .fc.fc-has-overlay .fc-next.fc-is-active {
-    right: 0; }
-    .fc.fc-has-overlay .fc-next.fc-is-active .fc-icon {
-      left: 50%; }
-  .fc.fc-has-overlay .fc-prev.fc-is-active .fc-icon {
-    left: 50%; }
+  width: 100%;
+}
+
+.fc .fc-next .fc-icon,
+.fc .fc-prev .fc-icon {
+  display: none;
+}
+
+.fc .fc-next.fc-is-active .fc-icon,
+.fc .fc-prev.fc-is-active .fc-icon {
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 32px;
+  height: 32px;
+  justify-content: center;
+  position: absolute;
+  width: 32px;
+}
+
+.fc .fc-next.fc-is-active .fc-icon:hover,
+.fc .fc-prev.fc-is-active .fc-icon:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.fc .fc-next.fc-is-active .fc-icon svg,
+.fc .fc-prev.fc-is-active .fc-icon svg {
+  height: 100%;
+  width: 100%;
+}
+
+.fc:not(.fc-has-overlay) .fc-next,
+.fc:not(.fc-has-overlay) .fc-prev {
+  align-items: center;
+  display: flex;
+  height: calc(100% - 28px);
+  justify-content: center;
+  min-width: 64px;
+}
+
+.fc.fc-has-overlay .fc-next .fc-icon,
+.fc.fc-has-overlay .fc-prev .fc-icon {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fc.fc-has-overlay .fc-next:hover .fc-icon,
+.fc.fc-has-overlay .fc-prev:hover .fc-icon {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.fc.fc-has-overlay .fc-next.fc-is-active,
+.fc.fc-has-overlay .fc-prev.fc-is-active {
+  cursor: pointer;
+  height: 100%;
+  min-width: 128px;
+  position: absolute;
+  z-index: 1;
+}
+
+.fc.fc-has-overlay .fc-next.fc-is-active {
+  right: 0;
+}
+
+.fc.fc-has-overlay .fc-next.fc-is-active .fc-icon {
+  left: 50%;
+}
+
+.fc.fc-has-overlay .fc-prev.fc-is-active .fc-icon {
+  left: 50%;
+}
 
 .fc-has-overlay {
-  position: relative; }
+  position: relative;
+}
 
 .fc-circles:not(.fc-is-overlay) {
   display: flex;
   justify-content: center;
-  margin-top: 16px; }
+  margin-top: 16px;
+}
 
 .fc-circles.fc-is-overlay {
   bottom: 5%;
   display: flex;
   justify-content: center;
   position: absolute;
-  width: 100%; }
+  width: 100%;
+}
 
 .fc-circles .fc-circle {
-  cursor: pointer; }
-  .fc-circles .fc-circle .fc-icon.fc-is-circle {
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 50%;
-    display: flex;
-    height: 12.8px;
-    width: 12.8px; }
-  .fc-circles .fc-circle:hover .fc-icon.fc-is-circle, .fc-circles .fc-circle.fc-is-active .fc-icon.fc-is-circle {
-    background-color: rgba(0, 0, 0, 0.8); }
-  .fc-circles .fc-circle:not(:last-child) {
-    margin-right: 8px; }
+  cursor: pointer;
+}
+
+.fc-circles .fc-circle .fc-icon.fc-is-circle {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  display: flex;
+  height: 8px;
+  width: 8px;
+}
+
+.fc-circles .fc-circle:hover .fc-icon.fc-is-circle, .fc-circles .fc-circle.fc-is-active .fc-icon.fc-is-circle {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.fc-circles .fc-circle:not(:last-child) {
+  margin-right: 8px;
+}
 
 .fc-container {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 .fc-slides {
   display: flex;
   flex-grow: 1;
-  position: relative; }
+  position: relative;
+}
 
 .fc-slide-animation {
   transform: none !important;
-  transition: all 250ms ease-in-out; }
+  transition: all 250ms ease-in-out;
+}
 
 .fc-slide {
   align-items: center;
@@ -111,15 +150,21 @@
   flex-grow: 1;
   justify-content: center;
   min-height: 64px;
-  padding: 16px; }
+  padding: 16px;
+}
 
 .fc-image {
   display: block;
-  position: relative; }
-  .fc-image img {
-    display: block;
-    height: auto;
-    max-width: 100%; }
-  .fc-image figcaption {
-    margin-top: 16px;
-    text-align: center; }
+  position: relative;
+}
+
+.fc-image img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.fc-image figcaption {
+  margin-top: 16px;
+  text-align: center;
+}
