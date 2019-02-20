@@ -57,7 +57,15 @@
     var self = this;
 
     if(self.options.autoplay) {
-      setInterval(function() { self.moveSlide('next'); }, self.options.autoplaySpeed);
+      self.timer = setInterval(function() { self.moveSlide('next'); }, self.options.autoplaySpeed);
+    }
+  }
+
+  object.autoplayClear = function() {
+    var self = this;
+
+    if (self.timer) {
+      clearInterval(self.timer);
     }
   }
 
