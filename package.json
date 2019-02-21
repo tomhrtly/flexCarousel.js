@@ -1,0 +1,38 @@
+{
+  "name": "flexcarousel",
+  "version": "0.0.3",
+  "description": "A simple, lightweight Flexbox carousel jQuery plugin.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "src-build": "npm run src-build-clean && npm run src-build-sass && npm run src-build-cleancss",
+    "src-build-cleancss": "cleancss -o src/flexCarousel.min.css src/flexCarousel.css",
+    "src-build-clean": "rimraf css",
+    "src-build-sass": "node-sass --output-style expanded src/flexCarousel.sass src/flexCarousel.css",
+    "src-build-sass-watch": "npm run src-build-sass -- --watch",
+    "docs-serve": "bundle exec jekyll serve",
+    "docs-build-sass": "node-sass --output-style expanded docs/assets/sass/style.sass docs/assets/css/style.css",
+    "docs-build-sass-watch": "npm run docs-build-sass -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomhrtly/flexCarousel.js.git"
+  },
+  "author": "Tom Hartley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tomhrtly/flexCarousel.js/issues"
+  },
+  "homepage": "https://github.com/tomhrtly/flexCarousel.js#readme",
+  "dependencies": {
+    "bulma": "^0.7.4",
+    "clean-css-cli": "^4.2.1",
+    "eslint": "^5.13.0",
+    "node-sass": "^4.11.0",
+    "postcss-cli": "^6.1.1",
+    "rimraf": "^2.6.3"
+  }
+}
