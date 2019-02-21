@@ -3,26 +3,29 @@ layout: hero
 ---
 
 <section class="section">
-  <div class="container">
+  <div class="container is-fluid">
     <div class="columns">
       <div class="column">
         <div class="content">
+          <h3>Install</h3>
+          <p>Feel free to use npm to add flexCarousel.js to your project. The package only includes the source files and no documentation.</p>
+          {% highlight html %}npm install flexcarousel{% endhighlight %}
+        </div>
+      </div>
+      <div class="column is-4">
+        <div class="content">
           <h3>CDN</h3>
           <p>Instead of hosting the two required files locally, feel free to use the CDN links provided by jsDelivr.</p>
-        </div>
-      </div>
-    </div>
-    <div class="columns">
-      <div class="column is-6">
-        <div class="content">
           <h4>CSS</h4>
-          {% highlight html %}<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tomhrtly/flexCarousel.js@{{ site.version }}/src/flexCarousel.min.css">{% endhighlight %}
+          {% highlight html %}<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tomhrtly/flexCarousel.js@{{ site.version }}/src/flexCarousel.min.css">{% endhighlight %}
+          <h4>JS</h4>
+          {% highlight html %}<script src="https://cdn.jsdelivr.net/npm/tomhrtly/flexCarousel.js@{{ site.version }}/src/flexCarousel.min.js"></script>{% endhighlight %}
         </div>
       </div>
-      <div class="column is-6">
+      <div class="column">
         <div class="content">
-          <h4>JS</h4>
-          {% highlight html %}<script src="https://cdn.jsdelivr.net/gh/tomhrtly/flexCarousel.js@{{ site.version }}/src/flexCarousel.min.js"></script>{% endhighlight %}
+          <h3>Sandbox</h3>
+          <p>Play around with all of the customisation options available for flexCarousel.js by using CodePen, a playground for developers.</p>
         </div>
       </div>
     </div>
