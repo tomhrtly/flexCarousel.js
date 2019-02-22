@@ -122,18 +122,20 @@
     var slide = self.selector.find('.fc-slide');
 
     if(self.options.circles) {
-      container.append('<div class="fc-circles" />');
-      var circles = self.selector.find('.fc-circles');
+      if(self.options.slidesVisible < slide.length) {
+        container.append('<div class="fc-circles" />');
+        var circles = self.selector.find('.fc-circles');
 
-      slide.each(function () {
-        circles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
-      });
-      var circle = self.selector.find('.fc-circle');
+        slide.each(function () {
+          circles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
+        });
+        var circle = self.selector.find('.fc-circle');
 
-      circle.first().addClass('fc-is-active');
+        circle.first().addClass('fc-is-active');
 
-      if(self.options.circlesOverlay) {
-        self.selector.addClass('fc-circle-overlay');
+        if(self.options.circlesOverlay) {
+          self.selector.addClass('fc-circle-overlay');
+        }
       }
     }
   }
@@ -147,17 +149,19 @@
 
   object.buildSlides = function() {
     var self = this;
+    var index = 0;
 
     var slide = self.selector.find('div');
     slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
+
+    slide.slice(index, index + self.options.slidesVisible).addClass('fc-is-active');
 
     var slideWidth = 100 / self.options.slidesVisible + '%';
 
     var slides = self.selector.find('.fc-slides');
 
-    slide.first().addClass('fc-is-active');
-
     if(self.options.slidesVisible < slide.length) {
+      slides.css('left', '-' + slideWidth);
       slide.last().css('order', 1);
 
       var i = 2;
@@ -166,7 +170,7 @@
       });
 
       slide.each(function () {
-        var image = slide.find('img');
+        var image = $(this).find('img');
         var imageCaption = image.data('caption');
 
         // Wrap the images and use data attribute for captions for cleaner HTML markup
@@ -175,20 +179,14 @@
         if (imageCaption) {
           image.after('<figcaption>' + imageCaption + '</figcaption>');
         }
-
-        $(this).css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
       });
+
+      if(self.options.transition === 'slide') {
+        slides.css('transform', 'translateX(' + slideWidth + ')');
+      }
     }
 
-    if(self.options.slidesVisible >= slide.length) {
-      slides.css('left', 'auto');
-    } else {
-      slides.css('left', '-' + slideWidth);
-    }
-
-    if(self.options.transition === 'slide') {
-      slides.css('transform', 'translateX(' + slideWidth + ')');
-    }
+    slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
   }
 
   object.changeOrder = function(amount) {
