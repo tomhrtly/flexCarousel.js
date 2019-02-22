@@ -46,28 +46,33 @@
   width: 100%;
 }
 
-.fc:not(.fc-has-overlay) .fc-next,
-.fc:not(.fc-has-overlay) .fc-prev {
+.fc:not(.fc-arrow-overlay) .fc-next,
+.fc:not(.fc-arrow-overlay) .fc-prev {
   align-items: center;
   display: flex;
-  height: calc(100% - 28px);
+  height: calc(100% - 24px);
   justify-content: center;
   min-width: 64px;
 }
 
-.fc.fc-has-overlay .fc-next .fc-icon,
-.fc.fc-has-overlay .fc-prev .fc-icon {
+.fc.fc-arrow-overlay:not(.fc-circle-overlay) .fc-next.fc-is-active,
+.fc.fc-arrow-overlay:not(.fc-circle-overlay) .fc-prev.fc-is-active {
+  height: calc(100% - 24px);
+}
+
+.fc.fc-arrow-overlay .fc-next .fc-icon,
+.fc.fc-arrow-overlay .fc-prev .fc-icon {
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
-.fc.fc-has-overlay .fc-next:hover .fc-icon,
-.fc.fc-has-overlay .fc-prev:hover .fc-icon {
+.fc.fc-arrow-overlay .fc-next:hover .fc-icon,
+.fc.fc-arrow-overlay .fc-prev:hover .fc-icon {
   color: rgba(0, 0, 0, 0.8);
 }
 
-.fc.fc-has-overlay .fc-next.fc-is-active,
-.fc.fc-has-overlay .fc-prev.fc-is-active {
+.fc.fc-arrow-overlay .fc-next.fc-is-active,
+.fc.fc-arrow-overlay .fc-prev.fc-is-active {
   cursor: pointer;
   height: 100%;
   min-width: 128px;
@@ -75,34 +80,43 @@
   z-index: 1;
 }
 
-.fc.fc-has-overlay .fc-next.fc-is-active {
+.fc.fc-arrow-overlay .fc-next.fc-is-active {
   right: 0;
 }
 
-.fc.fc-has-overlay .fc-next.fc-is-active .fc-icon {
+.fc.fc-arrow-overlay .fc-next.fc-is-active .fc-icon {
   left: 50%;
 }
 
-.fc.fc-has-overlay .fc-prev.fc-is-active .fc-icon {
+.fc.fc-arrow-overlay .fc-prev.fc-is-active .fc-icon {
   left: 50%;
 }
 
-.fc-has-overlay {
-  position: relative;
-}
-
-.fc-circles:not(.fc-is-overlay) {
+.fc:not(.fc-circle-overlay) .fc-circles {
   display: flex;
   justify-content: center;
   margin-top: 16px;
 }
 
-.fc-circles.fc-is-overlay {
+.fc.fc-circle-overlay:not(.fc-arrow-overlay) .fc-next.fc-is-active,
+.fc.fc-circle-overlay:not(.fc-arrow-overlay) .fc-prev.fc-is-active {
+  height: 100%;
+}
+
+.fc.fc-circle-overlay .fc-circles {
   bottom: 5%;
   display: flex;
   justify-content: center;
   position: absolute;
   width: 100%;
+}
+
+.fc-arrow-overlay {
+  position: relative;
+}
+
+.fc-circle-overlay .fc-container {
+  position: relative;
 }
 
 .fc-circles .fc-circle {

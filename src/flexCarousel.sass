@@ -8,7 +8,7 @@
 
 $space: 16px
 $prev-next-min-width: $space * 8
-$prev-next-height: $space * 1.75
+$prev-next-height: $space * 1.5
 
 $black: #000000
 
@@ -40,7 +40,7 @@ $black: #000000
         svg
           height: 100%
           width: 100%
-  &:not(.fc-has-overlay)
+  &:not(.fc-arrow-overlay)
     .fc-next,
     .fc-prev
       align-items: center
@@ -48,7 +48,12 @@ $black: #000000
       height: calc(100% - #{$prev-next-height})
       justify-content: center
       min-width: $prev-next-min-width / 2
-  &.fc-has-overlay
+  &.fc-arrow-overlay
+    &:not(.fc-circle-overlay)
+      .fc-next,
+      .fc-prev
+        &.fc-is-active
+          height: calc(100% - #{$prev-next-height})
     .fc-next,
     .fc-prev
       .fc-icon
@@ -72,21 +77,32 @@ $black: #000000
       &.fc-is-active
         .fc-icon
           left: 50%
+  &:not(.fc-circle-overlay)
+    .fc-circles
+      display: flex
+      justify-content: center
+      margin-top: $space
+  &.fc-circle-overlay
+    &:not(.fc-arrow-overlay)
+      .fc-next,
+      .fc-prev
+        &.fc-is-active
+          height: 100%
+    .fc-circles
+      bottom: 5%
+      display: flex
+      justify-content: center
+      position: absolute
+      width: 100%
 
-.fc-has-overlay
+.fc-arrow-overlay
   position: relative
 
+.fc-circle-overlay
+  .fc-container
+    position: relative
+
 .fc-circles
-  &:not(.fc-is-overlay)
-    display: flex
-    justify-content: center
-    margin-top: $space
-  &.fc-is-overlay
-    bottom: 5%
-    display: flex
-    justify-content: center
-    position: absolute
-    width: 100%
   .fc-circle
     cursor: pointer
     .fc-icon

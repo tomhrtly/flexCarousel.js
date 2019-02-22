@@ -93,7 +93,7 @@
         prev.addClass('fc-is-active');
 
         if (self.options.arrowsOverlay) {
-          self.selector.addClass('fc-has-overlay');
+          self.selector.addClass('fc-arrow-overlay');
         }
       }
     }
@@ -133,8 +133,7 @@
       circle.first().addClass('fc-is-active');
 
       if(self.options.circlesOverlay) {
-        container.addClass('fc-has-overlay');
-        circles.addClass('fc-is-overlay');
+        self.selector.addClass('fc-circle-overlay');
       }
     }
   }
