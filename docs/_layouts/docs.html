@@ -23,7 +23,12 @@
             </aside>
           </div>
           <div class="column">
-            {{ content }}
+            {% if page.title %}<p class="title">{{ page.title }}</p>{% endif %}
+            {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+            <hr>
+            <div class="content">
+              {{ content }}
+            </div>
           </div>
         </div>
       </div>

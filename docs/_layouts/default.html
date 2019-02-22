@@ -12,6 +12,9 @@
       <div class="container is-fluid">
         <div class="columns">
           <div class="column">
+            {% if page.title %}<p class="title">{{ page.title }}</p>{% endif %}
+            {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+            <hr>
             {{ content }}
           </div>
         </div>
