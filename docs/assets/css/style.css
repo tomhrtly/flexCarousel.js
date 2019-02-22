@@ -1244,6 +1244,21 @@ a.has-text-twitter:hover, a.has-text-twitter:focus {
   color: white;
 }
 
+.menu-label {
+  color: #7a7a7a;
+  font-size: 0.75em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.menu-label:not(:first-child) {
+  margin-top: 1em;
+}
+
+.menu-label:not(:last-child) {
+  margin-bottom: 1em;
+}
+
 .navbar {
   background-color: white;
   min-height: 3.25rem;

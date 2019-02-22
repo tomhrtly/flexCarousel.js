@@ -9,18 +9,15 @@
       {% include navbar.html %}
     </nav>
     <section class="section">
-      <div class="container">
+      <div class="container is-fluid">
         <div class="columns">
           <div class="column">
-            {% if page.title %}<p class="title">{{ page.title }}</p>{% endif %}
-            {% if page.subtitle %}<p class="subtitle">{{ page.subtitle }}</p>{% endif %}
+            {{ content }}
           </div>
         </div>
-        <hr>
+      </div>
       </div>
     </section>
-    {{ content }}
-    {% include github-section.html %}
     {% include footer.html %}
   </body>
 </html>
