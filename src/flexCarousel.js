@@ -25,7 +25,7 @@
 
   flexCarousel = (function() {
     function flexCarousel(selector, options) {
-      var self = this;
+      const self = this;
 
       self.defaults = {
         arrows: true,
@@ -55,7 +55,7 @@
   var object = flexCarousel.prototype;
 
   object.autoplay = function() {
-    var self = this;
+    const self = this;
 
     if(self.options.autoplay) {
       self.timer = setInterval(function() { self.moveSlide('next'); }, self.options.autoplaySpeed);
@@ -63,7 +63,7 @@
   }
 
   object.buildArrowEvents = function() {
-    var self = this;
+    const self = this;
     var prev = self.selector.find('.fc-prev');
     var next = self.selector.find('.fc-next');
 
@@ -79,7 +79,7 @@
   }
 
   object.buildArrows = function() {
-    var self = this;
+    const self = this;
     var slide = self.selector.find('.fc-slide');
 
     if(self.options.arrows) {
@@ -101,7 +101,7 @@
   }
 
   object.buildCircleEvents = function() {
-    var self = this;
+    const self = this;
     var circle = self.selector.find('.fc-circle');
     var slide = self.selector.find('.fc-slide');
 
@@ -120,7 +120,7 @@
   }
 
   object.buildCircles = function() {
-    var self = this;
+    const self = this;
     var container = self.selector.find('.fc-container');
     var slide = self.selector.find('.fc-slide');
 
@@ -144,14 +144,14 @@
   }
 
   object.buildEvents = function() {
-    var self = this;
+    const self = this;
 
     self.buildArrowEvents();
     self.buildCircleEvents();
   }
 
   object.buildSlides = function() {
-    var self = this;
+    const self = this;
     var index = 0;
 
     var slide = self.selector.find('div');
@@ -191,7 +191,7 @@
   }
 
   object.changeOrder = function(amount) {
-    var self = this;
+    const self = this;
     var slides = self.selector.find('.fc-slides');
     var slide = self.selector.find('.fc-slide');
     var slideWidth = 100 / self.options.slidesVisible + '%';
@@ -231,8 +231,16 @@
     }
   }
 
+  object.getResponsive = function() {
+    const self = this;
+
+    if(self.options.responsive) {
+
+    }
+  }
+
   object.height = function() {
-    var self = this;
+    const self = this;
 
     if(self.options.height) {
       self.selector.css('height', self.options.height);
@@ -240,7 +248,7 @@
   }
 
   object.init = function() {
-    var self = this;
+    const self = this;
 
     if (!self.selector.hasClass('fc')) {
       self.selector.addClass('fc');
@@ -251,11 +259,12 @@
       self.buildEvents();
       self.height();
       self.autoplay();
+      self.getResponsive();
     }
   };
 
   object.moveSlide = function(direction) {
-    var self = this;
+    const self = this;
 
     if(direction) {
       setTimeout(function () { self.transition(); }, 1);
@@ -270,7 +279,7 @@
   }
 
   object.transition = function() {
-    var self = this;
+    const self = this;
     var slides = self.selector.find('.fc-slides');
 
     if(self.options.transition === 'slide') {
@@ -279,7 +288,7 @@
   }
 
   object.transitionClasses = function() {
-    var self = this;
+    const self = this;
 
     if(self.options.transition === 'slide') {
       return 'fc-slide-animation';
@@ -287,7 +296,7 @@
   }
 
   $.fn.flexCarousel = function() {
-    var self = this;
+    const self = this;
     var options = arguments[0];
 
     for (var i = 0; i < self.length; i++) {
