@@ -172,6 +172,16 @@ section.github-section .icon {
   color: #c57bdb;
 }
 
+.codepen-logo {
+  display: block;
+  fill: none;
+  margin: 2rem auto 0;
+  stroke: #0a0a0a;
+  stroke-width: 2.3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
 .button {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -1086,6 +1096,17 @@ a.has-text-twitter:hover, a.has-text-twitter:focus {
 .icon.is-medium {
   height: 2rem;
   width: 2rem;
+}
+
+.image {
+  display: block;
+  position: relative;
+}
+
+.image img {
+  display: block;
+  height: auto;
+  width: 100%;
 }
 
 .tag:not(body) {
