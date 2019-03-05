@@ -3,11 +3,6 @@ $(document).ready(function() {
     $('.navbar-burger').toggleClass('is-active');
     $('.navbar-menu').toggleClass('is-active');
   });
-
-  $('.menu-list a').click(function(){
-    $(this).addClass('is-active');
-    $('.menu-list a').not($(this)).removeClass('is-active');
-  });
 });
 
 window.dataLayer = window.dataLayer || [];
