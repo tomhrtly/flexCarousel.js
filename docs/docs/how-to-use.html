@@ -1,10 +1,36 @@
 ---
-title: How to use flexCarousel.js to create carousel components
-subtitle: Find out everything you need to know about creating carousels with flexCarousel.js
+title: How to Use
+subtitle: Find out everything you need to know about creating carousel components
 description: View the documentation for flexCarousel.js so that you can easily create carousels using Flexbox. Our detailed documentation also includes examples and code snippets for you to use.
 layout: docs
 ---
 
 <p>You can get started with using flexCarousel.js by downloading the required files from the <a href="{{ site.github }}">GitHub repository</a>.</p>
-<p>The only dependency that flexCarousel.js has, is jQuery which you need to load before the plugin. After you have loaded both jQuery and flexCarousel.js, you need to initialize the plugin. You can also use the slim version of jQuery if preferred.</p>
+<p>The only dependency that flexCarousel.js has, is jQuery which you need to load before the plugin. After you have loaded both jQuery and flexCarousel.js, you need to initialize the plugin.</p>
+<p>You can also use the slim version of jQuery if preferred.</p>
 <p>This is what your HTML structure should look like:</p>
+{% highlight html %}<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="flexCarousel.css">
+  </head>
+  <body>
+    <div class="my-class">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="flexCarousel.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.my-class').flexCarousel();
+      });
+    </script>
+  </body>
+</html>{% endhighlight %}
+<p>Now that you have successfully initialized flexCarousel.js, feel free to start customising by checking out the <a href="../options/">options</a> provided.</p>
