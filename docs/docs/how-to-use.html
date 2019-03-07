@@ -5,10 +5,26 @@ description: View the documentation for flexCarousel.js so that you can easily c
 layout: docs
 ---
 
-<p>You can get started with using flexCarousel.js by downloading the required files from the <a href="{{ site.github }}">GitHub repository</a>.</p>
-<p>The only dependency that flexCarousel.js has, is jQuery which you need to load before the plugin. After you have loaded both jQuery and flexCarousel.js, you need to initialize the plugin.</p>
-<p>You can also use the slim version of jQuery if preferred.</p>
-<p>This is what your HTML structure should look like:</p>
+<p>Before you start using flexCarousel.js, make sure your web page is set up to the latest development standards. This means using the correct document declaration and including the responsive meta tag.</p>
+<h3>Document setup</h3>
+{% highlight html %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+  </body>
+</html>
+{% endhighlight %}
+<h3>Box-sizing</h3>
+<p>The majority of developers will already use <code>box-sizing: border-box;</code> for their web pages, but in case the <code>box-sizing</code> property isn't already set to the <code>border-box</code> value, we have done this for you to ensure correct sizing of the carousel component. You shouldn't need to change this value.</p>
+<h3>Dependencies</h3>
+<p>The only dependency that flexCarousel.js has, is jQuery which you need to load before the plugin. After you have loaded both jQuery and flexCarousel.js, you need to initialize the plugin. We also support the slim version of jQuery which most developers prefer due to it's smaller file size.</p>
+<p>A new version of flexCarousel.js built with pure JavaScript and no jQuery dependency is currently under development.</p>
+<h3>Quick-start template</h3>
+<p>After setting up your webpage correctly, this is what your full HTML structure should look like to initialize flexCarousel.js. Note the order of the JavaScript files loaded, jQuery is loaded before the <code>flexCarousel.js</code> file because the latter is a dependency of the former as explained above.</p>
+<p>Only once you included jQuery and flexCarousel.js into your document can you successfully initialize the plugin. On a production server, we recommend adding this in a separate JavaScript file.</p>
 {% highlight html %}<!DOCTYPE html>
 <html>
   <head>
@@ -24,7 +40,7 @@ layout: docs
       <div>4</div>
       <div>5</div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
     <script src="flexCarousel.js"></script>
     <script>
       $(document).ready(function() {
@@ -33,4 +49,15 @@ layout: docs
     </script>
   </body>
 </html>{% endhighlight %}
-<p>Now that you have successfully initialized flexCarousel.js, feel free to start customising by checking out the <a href="../options/">options</a> provided.</p>
+<h3>HTML structure</h3>
+<p>It's very easy to create a carousel with flexCarousel.js, the HTML you have to write could not be simpler. First you create a parent <code>div</code> tag which acts as a selector for the carousel component. We recommend using a class name that does not use any other JavaScript or CSS.</p>
+<p>Then you create as many slides for that carousel as you need by using the <code>div</code> tag. So for three slides, you would create three child <code>div</code> elements inside the parent element.</p>
+<p>For example, if you were making a carousel for employees on your web page, it is recommended to use <code>.employees-js</code> for your selector and all of the CSS styles would be for <code>.employees</code>.</p>
+{% highlight html %}
+<script>
+  $(document).ready(function() {
+    $('.employees-js').flexCarousel();
+  });
+</script>
+{% endhighlight %}
+<p>Everybody's codebase is different, so use flexCarousel.js in a way that suits you and your teams needs. Now that you have successfully initialized flexCarousel.js, feel free to start customising by checking out the <a href="{{ site.url }}/docs/options/">options</a> provided.</p>
