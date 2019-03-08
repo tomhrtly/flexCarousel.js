@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+<meta name="description" content="{% if page.subtitle %}{{ page.subtitle }}{% else %}{{ site.description }}{% endif %}">
 <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }} - {{ site.description }}{% endif %}</title>
 <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url }}">
 <link rel="shortcut icon" href="{{ site.url }}/favicon.ico">
