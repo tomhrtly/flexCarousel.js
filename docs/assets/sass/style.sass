@@ -1,5 +1,6 @@
 @import "../../../node_modules/bulma/sass/utilities/initial-variables"
 @import "../../../node_modules/bulma/sass/utilities/mixins"
+@import "../../../node_modules/bulma/sass/utilities/functions"
 
 $twitter: #1da1f2
 $twitter-invert: findColorInvert($twitter)
@@ -54,17 +55,12 @@ pre
 		white-space: normal
 
 section
-	&.github-section
-		background-color: $black-ter
+	&.deprecated-section
+		background-color: $yellow
 		padding-bottom: 1rem
 		padding-top: 1rem
 		a
-			align-items: center
-			color: $white
-			display: inline-flex
-			justify-content: center
-		.icon
-			margin-right: 0.5rem
+			color: findColorInvert($yellow)
 
 .preview
 	background-color: $white
@@ -137,7 +133,6 @@ section
 .improve
 	margin-top: 6rem
 
-@import "../../../node_modules/bulma/sass/utilities/functions"
 @import "../../../node_modules/bulma/sass/utilities/derived-variables"
 @import "../../../node_modules/bulma/sass/utilities/controls"
 @import "../../../node_modules/bulma/sass/base/minireset"
