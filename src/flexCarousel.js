@@ -1,4 +1,4 @@
-/*
+/*!
  * flexCarousel.js v0.1.0
  * https://github.com/tomhrtly/flexCarousel.js
  *

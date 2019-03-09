@@ -1,5 +1,5 @@
-/*
- * flexCarousel.js v0.0.3
+/*!
+ * flexCarousel.js v0.1.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
@@ -49,11 +49,6 @@ $black: #000000
       justify-content: center
       min-width: $prev-next-min-width / 2
   &.fc-arrow-overlay
-    &:not(.fc-circle-overlay)
-      .fc-next,
-      .fc-prev
-        &.fc-is-active
-          height: calc(100% - #{$prev-next-height})
     .fc-next,
     .fc-prev
       .fc-icon
@@ -77,48 +72,9 @@ $black: #000000
       &.fc-is-active
         .fc-icon
           left: 50%
-  &:not(.fc-circle-overlay)
-    .fc-circles
-      display: flex
-      justify-content: center
-      margin-top: $space
-  &.fc-circle-overlay
-    &:not(.fc-arrow-overlay)
-      .fc-next,
-      .fc-prev
-        &.fc-is-active
-          height: 100%
-    .fc-circles
-      bottom: 5%
-      display: flex
-      justify-content: center
-      position: absolute
-      width: 100%
 
 .fc-arrow-overlay
   position: relative
-
-.fc-circle-overlay
-  .fc-container
-    position: relative
-
-.fc-circles
-  .fc-circle
-    cursor: pointer
-    .fc-icon
-      &.fc-is-circle
-        background-color: rgba($black, 0.40)
-        border-radius: 50%
-        display: flex
-        height: $space / 2
-        width: $space / 2
-    &:hover,
-    &.fc-is-active
-      .fc-icon
-        &.fc-is-circle
-          background-color: rgba($black, 0.80)
-    &:not(:last-child)
-      margin-right: $space / 2
 
 .fc-container
   display: flex
