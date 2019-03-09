@@ -39,7 +39,6 @@
   },
   "homepage": "https://github.com/tomhrtly/flexCarousel.js#readme",
   "dependencies": {
-    "bulma": "^0.7.4",
     "clean-css-cli": "^4.2.1",
     "eslint": "^5.13.0",
     "jquery": "^3.3.1",
