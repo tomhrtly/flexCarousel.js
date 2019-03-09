@@ -119,6 +119,11 @@
   padding: 16px;
 }
 
+.fc-slide video {
+  height: auto;
+  max-width: 100%;
+}
+
 .fc-image {
   display: block;
   margin: 0;
