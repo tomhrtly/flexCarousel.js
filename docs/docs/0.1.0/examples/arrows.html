@@ -1,6 +1,6 @@
 ---
-title: No Loop
-subtitle: By default, the carousel will loop continously. You can easily let the user know when they have activated the last slide if you wish.
+title: Arrows
+subtitle: Arrows which allow the user to go to the previous or next slide are enabled by default on your carousel, but can be disabled if you wish.
 layout: example
 ---
 
@@ -15,11 +15,9 @@ layout: example
 {% endcapture %}
 {% capture js %}
 <script>
-$(document).ready(function() {
-  $('.my-class').flexCarousel({
-    loop: false
+  $(document).ready(function() {
+    $('.my-class').flexCarousel();
   });
-});
 </script>
 {% endcapture %}
 
