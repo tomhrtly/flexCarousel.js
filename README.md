@@ -1,5 +1,5 @@
 # [flexCarousel.js](https://flexcarousel.com)
-![preview](https://raw.githubusercontent.com/tomhrtly/flexCarousel.js/master/docs/assets/img/banner.png)
+![preview](https://raw.githubusercontent.com/tomhrtly/flexCarousel.js/master/docs/assets/dist/img/banner.png)
 
 A simple, lightweight Flexbox carousel jQuery plugin.
 
