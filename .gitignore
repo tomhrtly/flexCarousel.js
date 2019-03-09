@@ -1,7 +1,7 @@
-test
-node_modules
-.idea/
 docs/_site
-.sass-cache
-.jekyll-metadata
 docs/assets/css/style.css
+node_modules
+test
+.idea/
+.jekyll-metadata
+.sass-cache
