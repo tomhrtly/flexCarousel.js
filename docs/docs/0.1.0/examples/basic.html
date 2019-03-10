@@ -1,0 +1,25 @@
+---
+title: Basic
+subtitle: How flexCarousel.js works and looks out of the box.
+layout: example
+---
+
+{% capture html %}
+<div class="my-class">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+</div>
+{% endcapture %}
+{% capture js %}
+<script>
+$(document).ready(function() {
+  $('.my-class').flexCarousel();
+});
+</script>
+{% endcapture %}
+
+{% include snippethtml.html content=html %}
+{% include snippetjs.html content=js %}

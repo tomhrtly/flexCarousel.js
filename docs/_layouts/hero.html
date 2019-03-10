@@ -4,6 +4,7 @@
     {% include header.html %}
   </head>
   <body>
+    {% include deprecated.html %}
     <section class="hero is-primary">
       <div class="overlay"></div>
       <div class="hero-head">
@@ -12,7 +13,7 @@
         </nav>
       </div>
       <div class="hero-body">
-        <div class="container">
+        <div class="container is-fluid">
           <div class="columns is-vcentered">
             <div class="column">
               <h1 class="title is-1 has-text-white is-family-serif">{{ site.title }}</h1>

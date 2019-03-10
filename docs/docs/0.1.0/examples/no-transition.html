@@ -1,0 +1,27 @@
+---
+title: Transition
+subtitle: Remove the default transition effect for your carousel, current available transitions can be found on the options page.
+layout: example
+---
+
+{% capture html %}
+<div class="my-class">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+</div>
+{% endcapture %}
+{% capture js %}
+<script>
+  $(document).ready(function() {
+    $('.my-class').flexCarousel({
+      transition: 'none'
+    });
+  });
+</script>
+{% endcapture %}
+
+{% include snippethtml.html content=html %}
+{% include snippetjs.html content=js %}
