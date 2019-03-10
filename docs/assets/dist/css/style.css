@@ -98,16 +98,6 @@ pre .clipboard {
   white-space: normal;
 }
 
-section.deprecated-section {
-  background-color: #ffdd57;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-}
-
-section.deprecated-section a {
-  color: rgba(0, 0, 0, 0.7);
-}
-
 .preview {
   background-color: white;
   border-color: whitesmoke;
