@@ -1,47 +1,62 @@
-/*
- * flexCarousel.js v0.0.3
+/*!
+ * flexCarousel.js v0.1.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
  * Released under the MIT license
  */
 
-$prev-next-min-width: 64px
+$space: 16px
+$prev-next-min-width: $space * 8
+$prev-next-height: $space * 1.5
+
+$black: #000000
+
+*
+  box-sizing: border-box
+  &::before,
+  &::after
+    box-sizing: border-box
 
 .fc
   display: flex
+  width: 100%
   .fc-next,
   .fc-prev
     .fc-icon
       display: none
     &.fc-is-active
       .fc-icon
-        color: rgba(0, 0, 0, 0.40)
+        color: rgba($black, 0.40)
         cursor: pointer
         display: inline-flex
-        font-size: 32px
-        height: 32px
+        font-size: $space * 2
+        height: $space * 2
         justify-content: center
         position: absolute
-        width: 32px
+        width: $space * 2
         &:hover
-          color: rgba(0, 0, 0, 0.80)
-  &:not(.fc-has-overlay)
+          color: rgba($black, 0.80)
+        svg
+          height: 100%
+          width: 100%
+  &:not(.fc-arrow-overlay)
     .fc-next,
     .fc-prev
       align-items: center
       display: flex
+      height: calc(100% - #{$prev-next-height})
       justify-content: center
-      min-width: $prev-next-min-width
-  &.fc-has-overlay
+      min-width: $prev-next-min-width / 2
+  &.fc-arrow-overlay
     .fc-next,
     .fc-prev
       .fc-icon
         top: 50%
-        transform: translateY(-50%)
+        transform: translate(-50%, -50%)
       &:hover
         .fc-icon
-          color: rgba(0, 0, 0, 0.80)
+          color: rgba($black, 0.80)
       &.fc-is-active
         cursor: pointer
         height: 100%
@@ -52,13 +67,13 @@ $prev-next-min-width: 64px
       &.fc-is-active
         right: 0
         .fc-icon
-          right: 16px
+          left: 50%
     .fc-prev
       &.fc-is-active
         .fc-icon
-          left: 16px
+          left: 50%
 
-.fc-has-overlay
+.fc-arrow-overlay
   position: relative
 
 .fc-container
@@ -69,11 +84,10 @@ $prev-next-min-width: 64px
 
 .fc-slides
   display: flex
-  left: -100%
   flex-grow: 1
   position: relative
 
-.fc-animate
+.fc-slide-animation
   transform: none !important
   transition: all 250ms ease-in-out
 
@@ -83,15 +97,20 @@ $prev-next-min-width: 64px
   flex-direction: column
   flex-grow: 1
   justify-content: center
-  min-height: 48px
+  min-height: $space * 4
+  padding: $space
+  video
+    height: auto
+    max-width: 100%
 
 .fc-image
   display: block
+  margin: 0
   position: relative
   img
     display: block
     height: auto
-    width: 100%
+    max-width: 100%
   figcaption
-    margin-top: 16px
+    margin-top: $space
     text-align: center

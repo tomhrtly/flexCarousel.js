@@ -1,305 +1,253 @@
-/*
- * flexCarousel.js v0.0.3
+/*!
+ * flexCarousel.js v0.1.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
  * Released under the MIT license
+ *
+ * Icons provided by Font Awesome: https://fontawesome.com
  */
 
-(function ($) {
-  $.fn.flexCarousel = function(options) {
-    var settings = $.extend({
-      arrows:           true,
-      arrowsOverlay:    true,
-      autoplay:         false,
-      autoplaySpeed:    5000,
-      height:           null,
-      loop:             true,
-      nextArrow:        '<i class="fas fa-angle-right"></i>',
-      prevArrow:        '<i class="fas fa-angle-left"></i>',
-      slidesVisible:    1,
-      transition:       'slide',
-    }, options);
+(function(factory) {
+  'use strict';
+  if (typeof define === 'function' && define.amd) {
+    define(['jquery'], factory);
+  } else if (typeof exports !== 'undefined') {
+    module.exports = factory(require('jquery'));
+  } else {
+    factory(jQuery);
+  }
+}(function($) {
+  'use strict';
 
+  // Set flexCarousel as a object
+  var flexCarousel = window.flexCarousel || {};
 
-    /**
-     * Global variables
-     *
-     * @since 0.0.1
-     */
+  flexCarousel = (function() {
+    function flexCarousel(selector, options) {
+      const self = this;
 
-    var flexCarousel =            $(this);
-    var flexCarouselContainer =   $(this).find('.fc-container');
-    var flexCarouselSlides =      $(this).find('.fc-slides');
-    var flexCarouselSlide =       $(this).find('div').addClass('fc-slide');
+      self.defaults = {
+        arrows: true,
+        arrowsOverlay: true,
+        autoplay: false,
+        autoplaySpeed: 5000,
+        height: null,
+        nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
+        prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
+        slidesVisible: 1,
+        transition: 'slide',
+      };
 
-    flexCarousel.addClass('fc');
-    flexCarouselSlide.wrapAll('<div class="fc-container"><div class="fc-slides ' + slidesClasses() + '" /></div>');
+      // Combine both objects
+      self.options = $.extend(self.defaults, options);
 
+      self.selector = $(selector);
+      self.init();
+    }
 
-    /**
-     * Returns the CSS classes needed for the different transitions.
-     *
-     * @since 0.0.3
-     */
+    return flexCarousel;
+  }());
 
-    function slidesClasses() {
-      if(settings.transition === 'slide') {
-        return 'fc-animate';
+  var object = flexCarousel.prototype;
+
+  object.autoplay = function() {
+    const self = this;
+
+    if(self.options.autoplay) {
+      self.timer = setInterval(function() { self.moveSlide('next'); }, self.options.autoplaySpeed);
+    }
+  }
+
+  object.buildArrowEvents = function() {
+    const self = this;
+    var prev = self.selector.find('.fc-prev');
+    var next = self.selector.find('.fc-next');
+
+    if(self.options.arrows) {
+      if(self.options.arrowsOverlay) {
+        prev.click(function() { self.moveSlide('prev'); });
+        next.click(function() { self.moveSlide('next'); });
       } else {
-        return '';
+        self.selector.find('.fc-prev .fc-icon').click(function(){ self.moveSlide('prev'); });
+        self.selector.find('.fc-next .fc-icon').click(function(){ self.moveSlide('next'); });
       }
     }
+  }
 
+  object.buildArrows = function() {
+    const self = this;
+    var slide = self.selector.find('.fc-slide');
 
-    /**
-     * Functions to call when the prev arrow var has been called.
-     *
-     * @since 0.0.1
-     */
+    if(self.options.arrows) {
+      if(self.options.slidesVisible < slide.length) {
+        self.selector.prepend('<div class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></div>');
+        self.selector.append('<div class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></div>');
 
-    var onPrevClick = function() {
-      setTimeout(toggleAnimate, 50);
-      toggleReverse(true);
-      setOrder('left');
-      checkLoop();
-      toggleAnimate();
-    }
+        var prev = self.selector.find('.fc-prev');
+        var next = self.selector.find('.fc-next');
 
+        next.addClass('fc-is-active');
+        prev.addClass('fc-is-active');
 
-    /**
-     * Functions to call when the next arrow var has been called.
-     *
-     * @since 0.0.1
-     */
-
-    var onNextClick = function() {
-      setTimeout(toggleAnimate, 50);
-      toggleReverse(false);
-      setOrder('right');
-      checkLoop();
-      toggleAnimate();
-    }
-
-
-    /**
-     * Percentage to use for slide transition.
-     *
-     * @since 0.0.1
-     */
-
-    var percentageToSlide = 100 / settings.slidesVisible + '%';
-
-
-    /**
-     * Toggle reverse variable to check if the slides are reversing or not.
-     *
-     * @param string
-     *
-     * @since 0.0.1
-     */
-
-    var toggleReverse = function(check) {
-      if(settings.transition === 'slide') {
-        if(check === true) {
-          $('.fc-slides').css('transform', 'translateX(-' + percentageToSlide + ')');
-        } else {
-          $('.fc-slides').css('transform', 'translateX(' + percentageToSlide + ')');
+        if (self.options.arrowsOverlay) {
+          self.selector.addClass('fc-arrow-overlay');
         }
       }
     }
+  }
 
+  object.buildEvents = function() {
+    const self = this;
 
-    /**
-     * Toggle animate variable to toggle the animate class when moving the slides.
-     *
-     * @since 0.0.1
-     */
+    self.buildArrowEvents();
+  }
 
-    var toggleAnimate = function() {
-      if(settings.transition === 'slide') {
-        $('.fc-slides').toggleClass('fc-animate');
-      }
-    }
+  object.buildSlides = function() {
+    const self = this;
+    var index = 0;
 
+    var slide = self.selector.find('div');
+    slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
 
-    /**
-     * Variable to check which direction the slides are to move and to change the CSS order property value accordingly.
-     *
-     * @param string
-     *
-     * @since 0.0.1
-     */
+    var slideWidth = 100 / self.options.slidesVisible + '%';
 
-    var setOrder = function(direction) {
-      if(direction === 'left') {
-        flexCarouselSlide.each(function() {
-          var convertedOrder = parseInt($(this).css('order'));
-          var orderIncrease = convertedOrder + 1;
+    var slides = self.selector.find('.fc-slides');
 
-          if(convertedOrder === flexCarouselSlide.length) {
-            $(this).css('order', '1');
-          } else {
-            $(this).css('order', orderIncrease);
-          }
-        });
-      } else if(direction === 'right') {
-        flexCarouselSlide.each(function() {
-          var convertedOrder = parseInt($(this).css('order'));
-          var orderDecrease = convertedOrder - 1;
+    if(self.options.slidesVisible < slide.length) {
+      slides.css('left', '-' + slideWidth);
+      slide.last().css('order', 1);
 
-          if(convertedOrder === 1) {
-            $(this).css('order', flexCarouselSlide.length);
-          } else {
-            $(this).css('order', orderDecrease);
-          }
-        });
-      }
-    }
-
-
-    /**
-     * Removes the arrows if the amount of slides visible is the same as the total amount of slides.
-     *
-     * @since 0.0.2
-     */
-
-    if(settings.slidesVisible === flexCarouselSlide.length) {
-      $('.fc-slides').css('left', 'auto');
-    }
-
-    if(settings.arrows) {
-
-
-      /**
-       * If the total amount of slides is not the same as the amount of slides visible.
-       */
-
-      if(settings.slidesVisible !== flexCarouselSlide.length) {
-
-
-        /**
-         * Prepends and appends the arrows to the parent container.
-         */
-
-        flexCarousel.prepend('<div class="fc-prev"><span class="fc-icon">' + settings.prevArrow + '</span></div>');
-        flexCarousel.append('<div class="fc-next"><span class="fc-icon">' + settings.nextArrow + '</span></div>');
-
-
-        /**
-         * Variable to hold the next and prev arrows in the carousel container to prevent multiple carousel conflicts.
-         *
-         * @since 0.0.3
-         */
-
-        var flexCarouselNext = $(this).find('.fc-next');
-        var flexCarouselPrev = $(this).find('.fc-prev');
-
-
-        /**
-         * By default, both arrows are visible.
-         */
-
-        flexCarouselNext.addClass('fc-is-active');
-        flexCarouselPrev.addClass('fc-is-active');
-
-        if(settings.loop == false) {
-          flexCarouselPrev.removeClass('fc-is-active');
-        }
-
-        if(settings.arrowsOverlay) {
-
-          /**
-           * Adds the overlay CSS class to the carousel container.
-           */
-
-          flexCarousel.addClass('fc-has-overlay');
-
-
-          /**
-           * Call the correct variables for when the arrows get clicked.
-           */
-
-          flexCarouselPrev.click(onPrevClick);
-          flexCarouselNext.click(onNextClick);
-        } else {
-
-
-          /**
-           * Only the icons inside the arrows respective containers should be clickable when there is no overlay.
-           */
-
-          $('.fc-prev .fc-icon').click(onPrevClick);
-          $('.fc-next .fc-icon').click(onNextClick);
-        }
-      }
-    }
-
-    var checkLoop = function() {
-      if(settings.arrows) {
-        if(settings.loop == false) {
-
-
-          /**
-           * Removes the prev arrow on the first slide if there is no loop
-           *
-           * @since 0.0.3
-           */
-
-          if($('.fc-slide:first-child').css('order') === '2') {
-            flexCarouselPrev.removeClass('fc-is-active');
-          } else {
-            flexCarouselPrev.addClass('fc-is-active');
-          }
-
-
-          /**
-           * Removes the next arrow on the last slide if there is no loop
-           *
-           * @since 0.0.3
-           */
-
-          if($('.fc-slide:last-child').css('order') === '2') {
-            flexCarouselNext.removeClass('fc-is-active');
-          } else {
-            flexCarouselNext.addClass('fc-is-active');
-          }
-        }
-      }
-    }
-
-    flexCarouselSlide.each(function() {
-      flexCarouselSlide.css('min-width', 'calc(100% / ' + settings.slidesVisible + ')');
-
-      var index = $(this).index() + settings.slidesVisible + 1;
-      $(this).css('order', index);
-
-      var slidesLeftAmount = flexCarouselSlide.slice( flexCarouselSlide.length-settings.slidesVisible, flexCarouselSlide.length );
-
-      i = 1;
-      slidesLeftAmount.each(function() {
+      var i = 2;
+      slide.slice(0, slide.length - 1).each(function () {
         $(this).css('order', i++);
       });
-    });
 
-    if(settings.autoplay) {
+      slide.each(function () {
+        var image = $(this).find('img');
+        var imageCaption = image.data('caption');
 
+        // Wrap the images and use data attribute for captions for cleaner HTML markup
+        image.wrap('<figure class="fc-image"></figure>');
 
-      /**
-       * Use the autoplaySpeed setting to determine the delay duration.
-       */
+        if (imageCaption) {
+          image.after('<figcaption>' + imageCaption + '</figcaption>');
+        }
+      });
 
-      setInterval(function() {
-        onNextClick();
-      }, settings.autoplaySpeed);
+      if(self.options.transition === 'slide') {
+        slides.css('transform', 'translateX(' + slideWidth + ')');
+      }
     }
 
-    if(settings.height) {
-      flexCarousel.css('height', settings.height);
-    }
+    slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
+  }
 
-    if(settings.transition === 'slide') {
-      $('.fc-slides').css('transform', 'translateX(' + percentageToSlide + ')');
+  object.changeOrder = function(amount) {
+    const self = this;
+    var slides = self.selector.find('.fc-slides');
+    var slide = self.selector.find('.fc-slide');
+    var slideWidth = 100 / self.options.slidesVisible + '%';
+
+    if(amount === 'increase') {
+      slide.each(function() {
+        var convertedOrder = parseInt($(this).css('order'));
+        var orderIncrease = convertedOrder + 1;
+
+        if(convertedOrder === slide.length) {
+          $(this).css('order', '1');
+        } else {
+          $(this).css('order', orderIncrease);
+        }
+      });
+
+      // Determine whether the carousel is going forward or backward
+      if(self.options.transition === 'slide') {
+        slides.css('transform', 'translateX(-' + slideWidth + ')');
+      }
+    } else {
+      slide.each(function() {
+        var convertedOrder = parseInt($(this).css('order'));
+        var orderDecrease = convertedOrder - 1;
+
+        if(convertedOrder === 1) {
+          $(this).css('order', slide.length);
+        } else {
+          $(this).css('order', orderDecrease);
+        }
+      });
+
+      // Determine whether the carousel is going forward or backward
+      if(self.options.transition === 'slide') {
+        slides.css('transform', 'translateX(' + slideWidth + ')');
+      }
+    }
+  }
+
+  object.height = function() {
+    const self = this;
+
+    if(self.options.height) {
+      self.selector.css('height', self.options.height);
+    }
+  }
+
+  object.init = function() {
+    const self = this;
+
+    if (!self.selector.hasClass('fc')) {
+      self.selector.addClass('fc');
+
+      self.buildSlides();
+      self.buildArrows();
+      self.buildEvents();
+      self.height();
+      self.autoplay();
     }
   };
-}(jQuery));
+
+  object.moveSlide = function(direction) {
+    const self = this;
+
+    if(direction) {
+      setTimeout(function () { self.transition(); }, 1);
+      self.transition();
+    }
+
+    if(direction === 'next') {
+      self.changeOrder('decrease');
+    } else {
+      self.changeOrder('increase');
+    }
+  }
+
+  object.transition = function() {
+    const self = this;
+    var slides = self.selector.find('.fc-slides');
+
+    if(self.options.transition === 'slide') {
+      slides.toggleClass('fc-slide-animation');
+    }
+  }
+
+  object.transitionClasses = function() {
+    const self = this;
+
+    if(self.options.transition === 'slide') {
+      return 'fc-slide-animation';
+    }
+  }
+
+  $.fn.flexCarousel = function() {
+    const self = this;
+    var options = arguments[0];
+
+    for (var i = 0; i < self.length; i++) {
+      if (typeof options == 'object' || typeof options == 'undefined') {
+        self[i].flexCarousel = new flexCarousel(self[i], options);
+      }
+    }
+
+    return self;
+  };
+}));

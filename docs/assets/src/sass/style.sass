@@ -1,0 +1,186 @@
+@import "bulma/utilities/initial-variables"
+@import "bulma/utilities/mixins"
+@import "bulma/utilities/functions"
+
+$navbar-breakpoint: $desktop
+$hr-margin: 1.5rem 0 3rem
+
+$twitter: #1da1f2
+$twitter-invert: findColorInvert($twitter)
+
+$blue: #158cd8
+$primary: $blue
+
+$family-serif: 'Bree Serif', serif
+$family-sans-serif: 'Open Sans', sans-serif
+
+$fullhd-enabled: false
+
+$pre: #abb2be
+$pre-background: $black-bis
+
+$menu-item-active-color: $white
+$menu-item-active-background-color: $primary
+
+$navbar-burger-color: $white
+
+$section-padding-medium: 5rem 1.5rem
+
+$footer-padding: 3rem 1.5rem
+
+$custom-colors: ("twitter": ($twitter, $twitter-invert))
+
+.is-family-serif
+	font-family: $family-serif
+
+.hero
+	position: relative
+
+.overlay
+	background-image: url(../img/pattern.png)
+	bottom: 0
+	left: 0
+	opacity: 0.3
+	position: absolute
+	right: 0
+	top: 0
+
+.navbar
+	.overlay
+		height: 52px
+
+pre
+	border-radius: $radius
+	.clipboard
+		position: absolute
+		right: 1rem
+		top: 1rem
+		white-space: normal
+
+section
+	&.deprecated-section
+		background-color: $yellow
+		padding-bottom: 1rem
+		padding-top: 1rem
+		a
+			color: findColorInvert($yellow)
+
+.preview
+	background-color: $white
+	border-color: $white-ter
+	border-radius: $radius
+	border-style: solid
+	border-width: 2px
+	color: $grey-dark
+	padding: 1.5rem
+	&:not(.is-homepage)
+		border-bottom-width: 0
+		border-top-left-radius: $radius
+		border-top-right-radius: $radius
+		padding: 3rem
+
+.snippet
+	.highlight
+		height: 100%
+	+tablet
+		display: flex
+	.html,
+	.js
+		+tablet
+			width: 50%
+		pre
+			height: 100%
+			code
+				display: block
+				padding-left: 1rem
+				padding-top: 2.5rem
+				position: relative
+				&:before
+					font-family: $family-sans-serif
+					font-size: $size-7
+					left: 0
+					position: absolute
+					top: 0
+			+tablet
+				border-top-left-radius: 0
+				border-top-right-radius: 0
+	.html
+		pre
+			code
+				&.language-html
+					&:before
+						content: 'HTML'
+			+mobile
+				border-radius: 0
+			+tablet
+				border-bottom-right-radius: 0
+	.js
+		pre
+			code
+				&.language-html
+					&:before
+						content: 'JavaScript'
+			+mobile
+				border-top-left-radius: 0
+				border-top-right-radius: 0
+			+tablet
+				border-bottom-left-radius: 0
+
+
+.highlight
+	@extend %block
+	.nt,
+	.nb
+		color: #de695d
+	.na
+		color: #d09964
+	.s,
+	.s1
+		color: #99c27c
+	.nx
+		color: #65b0e7
+	.kd
+		color: #c57bdb
+
+.codepen-logo
+	display: block;
+	fill: none;
+	margin: 2rem auto 0;
+	stroke: $black;
+	stroke-width: 2.3;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+
+.improve
+	margin-top: 6rem
+
++from($navbar-breakpoint)
+	.navbar
+		&.is-spaced
+			.navbar-dropdown
+				a.navbar-item,
+				.navbar-link
+					border-radius: 0
+
+@import "bulma/utilities/derived-variables"
+@import "bulma/utilities/controls"
+@import "bulma/base/minireset"
+@import "bulma/base/generic"
+@import "bulma/base/helpers"
+@import "bulma/elements/button"
+@import "bulma/elements/container"
+@import "bulma/elements/content"
+@import "bulma/elements/icon"
+@import "bulma/elements/image"
+@import "bulma/elements/notification"
+@import "bulma/elements/table"
+@import "bulma/elements/tag"
+@import "bulma/elements/title"
+@import "bulma/components/menu"
+@import "bulma/components/navbar"
+@import "bulma/components/panel"
+@import "bulma/grid/columns"
+@import "bulma/layout/hero"
+@import "bulma/layout/section"
+@import "bulma/layout/footer"
+@import "../../../../src/flexCarousel"
