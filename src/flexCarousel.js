@@ -32,6 +32,8 @@
         arrowsOverlay: true,
         autoplay: false,
         autoplaySpeed: 5000,
+        circles: true,
+        circlesOverlay: true,
         height: null,
         nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
         prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
@@ -65,13 +67,8 @@
     var next = self.selector.find('.fc-next');
 
     if(self.options.arrows) {
-      if(self.options.arrowsOverlay) {
-        prev.click(function() { self.moveSlide('prev'); });
-        next.click(function() { self.moveSlide('next'); });
-      } else {
-        self.selector.find('.fc-prev .fc-icon').click(function(){ self.moveSlide('prev'); });
-        self.selector.find('.fc-next .fc-icon').click(function(){ self.moveSlide('next'); });
-      }
+      prev.click(function() { self.moveSlide('prev'); });
+      next.click(function() { self.moveSlide('next'); });
     }
   }
 
@@ -81,6 +78,7 @@
 
     if(self.options.arrows) {
       if(self.options.slidesVisible < slide.length) {
+        self.selector.addClass('fc-arrows');
         self.selector.prepend('<div class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></div>');
         self.selector.append('<div class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></div>');
 
@@ -97,10 +95,55 @@
     }
   }
 
+  object.buildCircleEvents = function() {
+    var self = this;
+    var circle = self.selector.find('.fc-circle');
+    var slide = self.selector.find('.fc-slide');
+
+    if(self.options.circles) {
+      circle.click(function() {
+        var index = $(this).index();
+
+        $(this).addClass('fc-is-active');
+        circle.not($(this)).removeClass('fc-is-active');
+
+        slide.eq(index).addClass('fc-is-active').siblings().removeClass('fc-is-active');
+      });
+    }
+  }
+
+  object.buildCircles = function() {
+    var self = this;
+    var container = self.selector.find('.fc-container');
+    var slide = self.selector.find('.fc-slide');
+
+    if(self.options.circles) {
+      if(self.options.slidesVisible < slide.length) {
+        self.selector.addClass('fc-circles');
+        container.append('<div class="fc-circles" />');
+
+        var circles = self.selector.find('.fc-circles');
+
+        slide.each(function () {
+          circles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
+        });
+
+        var circle = self.selector.find('.fc-circle');
+
+        circle.first().addClass('fc-is-active');
+
+        if (self.options.circlesOverlay) {
+          self.selector.addClass('fc-circles-overlay');
+        }
+      }
+    }
+  }
+
   object.buildEvents = function() {
     const self = this;
 
     self.buildArrowEvents();
+    self.buildCircleEvents();
   }
 
   object.buildSlides = function() {
@@ -200,6 +243,7 @@
 
       self.buildSlides();
       self.buildArrows();
+      self.buildCircles();
       self.buildEvents();
       self.height();
       self.autoplay();
