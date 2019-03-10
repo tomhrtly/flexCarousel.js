@@ -11,7 +11,5 @@ github:       https://github.com/tomhrtly/flexCarousel.js
 twitter:      https://twitter.com/tomhrtly
 mail:         tom@tomhrtly.com
 
-deprecated:   false
-
 plugins:
   - jekyll-redirect-from
