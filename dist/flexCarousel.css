@@ -33,11 +33,8 @@
 .fc.fc-arrows.fc-arrow-overlay .fc-next.fc-is-active,
 .fc.fc-arrows.fc-arrow-overlay .fc-prev.fc-is-active {
   color: rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-  display: inline-flex;
   font-size: 32px;
   height: 100%;
-  justify-content: center;
   position: absolute;
   width: 32px;
   z-index: 1;
