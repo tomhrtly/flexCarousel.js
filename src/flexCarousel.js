@@ -67,8 +67,8 @@
     var next = self.selector.find('.fc-next');
 
     if(self.options.arrows) {
-      prev.click(function() { self.moveSlide('prev'); });
-      next.click(function() { self.moveSlide('next'); });
+      prev.click(function() { self.moveSlide('prev', 1); });
+      next.click(function() { self.moveSlide('next', 1); });
     }
   }
 
@@ -98,16 +98,16 @@
   object.buildCircleEvents = function() {
     var self = this;
     var circle = self.selector.find('.fc-circle');
-    var slide = self.selector.find('.fc-slide');
 
     if(self.options.circles) {
       circle.click(function() {
         var index = $(this).index();
 
+        console.log(index);
+
         $(this).addClass('fc-is-active');
         circle.not($(this)).removeClass('fc-is-active');
-
-        slide.eq(index).addClass('fc-is-active').siblings().removeClass('fc-is-active');
+        self.moveSlide('next', index);
       });
     }
   }
@@ -250,18 +250,24 @@
     }
   };
 
-  object.moveSlide = function(direction) {
+  object.moveSlide = function(direction, amount) {
     const self = this;
 
-    if(direction) {
-      setTimeout(function () { self.transition(); }, 1);
-      self.transition();
-    }
+    for (let i = 0; i < amount; i++) {
+      if (direction) {
+        setTimeout(function () {
+          self.transition();
+        }, 1);
+        self.transition();
+      }
 
-    if(direction === 'next') {
-      self.changeOrder('decrease');
-    } else {
-      self.changeOrder('increase');
+      if (direction === 'next') {
+        self.changeOrder('decrease');
+      } else if (direction === 'prev') {
+        self.changeOrder('increase');
+      } else {
+        self.changeOrder('index');
+      }
     }
   }
 
