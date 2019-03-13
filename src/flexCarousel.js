@@ -158,10 +158,19 @@
 
     if(self.options.slidesVisible < slide.length) {
       slides.css('left', '-' + slideWidth);
-      slide.last().css('order', 1);
+
+      // Clone all the slides, add the correct order property value, slide width and append to the slides container
+      // Fixes issue #2
+      if(self.options.slidesVisible === slide.length - 1) {
+        slide.each(function() {
+          $(this).clone().addClass('fc-is-clone').css('min-width', slideWidth).appendTo(slides);
+        });
+      }
+
+      slides.children().last().css('order', 1);
 
       let i = 2;
-      slide.slice(0, slide.length - 1).each(function () {
+      slides.children().slice(0, slides.children().length - 1).each(function () {
         $(this).css('order', i++);
       });
 
