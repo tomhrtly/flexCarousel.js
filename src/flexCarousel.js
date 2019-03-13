@@ -115,7 +115,7 @@
   object.buildCircles = function() {
     let self = this;
     let container = self.selector.find('.fc-container');
-    let slide = self.selector.find('.fc-slide');
+    let slide = self.selector.find('.fc-slide:not(.fc-is-clone)');
 
     if(self.options.circles) {
       if(self.options.slidesVisible < slide.length) {
