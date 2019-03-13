@@ -21,7 +21,7 @@
 }(function($) {
 
   // Set flexCarousel as a object
-  var flexCarousel = window.flexCarousel || {};
+  let flexCarousel = window.flexCarousel || {};
 
   flexCarousel = (function() {
     function flexCarousel(selector, options) {
@@ -54,7 +54,7 @@
     return flexCarousel;
   }());
 
-  var object = flexCarousel.prototype;
+  let object = flexCarousel.prototype;
 
   object.autoplay = function() {
     const self = this;
@@ -66,8 +66,8 @@
 
   object.buildArrowEvents = function() {
     const self = this;
-    var prev = self.selector.find('.fc-prev');
-    var next = self.selector.find('.fc-next');
+    let prev = self.selector.find('.fc-prev');
+    let next = self.selector.find('.fc-next');
 
     if(self.options.arrows) {
       prev.click(function() { self.moveSlide('prev', 1); });
@@ -77,7 +77,7 @@
 
   object.buildArrows = function() {
     const self = this;
-    var slide = self.selector.find('.fc-slide');
+    let slide = self.selector.find('.fc-slide');
 
     if(self.options.arrows) {
       if(self.options.slidesVisible < slide.length) {
@@ -85,8 +85,8 @@
         self.selector.prepend('<div class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></div>');
         self.selector.append('<div class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></div>');
 
-        var prev = self.selector.find('.fc-prev');
-        var next = self.selector.find('.fc-next');
+        let prev = self.selector.find('.fc-prev');
+        let next = self.selector.find('.fc-next');
 
         next.addClass('fc-is-active');
         prev.addClass('fc-is-active');
@@ -99,14 +99,14 @@
   }
 
   object.buildCircleEvents = function() {
-    var self = this;
-    var circle = self.selector.find('.fc-circle');
-    var slide = self.selector.find('.fc-slide');
+    let self = this;
+    let circle = self.selector.find('.fc-circle');
+    let slide = self.selector.find('.fc-slide');
 
     if(self.options.circles) {
       circle.click(function() {
         if(!$(this).hasClass('fc-is-active')) {
-          var index = $(this).index();
+          let index = $(this).index();
           self.goToSlide(index);
         }
       });
@@ -114,22 +114,22 @@
   }
 
   object.buildCircles = function() {
-    var self = this;
-    var container = self.selector.find('.fc-container');
-    var slide = self.selector.find('.fc-slide');
+    let self = this;
+    let container = self.selector.find('.fc-container');
+    let slide = self.selector.find('.fc-slide');
 
     if(self.options.circles) {
       if(self.options.slidesVisible < slide.length) {
         self.selector.addClass('fc-circles');
         container.append('<div class="fc-circles" />');
 
-        var circles = self.selector.find('.fc-circles');
+        let circles = self.selector.find('.fc-circles');
 
         slide.each(function () {
           circles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
         });
 
-        var circle = self.selector.find('.fc-circle');
+        let circle = self.selector.find('.fc-circle');
 
         circle.first().addClass('fc-is-active');
 
@@ -150,25 +150,25 @@
   object.buildSlides = function() {
     const self = this;
 
-    var slide = self.selector.find('div');
+    let slide = self.selector.find('div');
     slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
 
-    var slideWidth = 100 / self.options.slidesVisible + '%';
+    let slideWidth = 100 / self.options.slidesVisible + '%';
 
-    var slides = self.selector.find('.fc-slides');
+    let slides = self.selector.find('.fc-slides');
 
     if(self.options.slidesVisible < slide.length) {
       slides.css('left', '-' + slideWidth);
       slide.last().css('order', 1);
 
-      var i = 2;
+      let i = 2;
       slide.slice(0, slide.length - 1).each(function () {
         $(this).css('order', i++);
       });
 
       slide.each(function () {
-        var image = $(this).find('img');
-        var imageCaption = image.data('caption');
+        let image = $(this).find('img');
+        let imageCaption = image.data('caption');
 
         // Wrap the images and use data attribute for captions for cleaner HTML markup
         image.wrap('<figure class="fc-image"></figure>');
@@ -188,9 +188,9 @@
 
   object.changeOrder = function(amount, shift) {
     const self = this;
-    var slides = self.selector.find('.fc-slides');
-    var slide = self.selector.find('.fc-slide');
-    var slideWidth = 100 / self.options.slidesVisible + '%';
+    let slides = self.selector.find('.fc-slides');
+    let slide = self.selector.find('.fc-slide');
+    let slideWidth = 100 / self.options.slidesVisible + '%';
 
     if(amount === 'increase') {
       // Determine whether the carousel is going forward or backward
@@ -199,8 +199,8 @@
       }
 
       slide.each(function() {
-        var convertedOrder = parseInt($(this).css('order'));
-        var orderIncrease = convertedOrder + shift;
+        let convertedOrder = parseInt($(this).css('order'));
+        let orderIncrease = convertedOrder + shift;
 
         if(orderIncrease > slide.length) {
           orderIncrease = orderIncrease - slide.length;
@@ -215,8 +215,8 @@
       }
 
       slide.each(function() {
-        var convertedOrder = parseInt($(this).css('order'));
-        var orderDecrease = convertedOrder - shift;
+        let convertedOrder = parseInt($(this).css('order'));
+        let orderDecrease = convertedOrder - shift;
 
         if(orderDecrease <= 0) {
           orderDecrease = slide.length + orderDecrease;
@@ -252,17 +252,17 @@
 
   object.goToSlide = function(position) {
     const self = this;
-    var activeSlide = self.activeSlide;
-    var direction = position > activeSlide ? "next": "prev";
-    var shift = Math.abs(activeSlide - position);
+    let activeSlide = self.activeSlide;
+    let direction = position > activeSlide ? "next": "prev";
+    let shift = Math.abs(activeSlide - position);
 
     self.moveSlide(direction, shift);
   }
 
   object.moveSlide = function(direction, shift) {
     const self = this;
-    var circle = self.selector.find('.fc-circle');
-    var activeSlide = self.activeSlide;
+    let circle = self.selector.find('.fc-circle');
+    let activeSlide = self.activeSlide;
 
     if(direction) {
       setTimeout(function () { self.transition(); }, 1);
@@ -281,10 +281,9 @@
     circle.eq(self.activeSlide).addClass('fc-is-active');
   };
 
-  //update activeSlide variable
   object.updateActiveSlideNumber = function(direction, shift) {
     const self = this;
-    var slide = self.selector.find('.fc-slide');
+    let slide = self.selector.find('.fc-slide');
 
     if(direction === 'next') {
       self.activeSlide += shift;
@@ -301,7 +300,7 @@
 
   object.transition = function() {
     const self = this;
-    var slides = self.selector.find('.fc-slides');
+    let slides = self.selector.find('.fc-slides');
 
     if(self.options.transition === 'slide') {
       slides.toggleClass('fc-slide-animation');
@@ -318,9 +317,9 @@
 
   $.fn.flexCarousel = function() {
     const self = this;
-    var options = arguments[0];
+    let options = arguments[0];
 
-    for (var i = 0; i < self.length; i++) {
+    for (let i = 0; i < self.length; i++) {
       if (typeof options == 'object' || typeof options == 'undefined') {
         self[i].flexCarousel = new flexCarousel(self[i], options);
       }
