@@ -62,7 +62,7 @@
     if(self.options.autoplay) {
       self.timer = setInterval(function() { self.moveSlide('next', 1); }, self.options.autoplaySpeed);
     }
-  }
+  };
 
   object.buildArrowEvents = function() {
     const self = this;
@@ -73,7 +73,7 @@
       prev.click(function() { self.moveSlide('prev', 1); });
       next.click(function() { self.moveSlide('next', 1); });
     }
-  }
+  };
 
   object.buildArrows = function() {
     const self = this;
@@ -96,12 +96,11 @@
         }
       }
     }
-  }
+  };
 
   object.buildCircleEvents = function() {
     let self = this;
     let circle = self.selector.find('.fc-circle');
-    let slide = self.selector.find('.fc-slide');
 
     if(self.options.circles) {
       circle.click(function() {
@@ -111,7 +110,7 @@
         }
       });
     }
-  }
+  };
 
   object.buildCircles = function() {
     let self = this;
@@ -138,14 +137,14 @@
         }
       }
     }
-  }
+  };
 
   object.buildEvents = function() {
     const self = this;
 
     self.buildArrowEvents();
     self.buildCircleEvents();
-  }
+  };
 
   object.buildSlides = function() {
     const self = this;
@@ -184,7 +183,7 @@
     }
 
     slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
-  }
+  };
 
   object.changeOrder = function(amount, shift) {
     const self = this;
@@ -257,7 +256,7 @@
     let shift = Math.abs(activeSlide - position);
 
     self.moveSlide(direction, shift);
-  }
+  };
 
   object.moveSlide = function(direction, shift) {
     const self = this;
@@ -296,7 +295,7 @@
         self.activeSlide = slide.length - 1;
       }
     }
-  }
+  };
 
   object.transition = function() {
     const self = this;
@@ -305,7 +304,7 @@
     if(self.options.transition === 'slide') {
       slides.toggleClass('fc-slide-animation');
     }
-  }
+  };
 
   object.transitionClasses = function() {
     const self = this;
@@ -313,7 +312,7 @@
     if(self.options.transition === 'slide') {
       return 'fc-slide-animation';
     }
-  }
+  };
 
   $.fn.flexCarousel = function() {
     const self = this;
