@@ -1,3 +1,5 @@
+'use strict';
+
 /*!
  * flexCarousel.js v0.1.0
  * https://github.com/tomhrtly/flexCarousel.js
@@ -9,7 +11,6 @@
  */
 
 (function(factory) {
-  'use strict';
   if (typeof define === 'function' && define.amd) {
     define(['jquery'], factory);
   } else if (typeof exports !== 'undefined') {
@@ -18,7 +19,6 @@
     factory(jQuery);
   }
 }(function($) {
-  'use strict';
 
   // Set flexCarousel as a object
   var flexCarousel = window.flexCarousel || {};
@@ -44,6 +44,9 @@
       // Combine both objects
       self.options = $.extend(self.defaults, options);
 
+      // This will always have active slide index
+      self.activeSlide = 0;
+
       self.selector = $(selector);
       self.init();
     }
@@ -57,7 +60,7 @@
     const self = this;
 
     if(self.options.autoplay) {
-      self.timer = setInterval(function() { self.moveSlide('next'); }, self.options.autoplaySpeed);
+      self.timer = setInterval(function() { self.moveSlide('next', 1); }, self.options.autoplaySpeed);
     }
   }
 
@@ -98,16 +101,14 @@
   object.buildCircleEvents = function() {
     var self = this;
     var circle = self.selector.find('.fc-circle');
+    var slide = self.selector.find('.fc-slide');
 
     if(self.options.circles) {
       circle.click(function() {
-        var index = $(this).index();
-
-        console.log(index);
-
-        $(this).addClass('fc-is-active');
-        circle.not($(this)).removeClass('fc-is-active');
-        self.moveSlide('next', index);
+        if(!$(this).hasClass('fc-is-active')) {
+          var index = $(this).index();
+          self.goToSlide(index);
+        }
       });
     }
   }
@@ -148,7 +149,6 @@
 
   object.buildSlides = function() {
     const self = this;
-    var index = 0;
 
     var slide = self.selector.find('div');
     slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
@@ -186,46 +186,46 @@
     slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
   }
 
-  object.changeOrder = function(amount) {
+  object.changeOrder = function(amount, shift) {
     const self = this;
     var slides = self.selector.find('.fc-slides');
     var slide = self.selector.find('.fc-slide');
     var slideWidth = 100 / self.options.slidesVisible + '%';
 
     if(amount === 'increase') {
-      slide.each(function() {
-        var convertedOrder = parseInt($(this).css('order'));
-        var orderIncrease = convertedOrder + 1;
-
-        if(convertedOrder === slide.length) {
-          $(this).css('order', '1');
-        } else {
-          $(this).css('order', orderIncrease);
-        }
-      });
-
       // Determine whether the carousel is going forward or backward
       if(self.options.transition === 'slide') {
         slides.css('transform', 'translateX(-' + slideWidth + ')');
       }
-    } else {
+
       slide.each(function() {
         var convertedOrder = parseInt($(this).css('order'));
-        var orderDecrease = convertedOrder - 1;
+        var orderIncrease = convertedOrder + shift;
 
-        if(convertedOrder === 1) {
-          $(this).css('order', slide.length);
-        } else {
-          $(this).css('order', orderDecrease);
+        if(orderIncrease > slide.length) {
+          orderIncrease = orderIncrease - slide.length;
         }
-      });
 
+        $(this).css('order', orderIncrease);
+      });
+    } else {
       // Determine whether the carousel is going forward or backward
       if(self.options.transition === 'slide') {
         slides.css('transform', 'translateX(' + slideWidth + ')');
       }
+
+      slide.each(function() {
+        var convertedOrder = parseInt($(this).css('order'));
+        var orderDecrease = convertedOrder - shift;
+
+        if(orderDecrease <= 0) {
+          orderDecrease = slide.length + orderDecrease;
+        }
+
+        $(this).css('order', orderDecrease);
+      });
     }
-  }
+  };
 
   object.height = function() {
     const self = this;
@@ -233,7 +233,7 @@
     if(self.options.height) {
       self.selector.css('height', self.options.height);
     }
-  }
+  };
 
   object.init = function() {
     const self = this;
@@ -250,23 +250,51 @@
     }
   };
 
-  object.moveSlide = function(direction, amount) {
+  object.goToSlide = function(position) {
     const self = this;
+    var activeSlide = self.activeSlide;
+    var direction = position > activeSlide ? "next": "prev";
+    var shift = Math.abs(activeSlide - position);
 
-    for (let i = 0; i < amount; i++) {
-      if (direction) {
-        setTimeout(function () {
-          self.transition();
-        }, 1);
-        self.transition();
+    self.moveSlide(direction, shift);
+  }
+
+  object.moveSlide = function(direction, shift) {
+    const self = this;
+    var circle = self.selector.find('.fc-circle');
+    var activeSlide = self.activeSlide;
+
+    if(direction) {
+      setTimeout(function () { self.transition(); }, 1);
+      self.transition();
+    }
+
+    if(direction === 'next') {
+      self.changeOrder('decrease', shift);
+    } else {
+      self.changeOrder('increase', shift);
+    }
+
+    // updating active slide number every time slide changes
+    self.updateActiveSlideNumber(direction, shift);
+    circle.eq(activeSlide).removeClass('fc-is-active');
+    circle.eq(self.activeSlide).addClass('fc-is-active');
+  };
+
+  //update activeSlide variable
+  object.updateActiveSlideNumber = function(direction, shift) {
+    const self = this;
+    var slide = self.selector.find('.fc-slide');
+
+    if(direction === 'next') {
+      self.activeSlide += shift;
+      if(self.activeSlide >= slide.length){
+        self.activeSlide = 0;
       }
-
-      if (direction === 'next') {
-        self.changeOrder('decrease');
-      } else if (direction === 'prev') {
-        self.changeOrder('increase');
-      } else {
-        self.changeOrder('index');
+    } else {
+      self.activeSlide -= shift;
+      if(self.activeSlide < 0 ){
+        self.activeSlide = slide.length - 1;
       }
     }
   }
