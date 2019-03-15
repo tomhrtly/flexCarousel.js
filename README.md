@@ -1,12 +1,13 @@
-### [flexCarousel.js](https://flexcarousel.com)
+## [flexCarousel.js](https://flexcarousel.com)
 
 A simple, lightweight Flexbox carousel jQuery plugin.
 
 ### Status
 
-[![npm version](https://img.shields.io/npm/v/flexcarouseljs.svg)](https://www.npmjs.com/package/flexcarouseljs)
+[![npm version](https://img.shields.io/npm/v/flexcarouseljs.svg)](https://npmjs.com/package/flexcarouseljs)
 [![CSS gzip size](https://img.badgesize.io/tomhrtly/flexCarousel.js/master/dist/flexCarousel.min.css?compression=gzip&label=CSS+gzip+size)](https://github.com/tomhrtly/flexCarousel.js/tree/master/dist/flexCarousel.min.css)
 [![JS gzip size](https://img.badgesize.io/tomhrtly/flexCarousel.js/master/dist/flexCarousel.min.js?compression=gzip&label=JS+gzip+size)](https://github.com/tomhrtly/flexCarousel.js/tree/master/dist/flexCarousel.min.js)
+[![downloads](https://img.shields.io/npm/dw/flexcarouseljs.svg)](https://npmjs.com/package/flexcarouseljs)
 
 ### Getting Started
 
