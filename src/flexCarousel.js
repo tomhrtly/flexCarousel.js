@@ -107,7 +107,7 @@
     const self = this;
     var index = 0;
 
-    var slide = self.selector.find('div');
+    var slide = self.selector.find('> div');
     slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
 
     var slideWidth = 100 / self.options.slidesVisible + '%';
