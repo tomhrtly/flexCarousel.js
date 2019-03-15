@@ -1,8 +1,8 @@
 title:        flexCarousel.js
 description:  A simple, lightweight Flexbox carousel jQuery plugin.
 url:          https://flexcarousel.com
-download:     https://github.com/tomhrtly/flexCarousel.js/releases/download/v0.1.0/flexCarousel-0.1.0.zip
-version:      0.1.0
+download:     https://github.com/tomhrtly/flexCarousel.js/releases/download/v0.1.1/flexCarousel-0.1.1.zip
+version:      0.1.1
 
 markdown:     kramdown
 permalink:    pretty
