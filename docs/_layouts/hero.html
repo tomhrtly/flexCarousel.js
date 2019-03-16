@@ -13,27 +13,39 @@
       </div>
       <div class="hero-body">
         <div class="container">
-          <div class="columns is-vcentered">
-            <div class="column">
+          <div class="columns is-vcentered is-variable is-8">
+            <div class="column is-5">
               <h1 class="title is-1 has-text-white is-family-serif">{{ site.title }}</h1>
               <h2 class="subtitle has-text-white">{{ site.description }}</h2>
               <h2 class="subtitle has-text-white">Build carousels for your projects with ease through the many customisation options available.</h2>
-              <div class="buttons">
-                <a href="{{ site.download }}" class="button is-primary is-medium is-inverted">
+              <div class="badges">
+                <div class="badge">
+                  <iframe src="https://ghbtns.com/github-btn.html?user=tomhrtly&repo=flexCarousel.js&type=star&count=true&size=large" frameborder="0" scrolling="0" width="120px" height="30px"></iframe>
+                </div>
+                <a href="https://npmjs.com/package/flexcarouseljs" class="badge">
+                  <img src="https://img.shields.io/npm/dm/flexcarouseljs.svg">
+                </a>
+              </div>
+              <div class="columns is-variable is-2">
+                <div class="column is-7">
+                  <a href="{{ site.download }}" class="button is-primary is-medium is-inverted is-fullwidth">
                   <span class="icon">
                     <i class="fas fa-download"></i>
                   </span>
-                  <span>Download</span>
-                </a>
-                <a href="{{ site.github }}" class="button is-white is-medium is-outlined">
+                    <span>Download v{{ site.version }}</span>
+                  </a>
+                </div>
+                <div class="column">
+                  <a href="{{ site.github }}" class="button is-white is-medium is-outlined is-fullwidth">
                   <span class="icon">
                     <i class="fab fa-github-alt"></i>
                   </span>
-                  <span>Contribute</span>
-                </a>
+                    <span>Contribute</span>
+                  </a>
+                </div>
               </div>
               <p class="is-size-7">
-                <a href="{{ site.github }}/releases" class="has-text-white">v{{ site.version }}</a>
+                <a href="{{ site.github }}/releases" class="has-text-white"></a>
               </p>
             </div>
             <div class="column">
