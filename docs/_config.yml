@@ -4,8 +4,6 @@ url:          https://flexcarousel.com
 download:     https://github.com/tomhrtly/flexCarousel.js/releases/download/v0.1.0/flexCarousel-0.1.0.zip
 version:      0.1.0
 
-env:          production
-
 markdown:     kramdown
 permalink:    pretty
 
