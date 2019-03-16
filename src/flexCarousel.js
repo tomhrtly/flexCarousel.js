@@ -148,7 +148,7 @@
 
   object.buildSlides = function() {
     const self = this;
-    
+
     let slide = self.selector.find('> div');
     slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
 
