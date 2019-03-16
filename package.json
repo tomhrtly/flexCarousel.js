@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "npm run src-build && npm run docs-build",
-    "jekyll": "cd docs && bundle exec jekyll serve --config _config.local.yml",
+    "jekyll": "cd docs && bundle exec jekyll serve",
     "src-build": "npm run src-css & npm run src-js",
     "src-css": "npm run src-css-compile && npm run src-css-minify",
     "src-css-minify": "cleancss -o dist/flexCarousel.min.css dist/flexCarousel.css",
