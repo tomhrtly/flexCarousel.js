@@ -30,6 +30,9 @@ $footer-padding: 3rem 1.5rem
 
 $custom-colors: ("twitter": ($twitter, $twitter-invert))
 
+img
+	display: block
+
 .is-family-serif
 	font-family: $family-serif
 
@@ -145,6 +148,22 @@ pre
 
 .improve
 	margin-top: 6rem
+
+.badges
+	align-items: center
+	display: flex
+	flex-wrap: wrap
+	justify-content: flex-start
+	&:not(:last-child)
+		margin-bottom: 1rem
+	.badge
+		img,
+		iframe
+			height: 30px
+		iframe
+			display: block
+		&:not(:last-child)
+			margin-right: 0.5rem
 
 +from($navbar-breakpoint)
 	.navbar
