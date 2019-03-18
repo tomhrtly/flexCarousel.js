@@ -234,6 +234,15 @@
     }
   };
 
+  object.goToSlide = function(position) {
+    const self = this;
+    let activeSlide = self.activeSlide;
+    let direction = position > activeSlide ? "next": "prev";
+    let shift = Math.abs(activeSlide - position);
+
+    self.moveSlide(direction, shift);
+  };
+
   object.height = function() {
     const self = this;
 
@@ -255,15 +264,6 @@
       self.height();
       self.autoplay();
     }
-  };
-
-  object.goToSlide = function(position) {
-    const self = this;
-    let activeSlide = self.activeSlide;
-    let direction = position > activeSlide ? "next": "prev";
-    let shift = Math.abs(activeSlide - position);
-
-    self.moveSlide(direction, shift);
   };
 
   object.moveSlide = function(direction, shift) {
@@ -288,23 +288,6 @@
     circle.eq(self.activeSlide).addClass('fc-is-active');
   };
 
-  object.updateActiveSlideNumber = function(direction, shift) {
-    const self = this;
-    let slide = self.selector.find('.fc-slide');
-
-    if(direction === 'next') {
-      self.activeSlide += shift;
-      if(self.activeSlide >= slide.length){
-        self.activeSlide = 0;
-      }
-    } else {
-      self.activeSlide -= shift;
-      if(self.activeSlide < 0 ){
-        self.activeSlide = slide.length - 1;
-      }
-    }
-  };
-
   object.transition = function() {
     const self = this;
     let slides = self.selector.find('.fc-slides');
@@ -319,6 +302,23 @@
 
     if(self.options.transition === 'slide') {
       return 'fc-slide-animation';
+    }
+  };
+
+  object.updateActiveSlideNumber = function(direction, shift) {
+    const self = this;
+    let slide = self.selector.find('.fc-slide:not(.fc-is-clone)');
+
+    if(direction === 'next') {
+      self.activeSlide += shift;
+      if(self.activeSlide >= slide.length) {
+        self.activeSlide = 0;
+      }
+    } else {
+      self.activeSlide -= shift;
+      if(self.activeSlide < -slide.length) {
+        self.activeSlide = slide.length - 1;
+      }
     }
   };
 
