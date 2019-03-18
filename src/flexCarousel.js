@@ -157,16 +157,17 @@
     let slides = self.selector.find('.fc-slides');
 
     if(self.options.slidesVisible < slide.length) {
+      slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
+
       slides.css('left', '-' + slideWidth);
 
       // Clone all the slides, add the correct order property value, slide width and append to the slides container
       // Fixes issue #2
       if(self.options.slidesVisible === slide.length - 1) {
         slide.each(function() {
-          $(this).clone().addClass('fc-is-clone').css('min-width', slideWidth).appendTo(slides);
+          $(this).clone().addClass('fc-is-clone').appendTo(slides);
         });
       }
-
       slides.children().last().css('order', 1);
 
       let i = 2;
@@ -190,8 +191,6 @@
         slides.css('transform', 'translateX(' + slideWidth + ')');
       }
     }
-
-    slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
   };
 
   object.changeOrder = function(amount, shift) {
