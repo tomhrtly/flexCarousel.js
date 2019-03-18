@@ -4,9 +4,9 @@
 <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }} - {{ site.description }}{% endif %}</title>
 <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url }}">
 <link rel="shortcut icon" href="{{ site.url }}/favicon.ico">
-<link rel="stylesheet" href="{{ site.url }}/assets/dist/css/style.min.css">
+<link rel="stylesheet" href="{{ site.url }}/assets/dist/css/style{% if site.env == 'production' %}.min{% endif %}.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bree+Serif">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
-<script src="{{ site.url }}/assets/dist/js/script.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim{% if site.env == 'production' %}.min{% endif %}.js"></script>
+<script src="{{ site.url }}/assets/dist/js/script{% if site.env == 'production' %}.min{% endif %}.js"></script>
