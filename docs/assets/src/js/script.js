@@ -1,3 +1,4 @@
+import '../../../../node_modules/jquery/dist/jquery.slim';
 import '../../../../src/flexCarousel';
 
 $(document).ready(function() {
