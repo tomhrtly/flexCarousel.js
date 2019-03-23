@@ -66,8 +66,8 @@
 
   object.buildArrowEvents = function() {
     const self = this;
-    let prev = self.selector.find('.fc-prev');
     let next = self.selector.find('.fc-next');
+    let prev = self.selector.find('.fc-prev');
 
     if(self.options.arrows) {
       prev.click(function() { self.moveSlide('prev', 1); });
@@ -195,8 +195,8 @@
 
   object.changeOrder = function(amount, shift) {
     const self = this;
-    let slides = self.selector.find('.fc-slides');
     let slide = self.selector.find('.fc-slide');
+    let slides = self.selector.find('.fc-slides');
     let slideWidth = 100 / self.options.slidesVisible + '%';
 
     if(amount === 'increase') {
@@ -254,7 +254,7 @@
   object.init = function() {
     const self = this;
 
-    if (!self.selector.hasClass('fc')) {
+    if(!self.selector.hasClass('fc')) {
       self.selector.addClass('fc');
 
       self.buildSlides();
@@ -268,8 +268,8 @@
 
   object.moveSlide = function(direction, shift) {
     const self = this;
-    let circle = self.selector.find('.fc-circle');
     let activeSlide = self.activeSlide;
+    let circle = self.selector.find('.fc-circle');
 
     if(direction) {
       setTimeout(function () { self.transition(); }, 1);
