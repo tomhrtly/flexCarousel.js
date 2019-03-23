@@ -8327,8 +8327,8 @@ return jQuery;
 
   object.buildArrowEvents = function() {
     const self = this;
-    let prev = self.selector.find('.fc-prev');
     let next = self.selector.find('.fc-next');
+    let prev = self.selector.find('.fc-prev');
 
     if(self.options.arrows) {
       prev.click(function() { self.moveSlide('prev', 1); });
@@ -8418,16 +8418,17 @@ return jQuery;
     let slides = self.selector.find('.fc-slides');
 
     if(self.options.slidesVisible < slide.length) {
+      slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
+
       slides.css('left', '-' + slideWidth);
 
       // Clone all the slides, add the correct order property value, slide width and append to the slides container
       // Fixes issue #2
       if(self.options.slidesVisible === slide.length - 1) {
         slide.each(function() {
-          $(this).clone().addClass('fc-is-clone').css('min-width', slideWidth).appendTo(slides);
+          $(this).clone().addClass('fc-is-clone').appendTo(slides);
         });
       }
-
       slides.children().last().css('order', 1);
 
       let i = 2;
@@ -8451,14 +8452,12 @@ return jQuery;
         slides.css('transform', 'translateX(' + slideWidth + ')');
       }
     }
-
-    slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
   };
 
   object.changeOrder = function(amount, shift) {
     const self = this;
-    let slides = self.selector.find('.fc-slides');
     let slide = self.selector.find('.fc-slide');
+    let slides = self.selector.find('.fc-slides');
     let slideWidth = 100 / self.options.slidesVisible + '%';
 
     if(amount === 'increase') {
@@ -8516,7 +8515,7 @@ return jQuery;
   object.init = function() {
     const self = this;
 
-    if (!self.selector.hasClass('fc')) {
+    if(!self.selector.hasClass('fc')) {
       self.selector.addClass('fc');
 
       self.buildSlides();
@@ -8530,8 +8529,8 @@ return jQuery;
 
   object.moveSlide = function(direction, shift) {
     const self = this;
-    let circle = self.selector.find('.fc-circle');
     let activeSlide = self.activeSlide;
+    let circle = self.selector.find('.fc-circle');
 
     if(direction) {
       setTimeout(function () { self.transition(); }, 1);
@@ -8569,18 +8568,16 @@ return jQuery;
 
   object.updateActiveSlideNumber = function(direction, shift) {
     const self = this;
-    let slide = self.selector.find('.fc-slide');
+    let slide = self.selector.find('.fc-slide:not(.fc-is-clone)');
 
     if(direction === 'next') {
       self.activeSlide += shift;
-
       if(self.activeSlide >= slide.length) {
         self.activeSlide = 0;
       }
     } else {
       self.activeSlide -= shift;
-
-      if(self.activeSlide < 0 ) {
+      if(self.activeSlide < -slide.length) {
         self.activeSlide = slide.length - 1;
       }
     }
