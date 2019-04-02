@@ -6,11 +6,14 @@
  * Released under the MIT license
  */
 
-$space: 16px
-$prev-next-min-width: $space * 8
-$prev-next-height: $space * 1.5
+// Initial variables
+$fc-black: #1b1b1b
+$fc-space: 16px
+$fc-transition-speed: 250ms
 
-$black: #000000
+// Derived variables
+$fc-prev-next-height: $fc-space * 1.5
+$fc-prev-next-min-width: $fc-space * 8
 
 *
   box-sizing: border-box
@@ -27,17 +30,17 @@ $black: #000000
       align-items: center
       display: flex
       justify-content: center
-      min-width: $prev-next-min-width / 2
+      min-width: $fc-prev-next-min-width / 2
     &.fc-arrow-overlay
       position: relative
       .fc-next,
       .fc-prev
         &.fc-is-active
-          color: rgba($black, 0.40)
-          font-size: $space * 2
+          color: rgba($fc-black, 0.40)
+          font-size: $fc-space * 2
           height: 100%
           position: absolute
-          width: $space * 2
+          width: $fc-space * 2
           z-index: 1
       .fc-prev
         &.fc-is-active
@@ -50,12 +53,12 @@ $black: #000000
         .fc-next,
         .fc-prev
           &.fc-is-active
-            height: calc(100% - #{$prev-next-height})
+            height: calc(100% - #{$fc-prev-next-height})
   &.fc-circles
     .fc-circles
       display: flex
       justify-content: center
-      margin-top: $space
+      margin-top: $fc-space
     &.fc-circles-overlay
       .fc-circles
         bottom: 5%
@@ -72,19 +75,19 @@ $black: #000000
     &.fc-is-active
       cursor: pointer
       .fc-icon
-        color: rgba($black, 0.40)
+        color: rgba($fc-black, 0.40)
         display: inline-flex
-        font-size: $space * 2
-        height: $space * 2
+        font-size: $fc-space * 2
+        height: $fc-space * 2
         justify-content: center
         position: absolute
-        width: $space * 2
+        width: $fc-space * 2
         svg
           height: 100%
           width: 100%
       &:hover
         .fc-icon
-          color: rgba($black, 0.80)
+          color: rgba($fc-black, 0.80)
 
 
 .fc-circles
@@ -92,18 +95,18 @@ $black: #000000
     cursor: pointer
     .fc-icon
       &.fc-is-circle
-        background-color: rgba($black, 0.40)
+        background-color: rgba($fc-black, 0.40)
         border-radius: 50%
         display: flex
-        height: $space / 2
-        width: $space / 2
+        height: $fc-space / 2
+        width: $fc-space / 2
     &:hover,
     &.fc-is-active
       .fc-icon
         &.fc-is-circle
-          background-color: rgba($black, 0.80)
+          background-color: rgba($fc-black, 0.80)
     & + .fc-circle
-      margin-left: $space / 2
+      margin-left: $fc-space / 2
 
 .fc-container
   display: flex
@@ -118,7 +121,7 @@ $black: #000000
 
 .fc-slide-animation
   transform: none !important
-  transition: all 250ms ease-in-out
+  transition: all $fc-transition-speed ease-in-out
 
 .fc-slide
   align-items: center
@@ -126,8 +129,8 @@ $black: #000000
   flex-direction: column
   flex-grow: 1
   justify-content: center
-  min-height: $space * 6
-  padding: $space
+  min-height: $fc-space * 6
+  padding: $fc-space
   video
     height: auto
     max-width: 100%
@@ -141,5 +144,5 @@ $black: #000000
     height: auto
     max-width: 100%
   figcaption
-    margin-top: $space
+    margin-top: $fc-space
     text-align: center
