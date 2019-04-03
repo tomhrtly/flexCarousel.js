@@ -82,8 +82,8 @@
     if(self.options.arrows) {
       if(self.options.slidesVisible < slide.length) {
         self.selector.addClass('fc-arrows');
-        self.selector.prepend('<div class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></div>');
-        self.selector.append('<div class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></div>');
+        self.selector.prepend('<button class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></button>');
+        self.selector.append('<button class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></button>');
 
         let prev = self.selector.find('.fc-prev');
         let next = self.selector.find('.fc-next');
