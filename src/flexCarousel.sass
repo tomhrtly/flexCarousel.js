@@ -17,8 +17,8 @@ $fc-prev-next-min-width: $fc-space * 8
 
 *
   box-sizing: border-box
-  &::before,
-  &::after
+  &::after,
+  &::before
     box-sizing: border-box
 
 .fc
@@ -42,12 +42,12 @@ $fc-prev-next-min-width: $fc-space * 8
           position: absolute
           width: $fc-space * 2
           z-index: 1
-      .fc-prev
-        &.fc-is-active
-          left: 0
       .fc-next
         &.fc-is-active
           right: 0
+      .fc-prev
+        &.fc-is-active
+          left: 0
     &.fc-circles
       &:not(.fc-circles-overlay)
         .fc-next,
@@ -139,7 +139,8 @@ $fc-prev-next-min-width: $fc-space * 8
   display: block
   margin: 0
   position: relative
-  img
+  img,
+  picture
     display: block
     height: auto
     max-width: 100%
