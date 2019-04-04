@@ -105,9 +105,9 @@
 
     if(self.options.circles) {
       circle.click(function(event) {
-        let $clickedCircle = $(event.currentTarget);
-        if(!$clickedCircle.hasClass('fc-is-active')) {
-          let index = $clickedCircle.data('fc-slide-index');
+        let clickedCircle = $(event.currentTarget);
+        if(!clickedCircle.hasClass('fc-is-active')) {
+          let index = clickedCircle.data('fc-slide-index');
           self.goToSlide(index);
         }
       });
@@ -278,6 +278,7 @@
 
   object.moveSlide = function(direction, shift) {
     const self = this;
+    let activeCircleIndex = 0;
     let activeSlide = self.activeSlide;
     let circle = self.selector.find('.fc-circle');
 
@@ -294,8 +295,9 @@
 
     // updating active slide number every time slide changes
     self.updateActiveSlideNumber(direction, shift);
-    circle.eq(activeSlide).removeClass('fc-is-active');
-    circle.eq(self.activeSlide).addClass('fc-is-active');
+    activeCircleIndex = Math.floor(self.activeSlide / self.options.slidesPerPage);
+    circle.removeClass('fc-is-active');
+    circle.eq(activeCircleIndex).addClass('fc-is-active');
   };
 
   object.transition = function() {
