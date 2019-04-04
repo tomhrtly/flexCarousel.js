@@ -179,14 +179,20 @@
         $(this).css('order', i++);
       });
 
-      slide.each(function () {
-        let image = $(this).find('img');
+      slide.each(function (index, element) {
+        let slide = $(element);
+        let image = slide.find('img');
         let imageCaption = image.data('caption');
+        let picture = slide.find('picture');
+        let pictureCaption = picture.data('caption');
 
         // Wrap the images and use data attribute for captions for cleaner HTML markup
-        image.wrap('<figure class="fc-image"></figure>');
-
-        if (imageCaption) {
+        // but only if we have a caption
+        if (pictureCaption) {
+          picture.wrap('<figure class="fc-image"></figure>');
+          picture.after('<figcaption>' + pictureCaption + '</figcaption>');
+        } else if (imageCaption) {
+          image.wrap('<figure class="fc-image"></figure>');
           image.after('<figcaption>' + imageCaption + '</figcaption>');
         }
       });
