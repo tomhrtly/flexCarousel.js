@@ -4,6 +4,9 @@ subtitle: Easily show captions with your images on each slide by using the <code
 layout: example
 ---
 
+<div class="notification is-info">
+  <p>flexCarousel.js also supports the HTML5 <code>picture</code> tag to give you more flexibility with responsive images.</p>
+</div>
 {% capture html %}
 <div class="my-class">
   <div>
@@ -23,7 +26,9 @@ layout: example
 {% capture js %}
 <script>
 $(document).ready(function() {
-  $('.my-class').flexCarousel();
+  $('.my-class').flexCarousel({
+    circlesOverlay: false
+  });
 });
 </script>
 {% endcapture %}
