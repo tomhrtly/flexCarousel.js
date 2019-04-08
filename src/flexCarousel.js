@@ -175,16 +175,30 @@
         $(this).css('order', i++);
       });
 
-      slide.each(function () {
+      slide.each(function() {
         let image = $(this).find('img');
         let imageCaption = image.data('caption');
+        let picture = $(this).find('picture');
+        let pictureCaption = picture.find('img').data('caption')
 
-        // Wrap the images and use data attribute for captions for cleaner HTML markup
-        image.wrap('<figure class="fc-image"></figure>');
+        // If the image's parent is picture, wrap the picture tag
+        image.parent('picture').wrap('<figure class="fc-image"></figure>');
 
-        if (imageCaption) {
-          image.after('<figcaption>' + imageCaption + '</figcaption>');
+        // If there is a caption for the image inside the picture, display the caption if it exists
+        if(pictureCaption) {
+          picture.after('<figcaption>' + imageCaption + '</figcaption>');
         }
+
+        // Wrap the image tag, display the caption if it exists
+        function imageWrap() {
+          image.wrap('<figure class="fc-image"></figure>');
+          if(imageCaption) {
+            image.after('<figcaption>' + imageCaption + '</figcaption>');
+          }
+        }
+
+        // If the image's parent isn't the picture tag, wrap it
+        image.parent('picture').length ? '' : imageWrap();
       });
 
       if(self.options.transition === 'slide') {
