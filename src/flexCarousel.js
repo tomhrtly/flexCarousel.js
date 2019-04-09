@@ -1,7 +1,7 @@
 'use strict';
 
 /*!
- * flexCarousel.js v0.1.0
+ * flexCarousel.js v0.2.1
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
