@@ -1,6 +1,5 @@
 build
 docs
-src
 test
 .gitattributes
 .gitignore

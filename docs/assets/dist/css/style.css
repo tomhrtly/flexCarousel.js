@@ -259,6 +259,16 @@ pre .clipboard {
   margin-right: 0.5rem;
 }
 
+.color {
+  border-radius: 2px;
+  box-shadow: 0 2px 3px 0 rgba(10, 10, 10, 0.1), inset 0 0 0 1px rgba(10, 10, 10, 0.1);
+  display: inline-block;
+  float: left;
+  height: 24px;
+  margin-right: 8px;
+  width: 24px;
+}
+
 @media screen and (min-width: 1088px) {
   .navbar.is-spaced .navbar-dropdown a.navbar-item,
   .navbar.is-spaced .navbar-dropdown .navbar-link {
@@ -2912,10 +2922,6 @@ fieldset[disabled] .button {
 
 .content figure:not(:last-child) {
   margin-bottom: 2em;
-}
-
-.content figure img {
-  display: inline-block;
 }
 
 .content pre {
@@ -6987,7 +6993,7 @@ label.panel-block:hover {
 }
 
 /*!
- * flexCarousel.js v0.1.0
+ * flexCarousel.js v0.2.1
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
@@ -6997,7 +7003,7 @@ label.panel-block:hover {
   box-sizing: border-box;
 }
 
-*::before, *::after {
+*::after, *::before {
   box-sizing: border-box;
 }
 
@@ -7009,9 +7015,16 @@ label.panel-block:hover {
 .fc.fc-arrows .fc-next,
 .fc.fc-arrows .fc-prev {
   align-items: center;
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
   display: flex;
+  font: inherit;
   justify-content: center;
   min-width: 64px;
+  outline: none;
+  padding: 0;
 }
 
 .fc.fc-arrows.fc-arrow-overlay {
@@ -7020,7 +7033,7 @@ label.panel-block:hover {
 
 .fc.fc-arrows.fc-arrow-overlay .fc-next.fc-is-active,
 .fc.fc-arrows.fc-arrow-overlay .fc-prev.fc-is-active {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(27, 27, 27, 0.4);
   font-size: 32px;
   height: 100%;
   position: absolute;
@@ -7028,12 +7041,12 @@ label.panel-block:hover {
   z-index: 1;
 }
 
-.fc.fc-arrows.fc-arrow-overlay .fc-prev.fc-is-active {
-  left: 0;
-}
-
 .fc.fc-arrows.fc-arrow-overlay .fc-next.fc-is-active {
   right: 0;
+}
+
+.fc.fc-arrows.fc-arrow-overlay .fc-prev.fc-is-active {
+  left: 0;
 }
 
 .fc.fc-arrows.fc-circles:not(.fc-circles-overlay) .fc-next.fc-is-active,
@@ -7057,6 +7070,16 @@ label.panel-block:hover {
   position: relative;
 }
 
+.fc-arrows .fc-next,
+.fc-arrows .fc-prev {
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
 .fc-arrows .fc-next .fc-icon,
 .fc-arrows .fc-prev .fc-icon {
   display: none;
@@ -7069,7 +7092,7 @@ label.panel-block:hover {
 
 .fc-arrows .fc-next.fc-is-active .fc-icon,
 .fc-arrows .fc-prev.fc-is-active .fc-icon {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(27, 27, 27, 0.4);
   display: inline-flex;
   font-size: 32px;
   height: 32px;
@@ -7086,7 +7109,7 @@ label.panel-block:hover {
 
 .fc-arrows .fc-next.fc-is-active:hover .fc-icon,
 .fc-arrows .fc-prev.fc-is-active:hover .fc-icon {
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(27, 27, 27, 0.8);
 }
 
 .fc-circles .fc-circle {
@@ -7094,7 +7117,7 @@ label.panel-block:hover {
 }
 
 .fc-circles .fc-circle .fc-icon.fc-is-circle {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(27, 27, 27, 0.4);
   border-radius: 50%;
   display: flex;
   height: 8px;
@@ -7102,7 +7125,7 @@ label.panel-block:hover {
 }
 
 .fc-circles .fc-circle:hover .fc-icon.fc-is-circle, .fc-circles .fc-circle.fc-is-active .fc-icon.fc-is-circle {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(27, 27, 27, 0.8);
 }
 
 .fc-circles .fc-circle + .fc-circle {
@@ -7148,7 +7171,8 @@ label.panel-block:hover {
   position: relative;
 }
 
-.fc-image img {
+.fc-image img,
+.fc-image picture {
   display: block;
   height: auto;
   max-width: 100%;
