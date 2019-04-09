@@ -1,7 +1,7 @@
 'use strict';
 
 /*!
- * flexCarousel.js v0.1.0
+ * flexCarousel.js v0.2.1
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
@@ -82,8 +82,8 @@
     if(self.options.arrows) {
       if(self.options.slidesVisible < slide.length) {
         self.selector.addClass('fc-arrows');
-        self.selector.prepend('<div class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></div>');
-        self.selector.append('<div class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></div>');
+        self.selector.prepend('<button class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></button>');
+        self.selector.append('<button class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></button>');
 
         let prev = self.selector.find('.fc-prev');
         let next = self.selector.find('.fc-next');
@@ -175,16 +175,30 @@
         $(this).css('order', i++);
       });
 
-      slide.each(function () {
+      slide.each(function() {
         let image = $(this).find('img');
         let imageCaption = image.data('caption');
+        let picture = $(this).find('picture');
+        let pictureCaption = picture.find('img').data('caption');
 
-        // Wrap the images and use data attribute for captions for cleaner HTML markup
-        image.wrap('<figure class="fc-image"></figure>');
+        // If the image's parent is picture, wrap the picture tag
+        image.parent('picture').wrap('<figure class="fc-image"></figure>');
 
-        if (imageCaption) {
-          image.after('<figcaption>' + imageCaption + '</figcaption>');
+        // If there is a caption for the image inside the picture, display the caption if it exists
+        if(pictureCaption) {
+          picture.after('<figcaption>' + imageCaption + '</figcaption>');
         }
+
+        // Wrap the image tag, display the caption if it exists
+        function imageWrap() {
+          image.wrap('<figure class="fc-image"></figure>');
+          if(imageCaption) {
+            image.after('<figcaption>' + imageCaption + '</figcaption>');
+          }
+        }
+
+        // If the image's parent isn't the picture tag, wrap it
+        image.parent('picture').length ? '' : imageWrap();
       });
 
       if(self.options.transition === 'slide') {
