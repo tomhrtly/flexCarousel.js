@@ -1,7 +1,7 @@
 docs/_site
-docs/assets/css/style.css
+src/index.html
+src/script.js
 node_modules
-test
 .idea/
 .jekyll-metadata
 .sass-cache
