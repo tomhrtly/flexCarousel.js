@@ -1,12 +1,4 @@
-import '../../../../node_modules/jquery/dist/jquery.slim';
 import '../../../../src/flexCarousel';
-
-$(document).ready(function() {
-  $('.navbar-burger').click(function() {
-    $('.navbar-burger').toggleClass('is-active');
-    $('.navbar-menu').toggleClass('is-active');
-  });
-});
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}

@@ -21,6 +21,53 @@ $fc-prev-next-min-width: $fc-space * 8 !default
   &::before
     box-sizing: border-box
 
+.fc-icon
+  display: none
+
+.fc-circles
+  .fc-circle
+    cursor: pointer
+    .fc-icon
+      &.fc-is-circle
+        background-color: rgba($fc-black, 0.40)
+        border-radius: 50%
+        display: flex
+        height: $fc-space / 2
+        width: $fc-space / 2
+    &:hover,
+    &.fc-is-active
+      .fc-icon
+        &.fc-is-circle
+          background-color: rgba($fc-black, 0.80)
+    & + .fc-circle
+      margin-left: $fc-space / 2
+
+.fc-arrows
+  .fc-next,
+  .fc-prev
+    &.fc-is-active
+      cursor: pointer
+      .fc-icon
+        color: rgba($fc-black, 0.40)
+        display: inline-flex
+        font-size: $fc-space * 2
+        height: $fc-space * 2
+        justify-content: center
+        position: absolute
+        width: $fc-space * 2
+        svg
+          height: 100%
+          width: 100%
+      &:hover
+        .fc-icon
+          color: rgba($fc-black, 0.80)
+
+.fc-container
+  display: flex
+  flex-direction: column
+  flex-grow: 1
+  overflow: hidden
+
 .fc
   display: flex
   width: 100%
@@ -73,59 +120,6 @@ $fc-prev-next-min-width: $fc-space * 8 !default
         width: 100%
       .fc-container
         position: relative
-
-.fc-arrows
-  .fc-next,
-  .fc-prev
-    border: none
-    background-color: transparent
-    color: inherit
-    cursor: pointer
-    font: inherit
-    padding: 0
-    .fc-icon
-      display: none
-    &.fc-is-active
-      cursor: pointer
-      .fc-icon
-        color: rgba($fc-black, 0.40)
-        display: inline-flex
-        font-size: $fc-space * 2
-        height: $fc-space * 2
-        justify-content: center
-        position: absolute
-        width: $fc-space * 2
-        svg
-          height: 100%
-          width: 100%
-      &:hover
-        .fc-icon
-          color: rgba($fc-black, 0.80)
-
-
-.fc-circles
-  .fc-circle
-    cursor: pointer
-    .fc-icon
-      &.fc-is-circle
-        background-color: rgba($fc-black, 0.40)
-        border-radius: 50%
-        display: flex
-        height: $fc-space / 2
-        width: $fc-space / 2
-    &:hover,
-    &.fc-is-active
-      .fc-icon
-        &.fc-is-circle
-          background-color: rgba($fc-black, 0.80)
-    & + .fc-circle
-      margin-left: $fc-space / 2
-
-.fc-container
-  display: flex
-  flex-direction: column
-  flex-grow: 1
-  overflow: hidden
 
 .fc-slides
   display: flex
