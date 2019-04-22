@@ -1,6 +1,4 @@
-'use strict';
-
-/*!
+/*
  * flexCarousel.js v0.3.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
@@ -10,3 +8,11 @@
  * Icons provided by Font Awesome: https://fontawesome.com
  */
 
+class FlexCarousel {
+  constructor(selector, options) {
+    this.selector = selector;
+    this.options = options;
+  }
+}
+
+export default FlexCarousel;
