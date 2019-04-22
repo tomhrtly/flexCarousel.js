@@ -21,7 +21,6 @@ var flexCarousel = (function () {
 
     this.selector = selector;
     this.options = options;
-    console.log(selector);
   };
 
   return FlexCarousel;
