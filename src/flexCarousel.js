@@ -11,8 +11,6 @@
 class FlexCarousel {
   constructor(selector, options) {
     this.selector = document.querySelector(selector);
-    this.options = extend({}, this.defaults, options);
-    this.init();
 
     this.defaults = {
       arrows: true,
@@ -28,35 +26,51 @@ class FlexCarousel {
       transition: 'slide',
     }
 
-    function extend(out) {
-      out = out || {};
+    this.options = extend(this.defaults, options);
+    this.init();
 
-      for(let i = 1; i < arguments.length; i++) {
-        if(!arguments[i]) {
-          continue;
-        }
-
-        for(let key in arguments[i]) {
-          if(arguments[i].hasOwnProperty(key))
-            out[key] = arguments[i][key];
+    function extend( defaults, options ) {
+      let extended = {};
+      for(let prop in defaults) {
+        if(Object.prototype.hasOwnProperty.call(defaults, prop)) {
+          extended[prop] = defaults[prop];
         }
       }
-
-      return out;
-    };
+      for(let prop in options) {
+        if(Object.prototype.hasOwnProperty.call(options, prop)) {
+          extended[prop] = options[prop];
+        }
+      }
+      return extended;
+    }
   }
 
   buildSlides() {
-    const slide = this.selector.children;
+    const children = this.selector.children;
 
     // Add the slide class to all child div elements
-    for(let i = 0; i < slide.length; i++) {
-      slide[i].classList.add('fc-slide');
+    for(let i = 0; i < children.length; i++) {
+      children[i].classList.add('fc-slide');
     }
 
     // Wrap slides to reduce HTML markup
     let wrapSlides = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
     this.selector.innerHTML = wrapSlides;
+
+    const slides = this.selector.querySelector('.fc-slides');
+    const slide = slides.querySelectorAll('.fc-slide');
+
+    if(this.options.slidesVisible < slide.length) {
+
+      // Add the min-width CSS property to all slides
+      for(let i = 0; i < slide.length; i++) {
+        slide[i].style.minWidth = 'calc(100% /' + this.options.slidesVisible + ')';
+      }
+
+      let slideWidth = 100 / this.options.slidesVisible + '%';
+
+      slides.style.left = '-' + slideWidth;
+    }
   }
 
   init() {
