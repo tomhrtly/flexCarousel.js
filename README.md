@@ -19,7 +19,7 @@ A simple, lightweight Flexbox carousel jQuery plugin.
 
 flexCarousel.js supports the latest versions of all major browsers and platforms. We use Flexbox browser technology to build the carousels, which is supported by these [desktop and mobile browsers](https://caniuse.com/#search=flexbox). For JavaScript, we use jQuery as a dependency to which you can view the browser support [here](https://jquery.com/browser-support/).
 
-Our compiled JavaScript uses ECMAScript 6, we use this to determine what browsers can support our jQuery plugin which you can view in the [documentation](https://flexcarousel.com/docs/0.1.0/compatibility/).
+Our compiled JavaScript uses ECMAScript 6, we use this to determine what browsers can support our jQuery plugin which you can view in the [documentation](https://flexcarousel.com/docs/).
 
 ### Contributing
 
