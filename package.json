@@ -25,10 +25,10 @@
     "js-minify-docs": "terser --compress --comments all --output docs/assets/dist/js/script.min.js docs/assets/dist/js/script.js",
     "js-minify-src": "terser --compress --comments all --output dist/flexCarousel.min.js dist/flexCarousel.js",
     "watch": "npm-run-all --parallel watch-*",
-    "watch-css-src": "nodemon --watch src/ --ext sass --exec 'npm run css-src'",
-    "watch-js-src": "nodemon --watch src/ --ext js --exec 'npm run js-src'",
     "watch-css-docs": "nodemon --watch docs/assets/src/sass/ --ext sass --exec 'npm run css-docs'",
-    "watch-js-docs": "nodemon --watch docs/assets/src/js/ --ext js --exec 'npm run js-docs'"
+    "watch-css-src": "nodemon --watch src/ --ext sass --exec 'npm run css-src'",
+    "watch-js-docs": "nodemon --watch docs/assets/src/js/ --ext js --exec 'npm run js-docs'",
+    "watch-js-src": "nodemon --watch src/ --ext js --exec 'npm run js-src'"
   },
   "repository": {
     "type": "git",
