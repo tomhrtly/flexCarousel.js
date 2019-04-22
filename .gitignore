@@ -1,7 +1,6 @@
 docs/_site
-src/index.html
-src/script.js
 node_modules
+test/
 .idea/
 .jekyll-metadata
 .sass-cache
