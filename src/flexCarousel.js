@@ -10,8 +10,15 @@
 
 class FlexCarousel {
   constructor(selector, options) {
-    this.selector = selector;
+    this.selector = document.querySelector(selector);
     this.options = options;
+    this.init();
+  }
+
+  init() {
+    if(!this.selector.classList.contains('fc')) {
+      this.selector.classList.add('fc');
+    }
   }
 }
 
