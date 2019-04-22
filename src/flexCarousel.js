@@ -15,9 +15,25 @@ class FlexCarousel {
     this.init();
   }
 
+  buildSlides() {
+    const slide = this.selector.children;
+
+    // Add the slide class to all child div elements
+    for(let i = 0; i < slide.length; i++) {
+      slide[i].classList.add('fc-slide');
+    }
+
+    // Wrap slides to reduce HTML markup
+    let wrapSlides = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
+    this.selector.innerHTML = wrapSlides;
+  }
+
   init() {
+
+    // Check if the selector has the "fc" initializer class
     if(!this.selector.classList.contains('fc')) {
       this.selector.classList.add('fc');
+      this.buildSlides();
     }
   }
 }
