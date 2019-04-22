@@ -7,11 +7,11 @@ layout: docs
 <p>It's very easy to customise your carousel by changing the options given to you. All you have to do is invoke the flexCarousel function and pass an object with the options you wish to change from the default value.</p>
 {% highlight html %}
 <script>
-  $(document).ready(function() {
-    $('.my-class').flexCarousel({
-      option: value
-    });
-  });
+  (function() {
+    new FlexCarousel('.my-class', {
+      name: value
+    })
+  })();
 </script>
 {% endhighlight %}
 <p>For a full list of all the options available, read the table below. There is also an example link so that you can see a live demo of what each option does.</p>
