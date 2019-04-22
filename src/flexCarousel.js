@@ -45,6 +45,10 @@ class FlexCarousel {
     }
   }
 
+  buildArrowEvents() {
+
+  }
+
   buildArrows() {
     const slides = this.selector.querySelector('.fc-slides');
     const slide = slides.querySelectorAll('.fc-slide');
@@ -53,15 +57,20 @@ class FlexCarousel {
       if(this.options.slidesVisible < slide.length) {
         this.selector.classList.add('fc-arrows');
 
+        // Create arrow button
         let nextArrow = document.createElement('button');
         nextArrow.classList.add('fc-next', 'fc-is-active');
         nextArrow.innerHTML = '<span class="fc-icon">' + this.options.nextArrow + '</span>';
 
+        // Create prev button
         let prevArrow = document.createElement('button');
         prevArrow.classList.add('fc-prev', 'fc-is-active');
         prevArrow.innerHTML = '<span class="fc-icon">' + this.options.prevArrow + '</span>';
 
+        // Append next arrow to the selector
         this.selector.appendChild(nextArrow);
+
+        // Prepend prev arrow to the selector
         this.selector.insertBefore(prevArrow, this.selector.firstChild);
 
         if(this.options.arrowsOverlay) {
@@ -69,6 +78,10 @@ class FlexCarousel {
         }
       }
     }
+  }
+
+  buildEvents() {
+    this.buildArrowEvents();
   }
 
   buildSlides() {
@@ -92,10 +105,12 @@ class FlexCarousel {
       for(let i = 0; i < slide.length; i++) {
         slide[i].style.minWidth = 'calc(100% /' + this.options.slidesVisible + ')';
       }
+    }
+  }
 
-      let slideWidth = 100 / this.options.slidesVisible + '%';
-
-      slides.style.left = '-' + slideWidth;
+  height() {
+    if(this.options.height) {
+      this.selector.style.height = this.options.height;
     }
   }
 
@@ -106,6 +121,7 @@ class FlexCarousel {
       this.selector.classList.add('fc');
       this.buildSlides();
       this.buildArrows();
+      this.height();
     }
   }
 }
