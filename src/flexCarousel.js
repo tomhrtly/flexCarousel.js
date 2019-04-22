@@ -45,6 +45,32 @@ class FlexCarousel {
     }
   }
 
+  buildArrows() {
+    const slides = this.selector.querySelector('.fc-slides');
+    const slide = slides.querySelectorAll('.fc-slide');
+
+    if(this.options.arrows) {
+      if(this.options.slidesVisible < slide.length) {
+        this.selector.classList.add('fc-arrows');
+
+        let nextArrow = document.createElement('button');
+        nextArrow.classList.add('fc-next', 'fc-is-active');
+        nextArrow.innerHTML = '<span class="fc-icon">' + this.options.nextArrow + '</span>';
+
+        let prevArrow = document.createElement('button');
+        prevArrow.classList.add('fc-prev', 'fc-is-active');
+        prevArrow.innerHTML = '<span class="fc-icon">' + this.options.prevArrow + '</span>';
+
+        this.selector.appendChild(nextArrow);
+        this.selector.insertBefore(prevArrow, this.selector.firstChild);
+
+        if(this.options.arrowsOverlay) {
+          this.selector.classList.add('fc-arrows-overlay');
+        }
+      }
+    }
+  }
+
   buildSlides() {
     const children = this.selector.children;
 
@@ -79,6 +105,7 @@ class FlexCarousel {
     if(!this.selector.classList.contains('fc')) {
       this.selector.classList.add('fc');
       this.buildSlides();
+      this.buildArrows();
     }
   }
 }
