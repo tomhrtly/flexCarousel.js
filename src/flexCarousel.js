@@ -29,18 +29,21 @@ class FlexCarousel {
     this.options = extend(this.defaults, options);
     this.init();
 
-    function extend( defaults, options ) {
+    function extend(defaults, options) {
       let extended = {};
+
       for(let prop in defaults) {
         if(Object.prototype.hasOwnProperty.call(defaults, prop)) {
           extended[prop] = defaults[prop];
         }
       }
+
       for(let prop in options) {
         if(Object.prototype.hasOwnProperty.call(options, prop)) {
           extended[prop] = options[prop];
         }
       }
+
       return extended;
     }
   }
@@ -93,18 +96,23 @@ class FlexCarousel {
     }
 
     // Wrap slides to reduce HTML markup
-    let wrapSlides = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
+    let wrapSlides = '<div class="fc-container"><div class="fc-slides" role="listbox">' + this.selector.innerHTML + '</div></div>';
     this.selector.innerHTML = wrapSlides;
 
     const slides = this.selector.querySelector('.fc-slides');
-    const slide = slides.querySelectorAll('.fc-slide');
+    const allSlides = slides.querySelectorAll('.fc-slide');
+    const slide = slides.querySelector('.fc-slide');
 
-    if(this.options.slidesVisible < slide.length) {
+    if (this.options.slidesVisible < allSlides.length) {
 
       // Add the min-width CSS property to all slides
-      for(let i = 0; i < slide.length; i++) {
-        slide[i].style.minWidth = 'calc(100% /' + this.options.slidesVisible + ')';
+      for(let i = 0; i < allSlides.length; i++) {
+        allSlides[i].style.minWidth = 'calc(100% /' + this.options.slidesVisible + ')';
       }
+
+      let slideWidth = 100 / this.options.slidesVisible + '%';
+
+      slides.style.transform = 'translate3d(-' + slideWidth + ', 0px, 0px)';
     }
   }
 
