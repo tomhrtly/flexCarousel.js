@@ -96,7 +96,7 @@ class FlexCarousel {
     }
 
     // Wrap slides to reduce HTML markup
-    let wrapSlides = '<div class="fc-container"><div class="fc-slides" role="listbox">' + this.selector.innerHTML + '</div></div>';
+    let wrapSlides = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
     this.selector.innerHTML = wrapSlides;
 
     const slides = this.selector.querySelector('.fc-slides');
@@ -110,21 +110,24 @@ class FlexCarousel {
         allSlides[i].style.minWidth = 'calc(100% /' + this.options.slidesVisible + ')';
       }
 
-      let slideWidth = 100 / this.options.slidesVisible + '%';
+      let slideWidth = (100 / this.options.slidesVisible) * this.options.slidesVisible  + '%';
 
       slides.style.transform = 'translate3d(-' + slideWidth + ', 0px, 0px)';
 
+      // Clone and prepend/append slides
       const array = Array.from(allSlides);
       const prepend = array.slice(allSlides.length - this.options.slidesVisible, allSlides.length).reverse();
       const append = array.slice(0, this.options.slidesVisible);
 
       for (let i = 0; i < prepend.length; i++) {
         let clone = prepend[i].cloneNode(true);
+        clone.classList.add('fc-is-clone');
         slides.insertBefore(clone, slides.firstChild);
       }
 
       for (let i = 0; i < append.length; i++) {
         let clone = append[i].cloneNode(true);
+        clone.classList.add('fc-is-clone');
         slides.appendChild(clone);
       }
     }
