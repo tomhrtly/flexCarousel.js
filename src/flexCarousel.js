@@ -24,7 +24,7 @@ class FlexCarousel {
       prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
       slidesVisible: 1,
       transition: 'slide',
-    }
+    };
 
     this.options = extend(this.defaults, options);
     this.init();
@@ -32,13 +32,13 @@ class FlexCarousel {
     function extend(defaults, options) {
       let extended = {};
 
-      for(let prop in defaults) {
+      for (let prop in defaults) {
         if(Object.prototype.hasOwnProperty.call(defaults, prop)) {
           extended[prop] = defaults[prop];
         }
       }
 
-      for(let prop in options) {
+      for (let prop in options) {
         if(Object.prototype.hasOwnProperty.call(options, prop)) {
           extended[prop] = options[prop];
         }
@@ -56,8 +56,8 @@ class FlexCarousel {
     const slides = this.selector.querySelector('.fc-slides');
     const slide = slides.querySelectorAll('.fc-slide');
 
-    if(this.options.arrows) {
-      if(this.options.slidesVisible < slide.length) {
+    if (this.options.arrows) {
+      if (this.options.slidesVisible < slide.length) {
         this.selector.classList.add('fc-arrows');
 
         // Create arrow button
@@ -91,7 +91,7 @@ class FlexCarousel {
     const children = this.selector.children;
 
     // Add the slide class to all child div elements
-    for(let i = 0; i < children.length; i++) {
+    for (let i = 0; i < children.length; i++) {
       children[i].classList.add('fc-slide');
     }
 
@@ -106,18 +106,32 @@ class FlexCarousel {
     if (this.options.slidesVisible < allSlides.length) {
 
       // Add the min-width CSS property to all slides
-      for(let i = 0; i < allSlides.length; i++) {
+      for (let i = 0; i < allSlides.length; i++) {
         allSlides[i].style.minWidth = 'calc(100% /' + this.options.slidesVisible + ')';
       }
 
       let slideWidth = 100 / this.options.slidesVisible + '%';
 
       slides.style.transform = 'translate3d(-' + slideWidth + ', 0px, 0px)';
+
+      const array = Array.from(allSlides);
+      const prepend = array.slice(allSlides.length - this.options.slidesVisible, allSlides.length).reverse();
+      const append = array.slice(0, this.options.slidesVisible);
+
+      for (let i = 0; i < prepend.length; i++) {
+        let clone = prepend[i].cloneNode(true);
+        slides.insertBefore(clone, slides.firstChild);
+      }
+
+      for (let i = 0; i < append.length; i++) {
+        let clone = append[i].cloneNode(true);
+        slides.appendChild(clone);
+      }
     }
   }
 
   height() {
-    if(this.options.height) {
+    if (this.options.height) {
       this.selector.style.height = this.options.height;
     }
   }
@@ -125,7 +139,7 @@ class FlexCarousel {
   init() {
 
     // Check if the selector has the "fc" initializer class
-    if(!this.selector.classList.contains('fc')) {
+    if (!this.selector.classList.contains('fc')) {
       this.selector.classList.add('fc');
       this.buildSlides();
       this.buildArrows();
