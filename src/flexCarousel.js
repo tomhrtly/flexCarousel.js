@@ -169,9 +169,10 @@ class FlexCarousel {
     }
   }
 
-  height() {
+  buildOptions() {
     const self = this;
 
+    // Height option
     if (self.options.height) {
       self.selector.style.height = self.options.height;
     }
@@ -186,7 +187,7 @@ class FlexCarousel {
       self.buildSlides();
       self.buildArrows();
       self.buildEvents();
-      self.height();
+      self.buildOptions();
     }
   }
 
