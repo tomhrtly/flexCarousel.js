@@ -10,9 +10,11 @@
 
 class FlexCarousel {
   constructor(selector, options) {
-    this.selector = document.querySelector(selector);
+    const self = this;
 
-    this.defaults = {
+    self.selector = document.querySelector(selector);
+
+    self.defaults = {
       arrows: true,
       arrowsOverlay: true,
       autoplay: false,
@@ -24,10 +26,11 @@ class FlexCarousel {
       prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
       slidesVisible: 1,
       transition: 'slide',
+      transitionSpeed: 250
     };
 
-    this.options = extend(this.defaults, options);
-    this.init();
+    self.options = extend(self.defaults, options);
+    self.init();
 
     function extend(defaults, options) {
       let extended = {};
@@ -48,58 +51,82 @@ class FlexCarousel {
     }
   }
 
+  addTransition() {
+    console.log('addTransition');
+    const self = this;
+    const slides = this.selector.querySelector('.fc-slides');
+
+    if (self.options.transition === 'slide') {
+      slides.style.transition = 'all ' + self.options.transitionSpeed + 'ms ease-in-out 0s';
+    }
+  }
+
+  removeTransition() {
+    const self = this;
+    const slides = this.selector.querySelector('.fc-slides');
+
+    if (self.options.transition === 'slide') {
+      slides.style.transition = '';
+    }
+  }
+
   buildArrowEvents() {
+    const self = this;
     const nextArrow = this.selector.querySelector('.fc-next');
     const prevArrow = this.selector.querySelector('.fc-prev');
 
     if (this.options.arrows) {
       nextArrow.onclick = function() {
-        this.moveSlide('next', 1);
+        self.moveSlide('next', 1);
       }
 
       prevArrow.onclick = function() {
-        this.moveSlide('prev', 1);
+        self.moveSlide('prev', 1);
       }
     }
   }
 
   buildArrows() {
+    const self = this;
     const slides = this.selector.querySelector('.fc-slides');
     const slide = slides.querySelectorAll('.fc-slide');
 
-    if (this.options.arrows) {
-      if (this.options.slidesVisible < slide.length) {
-        this.selector.classList.add('fc-arrows');
+    if (self.options.arrows) {
+      if (self.options.slidesVisible < slide.length) {
+        self.selector.classList.add('fc-arrows');
 
         // Create arrow button
         let nextArrow = document.createElement('button');
         nextArrow.classList.add('fc-next', 'fc-is-active');
-        nextArrow.innerHTML = '<span class="fc-icon">' + this.options.nextArrow + '</span>';
+        nextArrow.innerHTML = '<span class="fc-icon">' + self.options.nextArrow + '</span>';
 
         // Create prev button
         let prevArrow = document.createElement('button');
         prevArrow.classList.add('fc-prev', 'fc-is-active');
-        prevArrow.innerHTML = '<span class="fc-icon">' + this.options.prevArrow + '</span>';
+        prevArrow.innerHTML = '<span class="fc-icon">' + self.options.prevArrow + '</span>';
 
         // Append next arrow to the selector
-        this.selector.appendChild(nextArrow);
+        self.selector.appendChild(nextArrow);
 
         // Prepend prev arrow to the selector
-        this.selector.insertBefore(prevArrow, this.selector.firstChild);
+        self.selector.insertBefore(prevArrow, self.selector.firstChild);
 
-        if(this.options.arrowsOverlay) {
-          this.selector.classList.add('fc-arrows-overlay');
+        if(self.options.arrowsOverlay) {
+          self.selector.classList.add('fc-arrows-overlay');
         }
       }
     }
   }
 
   buildEvents() {
-    this.buildArrowEvents();
+    const self = this;
+
+    self.buildArrowEvents();
   }
 
   buildSlides() {
-    const children = this.selector.children;
+    const self = this;
+    const children = self.selector.children;
 
     // Add the slide class to all child div elements
     for (let i = 0; i < children.length; i++) {
@@ -107,28 +134,26 @@ class FlexCarousel {
     }
 
     // Wrap slides to reduce HTML markup
-    let wrapSlides = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
-    this.selector.innerHTML = wrapSlides;
+    let wrapSlides = '<div class="fc-container"><div class="fc-slides">' + self.selector.innerHTML + '</div></div>';
+    self.selector.innerHTML = wrapSlides;
 
-    const slides = this.selector.querySelector('.fc-slides');
+    const slides = self.selector.querySelector('.fc-slides');
     const allSlides = slides.querySelectorAll('.fc-slide');
     const slide = slides.querySelector('.fc-slide');
 
-    if (this.options.slidesVisible < allSlides.length) {
+    if (self.options.slidesVisible < allSlides.length) {
 
       // Add the min-width CSS property to all slides
       for (let i = 0; i < allSlides.length; i++) {
-        allSlides[i].style.minWidth = 'calc(100% /' + this.options.slidesVisible + ')';
+        allSlides[i].style.minWidth = 'calc(100% /' + self.options.slidesVisible + ')';
       }
 
-      let slideWidth = (100 / this.options.slidesVisible) * this.options.slidesVisible  + '%';
-
-      slides.style.transform = 'translate3d(-' + slideWidth + ', 0px, 0px)';
+      slides.style.transform = 'translate3d(-100%, 0px, 0px)';
 
       // Clone and prepend/append slides
       const array = Array.from(allSlides);
-      const prepend = array.slice(allSlides.length - this.options.slidesVisible, allSlides.length).reverse();
-      const append = array.slice(0, this.options.slidesVisible);
+      const prepend = array.slice(allSlides.length - self.options.slidesVisible, allSlides.length).reverse();
+      const append = array.slice(0, self.options.slidesVisible);
 
       for (let i = 0; i < prepend.length; i++) {
         let clone = prepend[i].cloneNode(true);
@@ -145,24 +170,33 @@ class FlexCarousel {
   }
 
   height() {
-    if (this.options.height) {
-      this.selector.style.height = this.options.height;
+    const self = this;
+
+    if (self.options.height) {
+      self.selector.style.height = self.options.height;
     }
   }
 
   init() {
+    const self = this;
 
     // Check if the selector has the "fc" initializer class
-    if (!this.selector.classList.contains('fc')) {
-      this.selector.classList.add('fc');
-      this.buildSlides();
-      this.buildArrows();
-      this.height();
+    if (!self.selector.classList.contains('fc')) {
+      self.selector.classList.add('fc');
+      self.buildSlides();
+      self.buildArrows();
+      self.buildEvents();
+      self.height();
     }
   }
 
-  moveSlide() {
+  moveSlide(direction, amount) {
+    const self = this;
 
+    if(direction) {
+      self.addTransition();
+      setTimeout(function() { self.removeTransition(); }, self.options.transitionSpeed);
+    }
   }
 }
 
