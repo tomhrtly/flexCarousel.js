@@ -49,7 +49,18 @@ class FlexCarousel {
   }
 
   buildArrowEvents() {
+    const nextArrow = this.selector.querySelector('.fc-next');
+    const prevArrow = this.selector.querySelector('.fc-prev');
 
+    if (this.options.arrows) {
+      nextArrow.onclick = function() {
+        this.moveSlide('next', 1);
+      }
+
+      prevArrow.onclick = function() {
+        this.moveSlide('prev', 1);
+      }
+    }
   }
 
   buildArrows() {
@@ -148,6 +159,10 @@ class FlexCarousel {
       this.buildArrows();
       this.height();
     }
+  }
+
+  moveSlide() {
+
   }
 }
 
