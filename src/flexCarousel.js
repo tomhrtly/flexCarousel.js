@@ -56,6 +56,7 @@ class FlexCarousel {
     const self = this;
     const slides = this.selector.querySelector('.fc-slides');
 
+    // Slide transition
     if (self.options.transition === 'slide') {
       slides.style.transition = 'all ' + self.options.transitionSpeed + 'ms ease-in-out 0s';
     }
@@ -65,6 +66,7 @@ class FlexCarousel {
     const self = this;
     const slides = this.selector.querySelector('.fc-slides');
 
+    // Slide transition
     if (self.options.transition === 'slide') {
       slides.style.transition = '';
     }
@@ -92,6 +94,8 @@ class FlexCarousel {
     const slide = slides.querySelectorAll('.fc-slide');
 
     if (self.options.arrows) {
+
+      // Only show the arrows if there are more slides then slidesVisible option
       if (self.options.slidesVisible < slide.length) {
         self.selector.classList.add('fc-arrows');
 
@@ -111,6 +115,7 @@ class FlexCarousel {
         // Prepend prev arrow to the selector
         self.selector.insertBefore(prevArrow, self.selector.firstChild);
 
+        // Add the overlay class if needed
         if(self.options.arrowsOverlay) {
           self.selector.classList.add('fc-arrows-overlay');
         }
@@ -148,7 +153,7 @@ class FlexCarousel {
         allSlides[i].style.minWidth = 'calc(100% /' + self.options.slidesVisible + ')';
       }
 
-      slides.style.transform = 'translate3d(-100%, 0px, 0px)';
+      slides.style.transform = 'translate3d(-100%, 0, 0)';
 
       // Clone and prepend/append slides
       const array = Array.from(allSlides);
@@ -157,12 +162,16 @@ class FlexCarousel {
 
       for (let i = 0; i < prepend.length; i++) {
         let clone = prepend[i].cloneNode(true);
+
+        // Add a clone class
         clone.classList.add('fc-is-clone');
         slides.insertBefore(clone, slides.firstChild);
       }
 
       for (let i = 0; i < append.length; i++) {
         let clone = append[i].cloneNode(true);
+
+        // Add a clone class
         clone.classList.add('fc-is-clone');
         slides.appendChild(clone);
       }
@@ -195,6 +204,8 @@ class FlexCarousel {
     const self = this;
 
     if(direction) {
+
+      // Add the transition class then remove it after the transition is complete
       self.addTransition();
       setTimeout(function() { self.removeTransition(); }, self.options.transitionSpeed);
     }
