@@ -30,6 +30,7 @@ class FlexCarousel {
       transitionSpeed: 250
     };
 
+    self.slideWidth = null;
     self.options = extend(self.defaults, options);
     self.init();
 
@@ -56,19 +57,9 @@ class FlexCarousel {
     const self = this;
     const slides = this.selector.querySelector('.fc-slides');
 
-    // Slide transition
+    // Add transition property to slides when invoked
     if (self.options.transition === 'slide') {
       slides.style.transition = 'all ' + self.options.transitionSpeed + 'ms ease-in-out 0s';
-    }
-  }
-
-  removeTransition() {
-    const self = this;
-    const slides = this.selector.querySelector('.fc-slides');
-
-    // Slide transition
-    if (self.options.transition === 'slide') {
-      slides.style.transition = '';
     }
   }
 
@@ -78,12 +69,15 @@ class FlexCarousel {
     const prevArrow = this.selector.querySelector('.fc-prev');
 
     if (this.options.arrows) {
+
+      // Move to the next slide when clicking the next arrow
       nextArrow.onclick = function() {
-        self.moveSlide('next', 1);
+        self.moveSlide('next');
       }
 
+      // Move to the previous slide when clicking the previous arrow
       prevArrow.onclick = function() {
-        self.moveSlide('prev', 1);
+        self.moveSlide('previous');
       }
     }
   }
@@ -144,13 +138,13 @@ class FlexCarousel {
 
     const slides = self.selector.querySelector('.fc-slides');
     const allSlides = slides.querySelectorAll('.fc-slide');
-    const slide = slides.querySelector('.fc-slide');
 
     if (self.options.slidesVisible < allSlides.length) {
+      self.slideWidth = 100 / self.options.slidesVisible;
 
       // Add the min-width CSS property to all slides
       for (let i = 0; i < allSlides.length; i++) {
-        allSlides[i].style.minWidth = 'calc(100% /' + self.options.slidesVisible + ')';
+        allSlides[i].style.minWidth = self.slideWidth + '%';
       }
 
       slides.style.transform = 'translate3d(-100%, 0, 0)';
@@ -181,8 +175,9 @@ class FlexCarousel {
   buildOptions() {
     const self = this;
 
-    // Height option
     if (self.options.height) {
+
+      // Add the height property if the option is set
       self.selector.style.height = self.options.height;
     }
   }
@@ -200,14 +195,26 @@ class FlexCarousel {
     }
   }
 
-  moveSlide(direction, amount) {
+  moveSlide(direction) {
     const self = this;
 
-    if(direction) {
+    if(direction === 'next') {
 
-      // Add the transition class then remove it after the transition is complete
-      self.addTransition();
-      setTimeout(function() { self.removeTransition(); }, self.options.transitionSpeed);
+    } else if(direction === 'prev') {
+
+    } else {
+
+    }
+  }
+
+  removeTransition() {
+    const self = this;
+    const slides = this.selector.querySelector('.fc-slides');
+
+    if (self.options.transition === 'slide') {
+
+      // Remove transition property to slides when invoked
+      slides.style.transition = '';
     }
   }
 }
