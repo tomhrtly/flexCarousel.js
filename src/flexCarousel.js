@@ -10,11 +10,9 @@
 
 class FlexCarousel {
   constructor(selector, options) {
-    const self = this;
+    this.selector = document.querySelector(selector);
 
-    self.selector = document.querySelector(selector);
-
-    self.defaults = {
+    this.defaults = {
       arrows: true,
       arrowsOverlay: true,
       autoplay: false,
@@ -30,9 +28,11 @@ class FlexCarousel {
       transitionSpeed: 250
     };
 
-    self.slideWidth = null;
-    self.options = extend(self.defaults, options);
-    self.init();
+    this.slideWidth = null;
+    this.slideAmount = null;
+    this.slideIndex = 0;
+    this.options = extend(this.defaults, options);
+    this.init();
 
     function extend(defaults, options) {
       let extended = {};
@@ -54,78 +54,72 @@ class FlexCarousel {
   }
 
   addTransition() {
-    const self = this;
     const slides = this.selector.querySelector('.fc-slides');
 
     // Add transition property to slides when invoked
-    if (self.options.transition === 'slide') {
-      slides.style.transition = 'all ' + self.options.transitionSpeed + 'ms ease-in-out 0s';
+    if (this.options.transition === 'slide') {
+      slides.style.transition = 'all ' + this.options.transitionSpeed + 'ms ease-in-out 0s';
     }
   }
 
   buildArrowEvents() {
-    const self = this;
     const nextArrow = this.selector.querySelector('.fc-next');
     const prevArrow = this.selector.querySelector('.fc-prev');
 
     if (this.options.arrows) {
 
       // Move to the next slide when clicking the next arrow
-      nextArrow.onclick = function() {
-        self.moveSlide('next');
-      }
+      nextArrow.addEventListener('click', () => {
+        this.moveSlide('next');
+      });
 
       // Move to the previous slide when clicking the previous arrow
-      prevArrow.onclick = function() {
-        self.moveSlide('previous');
-      }
+      prevArrow.addEventListener('click', () => {
+        this.moveSlide('previous');
+      });
     }
   }
 
   buildArrows() {
-    const self = this;
     const slides = this.selector.querySelector('.fc-slides');
     const slide = slides.querySelectorAll('.fc-slide');
 
-    if (self.options.arrows) {
+    if (this.options.arrows) {
 
       // Only show the arrows if there are more slides then slidesVisible option
-      if (self.options.slidesVisible < slide.length) {
-        self.selector.classList.add('fc-arrows');
+      if (this.options.slidesVisible < slide.length) {
+        this.selector.classList.add('fc-arrows');
 
         // Create arrow button
         let nextArrow = document.createElement('button');
         nextArrow.classList.add('fc-next', 'fc-is-active');
-        nextArrow.innerHTML = '<span class="fc-icon">' + self.options.nextArrow + '</span>';
+        nextArrow.innerHTML = '<span class="fc-icon">' + this.options.nextArrow + '</span>';
 
         // Create prev button
         let prevArrow = document.createElement('button');
         prevArrow.classList.add('fc-prev', 'fc-is-active');
-        prevArrow.innerHTML = '<span class="fc-icon">' + self.options.prevArrow + '</span>';
+        prevArrow.innerHTML = '<span class="fc-icon">' + this.options.prevArrow + '</span>';
 
         // Append next arrow to the selector
-        self.selector.appendChild(nextArrow);
+        this.selector.appendChild(nextArrow);
 
         // Prepend prev arrow to the selector
-        self.selector.insertBefore(prevArrow, self.selector.firstChild);
+        this.selector.insertBefore(prevArrow, this.selector.firstChild);
 
         // Add the overlay class if needed
-        if(self.options.arrowsOverlay) {
-          self.selector.classList.add('fc-arrows-overlay');
+        if(this.options.arrowsOverlay) {
+          this.selector.classList.add('fc-arrows-overlay');
         }
       }
     }
   }
 
   buildEvents() {
-    const self = this;
-
-    self.buildArrowEvents();
+    this.buildArrowEvents();
   }
 
   buildSlides() {
-    const self = this;
-    const children = self.selector.children;
+    const children = this.selector.children;
 
     // Add the slide class to all child div elements
     for (let i = 0; i < children.length; i++) {
@@ -133,26 +127,27 @@ class FlexCarousel {
     }
 
     // Wrap slides to reduce HTML markup
-    let wrapSlides = '<div class="fc-container"><div class="fc-slides">' + self.selector.innerHTML + '</div></div>';
-    self.selector.innerHTML = wrapSlides;
+    this.selector.innerHTML = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
 
-    const slides = self.selector.querySelector('.fc-slides');
+    const slides = this.selector.querySelector('.fc-slides');
     const allSlides = slides.querySelectorAll('.fc-slide');
 
-    if (self.options.slidesVisible < allSlides.length) {
-      self.slideWidth = 100 / self.options.slidesVisible;
+    this.slideAmount = allSlides.length;
+
+    if (this.options.slidesVisible < this.slideAmount) {
+      this.slideWidth = 100 / this.options.slidesVisible;
 
       // Add the min-width CSS property to all slides
-      for (let i = 0; i < allSlides.length; i++) {
-        allSlides[i].style.minWidth = self.slideWidth + '%';
+      for (let i = 0; i < this.slideAmount; i++) {
+        allSlides[i].style.minWidth = this.slideWidth + '%';
       }
 
       slides.style.transform = 'translate3d(-100%, 0, 0)';
 
       // Clone and prepend/append slides
       const array = Array.from(allSlides);
-      const prepend = array.slice(allSlides.length - self.options.slidesVisible, allSlides.length).reverse();
-      const append = array.slice(0, self.options.slidesVisible);
+      const prepend = array.slice(this.slideAmount - this.options.slidesVisible, this.slideAmount).reverse();
+      const append = array.slice(0, this.options.slidesVisible);
 
       for (let i = 0; i < prepend.length; i++) {
         let clone = prepend[i].cloneNode(true);
@@ -173,49 +168,45 @@ class FlexCarousel {
   }
 
   buildOptions() {
-    const self = this;
-
-    if (self.options.height) {
-
+    if (this.options.height) {
       // Add the height property if the option is set
-      self.selector.style.height = self.options.height;
+      this.selector.style.height = this.options.height;
     }
   }
 
   init() {
-    const self = this;
-
     // Check if the selector has the "fc" initializer class
-    if (!self.selector.classList.contains('fc')) {
-      self.selector.classList.add('fc');
-      self.buildSlides();
-      self.buildArrows();
-      self.buildEvents();
-      self.buildOptions();
+    if (!this.selector.classList.contains('fc')) {
+      this.selector.classList.add('fc');
+      this.buildSlides();
+      this.buildArrows();
+      this.buildEvents();
+      this.buildOptions();
     }
   }
 
   moveSlide(direction) {
-    const self = this;
-
-    if(direction === 'next') {
-
-    } else if(direction === 'prev') {
-
-    } else {
-
+    if (this.slideAmount > this.options.slidesVisible) {
+      if (direction === 'next') {
+        this.slideHandler(this.slideIndex + 1);
+      } else if (direction === 'prev') {
+        this.slideHandler(this.slideIndex - 1);
+      } else {
+      }
     }
   }
 
   removeTransition() {
-    const self = this;
     const slides = this.selector.querySelector('.fc-slides');
 
-    if (self.options.transition === 'slide') {
-
+    if (this.options.transition === 'slide') {
       // Remove transition property to slides when invoked
       slides.style.transition = '';
     }
+  }
+
+  slideHandler(index) {
+
   }
 }
 
