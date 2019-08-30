@@ -203,6 +203,10 @@ class FlexCarousel {
     }
   }
 
+  moveSlide() {
+    
+  }
+
   setTransform(position) {
     const obj = {};
     const slides = this.selector.querySelector('.fc-slides');
