@@ -9,7 +9,7 @@
  */
 
 class FlexCarousel {
-  constructor(selector, options) {
+  constructor (selector, options) {
     this.selector = document.querySelector(selector);
 
     this.defaults = {
@@ -34,17 +34,17 @@ class FlexCarousel {
     this.options = extend(this.defaults, options);
     this.init();
 
-    function extend(defaults, options) {
+    function extend (defaults, options) {
       let extended = {};
 
       for (let prop in defaults) {
-        if(Object.prototype.hasOwnProperty.call(defaults, prop)) {
+        if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
           extended[prop] = defaults[prop];
         }
       }
 
       for (let prop in options) {
-        if(Object.prototype.hasOwnProperty.call(options, prop)) {
+        if (Object.prototype.hasOwnProperty.call(options, prop)) {
           extended[prop] = options[prop];
         }
       }
@@ -107,7 +107,7 @@ class FlexCarousel {
         this.selector.insertBefore(prevArrow, this.selector.firstChild);
 
         // Add the overlay class if needed
-        if(this.options.arrowsOverlay) {
+        if (this.options.arrowsOverlay) {
           this.selector.classList.add('fc-arrows-overlay');
         }
       }
@@ -185,7 +185,7 @@ class FlexCarousel {
     }
   }
 
-  moveSlide(direction) {
+  moveSlide (direction) {
     if (this.slideAmount > this.options.slidesVisible) {
       if (direction === 'next') {
         this.slideHandler(this.slideIndex + 1);
@@ -205,7 +205,7 @@ class FlexCarousel {
     }
   }
 
-  slideHandler(index) {
+  slideHandler (index) {
 
   }
 }
