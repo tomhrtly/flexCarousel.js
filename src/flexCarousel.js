@@ -29,8 +29,9 @@ class FlexCarousel {
     };
 
     this.slideWidth = null;
+    this.slideOffset = null;
     this.slideAmount = null;
-    this.slideIndex = 0;
+    this.currentSlide = 0;
     this.options = extend(this.defaults, options);
     this.init();
 
@@ -142,8 +143,6 @@ class FlexCarousel {
         allSlides[i].style.minWidth = this.slideWidth + '%';
       }
 
-      slides.style.transform = 'translate3d(-100%, 0, 0)';
-
       // Clone and prepend/append slides
       const array = Array.from(allSlides);
       const prepend = array.slice(this.slideAmount - this.options.slidesVisible, this.slideAmount).reverse();
@@ -164,6 +163,8 @@ class FlexCarousel {
         clone.classList.add('fc-is-clone');
         slides.appendChild(clone);
       }
+
+      this.setTransform(this.getLeftSlideWidth(this.currentSlide));
     }
   }
 
@@ -172,6 +173,14 @@ class FlexCarousel {
       // Add the height property if the option is set
       this.selector.style.height = this.options.height;
     }
+  }
+
+  getLeftSlideWidth(index) {
+    if (this.options.slidesVisible < this.slideAmount) {
+      this.slideOffset = (this.slideWidth * this.options.slidesVisible) * -1;
+    }
+
+    return ((index * this.slideWidth) * -1) + this.slideOffset;
   }
 
   init() {
@@ -185,17 +194,6 @@ class FlexCarousel {
     }
   }
 
-  moveSlide (direction) {
-    if (this.slideAmount > this.options.slidesVisible) {
-      if (direction === 'next') {
-        this.slideHandler(this.slideIndex + 1);
-      } else if (direction === 'prev') {
-        this.slideHandler(this.slideIndex - 1);
-      } else {
-      }
-    }
-  }
-
   removeTransition() {
     const slides = this.selector.querySelector('.fc-slides');
 
@@ -205,8 +203,12 @@ class FlexCarousel {
     }
   }
 
-  slideHandler (index) {
+  setTransform(position) {
+    const obj = {};
+    const slides = this.selector.querySelector('.fc-slides');
 
+    obj.transform = 'translate3d(' + Math.ceil(position) + '%' + ', 0px, 0px)';
+    slides.style.transform = obj.transform;
   }
 }
 
