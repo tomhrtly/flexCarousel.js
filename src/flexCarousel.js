@@ -57,11 +57,19 @@ class FlexCarousel {
     addTransition() {
         const slides = this.selector.querySelector('.fc-slides');
 
-        // Add transition property to slides when invoked
         if (this.options.transition === 'slide') {
             slides.style.transition = 'all ' + this.options.transitionSpeed + 'ms ease-in-out 0s';
         }
     }
+
+    animateSlide(target) {
+        this.addTransition();
+        this.setTransform(Math.ceil(target));
+
+        setTimeout(() => {
+            this.removeTransition();
+        }, this.options.transitionSpeed);
+}
 
     buildArrowEvents() {
         const nextArrow = this.selector.querySelector('.fc-next');
@@ -198,7 +206,6 @@ class FlexCarousel {
         const slides = this.selector.querySelector('.fc-slides');
 
         if (this.options.transition === 'slide') {
-            // Remove transition property to slides when invoked
             slides.style.transition = '';
         }
     }
@@ -222,7 +229,6 @@ class FlexCarousel {
         }
     }
 
-
     setTransform(position) {
         const obj = {};
         const slides = this.selector.querySelector('.fc-slides');
@@ -231,8 +237,27 @@ class FlexCarousel {
         slides.style.transform = obj.transform;
     }
 
-    slideController(amount) {
+    slideController(index) {
+        let newSlide;
 
+        if (index < 0) {
+            if (this.slideAmount % this.options.slidesScrolling !== 0) {
+                newSlide = this.slideAmount - (this.slideAmount % this.options.slidesScrolling);
+            } else {
+                newSlide = this.slideAmount + index;
+            }
+        } else if (index >= this.slideAmount) {
+            if (this.slideAmount % this.options.slidesScrolling !== 0) {
+                newSlide = 0;
+            } else {
+                newSlide = index - this.slideAmount;
+            }
+        } else {
+            newSlide = index;
+        }
+
+        this.currentSlide = newSlide;
+        this.animateSlide(this.getLeftSlideWidth(index));
     }
 }
 
