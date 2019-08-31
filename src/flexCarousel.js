@@ -66,9 +66,16 @@ class FlexCarousel {
         this.addTransition();
         this.setTransform(Math.ceil(target));
 
-        setTimeout(() => {
-            this.removeTransition();
-        }, this.options.transitionSpeed);
+        new Promise((resolve) => {
+            setTimeout(() => {
+                this.removeTransition();
+                resolve(true);
+            }, this.options.transitionSpeed);
+        }).then(() => {
+            if (this.currentSlide === 0) {
+                this.setTransform(-100);
+            }
+        });
 }
 
     buildArrowEvents() {
@@ -119,12 +126,10 @@ class FlexCarousel {
                 if (this.options.arrowsOverlay) {
                     this.selector.classList.add('fc-arrows-overlay');
                 }
+
+                this.buildArrowEvents();
             }
         }
-    }
-
-    buildEvents() {
-        this.buildArrowEvents();
     }
 
     buildSlides() {
@@ -158,32 +163,27 @@ class FlexCarousel {
 
             for (let i = 0; i < prepend.length; i++) {
                 let clone = prepend[i].cloneNode(true);
-
-                // Add a clone class
                 clone.classList.add('fc-is-clone');
                 slides.insertBefore(clone, slides.firstChild);
             }
 
             for (let i = 0; i < append.length; i++) {
                 let clone = append[i].cloneNode(true);
-
-                // Add a clone class
                 clone.classList.add('fc-is-clone');
                 slides.appendChild(clone);
             }
 
-            this.setTransform(this.getLeftSlideWidth(this.currentSlide));
+            this.setTransform(this.getLeftSlide(this.currentSlide));
         }
     }
 
     buildOptions() {
         if (this.options.height) {
-            // Add the height property if the option is set
             this.selector.style.height = this.options.height;
         }
     }
 
-    getLeftSlideWidth(index) {
+    getLeftSlide(index) {
         if (this.options.slidesVisible < this.slideAmount) {
             this.slideOffset = (this.slideWidth * this.options.slidesVisible) * -1;
         }
@@ -197,7 +197,6 @@ class FlexCarousel {
             this.selector.classList.add('fc');
             this.buildSlides();
             this.buildArrows();
-            this.buildEvents();
             this.buildOptions();
         }
     }
@@ -238,26 +237,26 @@ class FlexCarousel {
     }
 
     slideController(index) {
-        let newSlide;
+        let nextSlide;
 
         if (index < 0) {
             if (this.slideAmount % this.options.slidesScrolling !== 0) {
-                newSlide = this.slideAmount - (this.slideAmount % this.options.slidesScrolling);
+                nextSlide = this.slideAmount - (this.slideAmount % this.options.slidesScrolling);
             } else {
-                newSlide = this.slideAmount + index;
+                nextSlide = this.slideAmount + index;
             }
         } else if (index >= this.slideAmount) {
             if (this.slideAmount % this.options.slidesScrolling !== 0) {
-                newSlide = 0;
+                nextSlide = 0;
             } else {
-                newSlide = index - this.slideAmount;
+                nextSlide = index - this.slideAmount;
             }
         } else {
-            newSlide = index;
+            nextSlide = index;
         }
 
-        this.currentSlide = newSlide;
-        this.animateSlide(this.getLeftSlideWidth(index));
+        this.currentSlide = nextSlide;
+        this.animateSlide(this.getLeftSlide(index));
     }
 }
 
