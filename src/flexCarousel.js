@@ -72,9 +72,7 @@ class FlexCarousel {
                 resolve(true);
             }, this.options.transitionSpeed);
         }).then(() => {
-            if (this.currentSlide === 0) {
-                this.setTransform(-100);
-            }
+            this.resetPosition(this.currentSlide);
         });
 }
 
@@ -264,6 +262,10 @@ class FlexCarousel {
         if (this.options.transition === 'slide') {
             slides.style.transition = '';
         }
+    }
+
+    resetPosition(slide) {
+        this.setTransform(this.getLeftSlide(slide));
     }
 
     setTransform(position) {
