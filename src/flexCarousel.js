@@ -203,44 +203,25 @@ class FlexCarousel {
         }
     }
 
-    moveSlide() {
-        var _ = this,
-            $target = $(event.currentTarget),
-            indexOffset, slideOffset, unevenOffset;
+    moveSlide(index) {
+        const unevenOffset = (this.slideAmount % this.options.slidesScrolling !== 0);
+        const indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentSlide) % this.options.slidesScrolling;
 
-        unevenOffset = (_.slideCount % _.options.slidesToScroll !== 0);
-        indexOffset = unevenOffset ? 0 : (_.slideCount - _.currentSlide) % _.options.slidesToScroll;
+        if (index === 'previous') {
+            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesVisible - indexOffset;
 
-        switch (event.data.message) {
-            case 'previous':
-                slideOffset = indexOffset === 0 ? _.options.slidesToScroll : _.options.slidesToShow - indexOffset;
-                console.log(slideOffset);
-                console.log(_.currentSlide);
+            if (this.options.slidesVisible < this.slideAmount) {
+                this.slideController(this.currentSlide - slideOffset);
+            }
+        } else if (index === 'next') {
+            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
 
-                if (_.slideCount > _.options.slidesToShow) {
-                    _.slideHandler(_.currentSlide - slideOffset, false, dontAnimate);
-                }
-                break;
-
-            case 'next':
-                slideOffset = indexOffset === 0 ? _.options.slidesToScroll : indexOffset;
-                if (_.slideCount > _.options.slidesToShow) {
-                    _.slideHandler(_.currentSlide + slideOffset, false, dontAnimate);
-                }
-                break;
-
-            case 'index':
-                var index = event.data.index === 0 ? 0 :
-                    event.data.index || $target.index() * _.options.slidesToScroll;
-
-                _.slideHandler(_.checkNavigable(index), false, dontAnimate);
-                $target.children().trigger('focus');
-                break;
-
-            default:
-                return;
+            if (this.options.slidesVisible < this.slideAmount) {
+                this.slideController(this.currentSlide + slideOffset);
+            }
         }
     }
+
 
     setTransform(position) {
         const obj = {};
@@ -248,6 +229,10 @@ class FlexCarousel {
 
         obj.transform = 'translate3d(' + Math.ceil(position) + '%' + ', 0px, 0px)';
         slides.style.transform = obj.transform;
+    }
+
+    slideController(amount) {
+
     }
 }
 
