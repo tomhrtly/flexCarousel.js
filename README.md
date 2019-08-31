@@ -1,6 +1,6 @@
 ## [flexCarousel.js](https://flexcarousel.com)
 
-A simple, lightweight Flexbox carousel JavaScript plugin.
+A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork of [Slick Carousel](https://github.com/kenwheeler/slick/).
 
 ### Status
 
