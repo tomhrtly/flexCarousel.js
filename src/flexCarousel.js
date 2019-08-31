@@ -132,6 +132,12 @@ class FlexCarousel {
         }
     }
 
+    buildOptions() {
+        if (this.options.height) {
+            this.selector.style.height = this.options.height;
+        }
+    }
+
     buildSlides() {
         const children = this.selector.children;
 
@@ -177,12 +183,6 @@ class FlexCarousel {
         }
     }
 
-    buildOptions() {
-        if (this.options.height) {
-            this.selector.style.height = this.options.height;
-        }
-    }
-
     getLeftSlide(index) {
         if (this.options.slidesVisible < this.slideAmount) {
             this.slideOffset = (this.slideWidth * this.options.slidesVisible) * -1;
@@ -198,14 +198,6 @@ class FlexCarousel {
             this.buildSlides();
             this.buildArrows();
             this.buildOptions();
-        }
-    }
-
-    removeTransition() {
-        const slides = this.selector.querySelector('.fc-slides');
-
-        if (this.options.transition === 'slide') {
-            slides.style.transition = '';
         }
     }
 
@@ -225,6 +217,14 @@ class FlexCarousel {
             if (this.options.slidesVisible < this.slideAmount) {
                 this.slideController(this.currentSlide + slideOffset);
             }
+        }
+    }
+
+    removeTransition() {
+        const slides = this.selector.querySelector('.fc-slides');
+
+        if (this.options.transition === 'slide') {
+            slides.style.transition = '';
         }
     }
 
