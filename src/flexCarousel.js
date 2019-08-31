@@ -132,6 +132,43 @@ class FlexCarousel {
         }
     }
 
+    buildCircles() {
+        const slides = this.selector.querySelector('.fc-slides');
+        const allSlides = slides.querySelectorAll('.fc-slide');
+        const container = this.selector.querySelector('.fc-container');
+        const circles = this.selector.querySelector('.fc-circles');
+
+        if (this.options.circles) {
+
+            // Only show the arrows if there are more slides then slidesVisible option
+            if (this.options.slidesVisible < allSlides.length) {
+                this.selector.classList.add('fc-circles');
+
+                // Create circles container
+                let circles = document.createElement('div');
+                circles.classList.add('fc-circles');
+
+                // Append circles to the container
+                container.appendChild(circles);
+
+                for (let i = 0; i < allSlides.length; i++) {
+                    let circle = document.createElement('div');
+                    circle.classList.add('fc-circle');
+
+                    let icon = document.createElement('span');
+                    icon.classList.add('fc-icon', 'fc-is-circle');
+
+                    circle.appendChild(icon);
+                    circles.appendChild(circle);
+                }
+
+                if (this.options.circlesOverlay) {
+                    this.selector.classList.add('fc-circles-overlay');
+                }
+            }
+        }
+    }
+
     buildOptions() {
         if (this.options.height) {
             this.selector.style.height = this.options.height;
@@ -197,6 +234,7 @@ class FlexCarousel {
             this.selector.classList.add('fc');
             this.buildSlides();
             this.buildArrows();
+            this.buildCircles();
             this.buildOptions();
         }
     }
