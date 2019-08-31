@@ -71,9 +71,7 @@ class FlexCarousel {
                 this.removeTransition();
                 resolve(true);
             }, this.options.transitionSpeed);
-        }).then(() => {
-            this.resetPosition(this.currentSlide);
-        });
+        }).then(() => this.setTransform(this.getLeftSlide(this.currentSlide)));
 }
 
     buildArrowEvents() {
@@ -262,10 +260,6 @@ class FlexCarousel {
         if (this.options.transition === 'slide') {
             slides.style.transition = '';
         }
-    }
-
-    resetPosition(slide) {
-        this.setTransform(this.getLeftSlide(slide));
     }
 
     setTransform(position) {
