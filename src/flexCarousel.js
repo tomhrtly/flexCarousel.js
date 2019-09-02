@@ -1,7 +1,5 @@
-'use strict';
-
-/*!
- * flexCarousel.js v0.2.1
+/*
+ * flexCarousel.js v0.3.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2018 Tom Hartley
@@ -10,342 +8,290 @@
  * Icons provided by Font Awesome: https://fontawesome.com
  */
 
-(function(factory) {
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery'], factory);
-  } else if (typeof exports !== 'undefined') {
-    module.exports = factory(require('jquery'));
-  } else {
-    factory(jQuery);
-  }
-}(function($) {
+class FlexCarousel {
+    constructor (selector, options) {
+        this.selector = document.querySelector(selector);
 
-  // Set flexCarousel as a object
-  let flexCarousel = window.flexCarousel || {};
+        this.defaults = {
+            arrows: true,
+            arrowsOverlay: true,
+            autoplay: false,
+            autoplaySpeed: 5000,
+            circles: true,
+            circlesOverlay: true,
+            height: null,
+            nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
+            prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
+            slidesScrolling: 1,
+            slidesVisible: 1,
+            transition: 'slide',
+            transitionSpeed: 250
+        };
 
-  flexCarousel = (function() {
-    function flexCarousel(selector, options) {
-      const self = this;
+        this.slideWidth = null;
+        this.slideOffset = null;
+        this.slideAmount = null;
+        this.currentSlide = 0;
+        this.options = extend(this.defaults, options);
+        this.init();
 
-      self.defaults = {
-        arrows: true,
-        arrowsOverlay: true,
-        autoplay: false,
-        autoplaySpeed: 5000,
-        circles: true,
-        circlesOverlay: true,
-        height: null,
-        nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
-        prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
-        slidesVisible: 1,
-        transition: 'slide',
-      };
+        function extend (defaults, options) {
+            let extended = {};
 
-      // Combine both objects
-      self.options = $.extend(self.defaults, options);
+            for (let prop in defaults) {
+                if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
+                    extended[prop] = defaults[prop];
+                }
+            }
 
-      // This will always have active slide index
-      self.activeSlide = 0;
+            for (let prop in options) {
+                if (Object.prototype.hasOwnProperty.call(options, prop)) {
+                    extended[prop] = options[prop];
+                }
+            }
 
-      self.selector = $(selector);
-      self.init();
-    }
-
-    return flexCarousel;
-  }());
-
-  let object = flexCarousel.prototype;
-
-  object.autoplay = function() {
-    const self = this;
-
-    if(self.options.autoplay) {
-      self.timer = setInterval(function() { self.moveSlide('next', 1); }, self.options.autoplaySpeed);
-    }
-  };
-
-  object.buildArrowEvents = function() {
-    const self = this;
-    let next = self.selector.find('.fc-next');
-    let prev = self.selector.find('.fc-prev');
-
-    if(self.options.arrows) {
-      prev.click(function() { self.moveSlide('prev', 1); });
-      next.click(function() { self.moveSlide('next', 1); });
-    }
-  };
-
-  object.buildArrows = function() {
-    const self = this;
-    let slide = self.selector.find('.fc-slide');
-
-    if(self.options.arrows) {
-      if(self.options.slidesVisible < slide.length) {
-        self.selector.addClass('fc-arrows');
-        self.selector.prepend('<button class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></button>');
-        self.selector.append('<button class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></button>');
-
-        let prev = self.selector.find('.fc-prev');
-        let next = self.selector.find('.fc-next');
-
-        next.addClass('fc-is-active');
-        prev.addClass('fc-is-active');
-
-        if (self.options.arrowsOverlay) {
-          self.selector.addClass('fc-arrow-overlay');
+            return extended;
         }
-      }
     }
-  };
 
-  object.buildCircleEvents = function() {
-    let self = this;
-    let circle = self.selector.find('.fc-circle');
+    addTransition() {
+        const slides = this.selector.querySelector('.fc-slides');
 
-    if(self.options.circles) {
-      circle.click(function() {
-        if(!$(this).hasClass('fc-is-active')) {
-          let index = $(this).index();
-          self.goToSlide(index);
+        if (this.options.transition === 'slide') {
+            slides.style.transition = 'all ' + this.options.transitionSpeed + 'ms ease-in-out 0s';
         }
-      });
     }
-  };
 
-  object.buildCircles = function() {
-    let self = this;
-    let container = self.selector.find('.fc-container');
-    let slide = self.selector.find('.fc-slide:not(.fc-is-clone)');
+    animateSlide(target) {
+        this.addTransition();
+        this.setTransform(Math.ceil(target));
 
-    if(self.options.circles) {
-      if(self.options.slidesVisible < slide.length) {
-        self.selector.addClass('fc-circles');
-        container.append('<div class="fc-circles" />');
+        new Promise((resolve) => {
+            setTimeout(() => {
+                this.removeTransition();
+                resolve(true);
+            }, this.options.transitionSpeed);
+        }).then(() => this.setTransform(this.getLeftSlide(this.currentSlide)));
+}
 
-        let circles = self.selector.find('.fc-circles');
+    buildArrowEvents() {
+        const nextArrow = this.selector.querySelector('.fc-next');
+        const prevArrow = this.selector.querySelector('.fc-prev');
 
-        slide.each(function () {
-          circles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
-        });
+        if (this.options.arrows) {
 
-        let circle = self.selector.find('.fc-circle');
+            // Move to the next slide when clicking the next arrow
+            nextArrow.addEventListener('click', () => {
+                this.moveSlide('next');
+            });
 
-        circle.first().addClass('fc-is-active');
-
-        if (self.options.circlesOverlay) {
-          self.selector.addClass('fc-circles-overlay');
+            // Move to the previous slide when clicking the previous arrow
+            prevArrow.addEventListener('click', () => {
+                this.moveSlide('previous');
+            });
         }
-      }
     }
-  };
 
-  object.buildEvents = function() {
-    const self = this;
+    buildArrows() {
+        const slides = this.selector.querySelector('.fc-slides');
+        const slide = slides.querySelectorAll('.fc-slide');
 
-    self.buildArrowEvents();
-    self.buildCircleEvents();
-  };
+        if (this.options.arrows) {
 
-  object.buildSlides = function() {
-    const self = this;
+            // Only show the arrows if there are more slides then slidesVisible option
+            if (this.options.slidesVisible < slide.length) {
+                this.selector.classList.add('fc-arrows');
 
-    let slide = self.selector.find('> div');
-    slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
+                // Create arrow button
+                let nextArrow = document.createElement('button');
+                nextArrow.classList.add('fc-next', 'fc-is-active');
+                nextArrow.innerHTML = '<span class="fc-icon">' + this.options.nextArrow + '</span>';
 
-    let slideWidth = 100 / self.options.slidesVisible + '%';
+                // Create prev button
+                let prevArrow = document.createElement('button');
+                prevArrow.classList.add('fc-prev', 'fc-is-active');
+                prevArrow.innerHTML = '<span class="fc-icon">' + this.options.prevArrow + '</span>';
 
-    let slides = self.selector.find('.fc-slides');
+                // Append next arrow to the selector
+                this.selector.appendChild(nextArrow);
 
-    if(self.options.slidesVisible < slide.length) {
-      slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
+                // Prepend prev arrow to the selector
+                this.selector.insertBefore(prevArrow, this.selector.firstChild);
 
-      slides.css('left', '-' + slideWidth);
+                // Add the overlay class if needed
+                if (this.options.arrowsOverlay) {
+                    this.selector.classList.add('fc-arrows-overlay');
+                }
 
-      // Clone all the slides, add the correct order property value, slide width and append to the slides container
-      // Fixes issue #2
-      if(self.options.slidesVisible === slide.length - 1) {
-        slide.each(function() {
-          $(this).clone().addClass('fc-is-clone').appendTo(slides);
-        });
-      }
-      slides.children().last().css('order', 1);
+                this.buildArrowEvents();
+            }
+        }
+    }
 
-      let i = 2;
-      slides.children().slice(0, slides.children().length - 1).each(function () {
-        $(this).css('order', i++);
-      });
+    buildCircles() {
+        const slides = this.selector.querySelector('.fc-slides');
+        const allSlides = slides.querySelectorAll('.fc-slide');
+        const container = this.selector.querySelector('.fc-container');
+        const circles = this.selector.querySelector('.fc-circles');
 
-      slide.each(function() {
-        let image = $(this).find('img');
-        let imageCaption = image.data('caption');
-        let picture = $(this).find('picture');
-        let pictureCaption = picture.find('img').data('caption')
+        if (this.options.circles) {
 
-        // If the image's parent is picture, wrap the picture tag
-        image.parent('picture').wrap('<figure class="fc-image"></figure>');
+            // Only show the arrows if there are more slides then slidesVisible option
+            if (this.options.slidesVisible < allSlides.length) {
+                this.selector.classList.add('fc-circles');
 
-        // If there is a caption for the image inside the picture, display the caption if it exists
-        if(pictureCaption) {
-          picture.after('<figcaption>' + imageCaption + '</figcaption>');
+                // Create circles container
+                let circles = document.createElement('div');
+                circles.classList.add('fc-circles');
+
+                // Append circles to the container
+                container.appendChild(circles);
+
+                for (let i = 0; i < allSlides.length; i++) {
+                    let circle = document.createElement('div');
+                    circle.classList.add('fc-circle');
+
+                    let icon = document.createElement('span');
+                    icon.classList.add('fc-icon', 'fc-is-circle');
+
+                    circle.appendChild(icon);
+                    circles.appendChild(circle);
+                }
+
+                if (this.options.circlesOverlay) {
+                    this.selector.classList.add('fc-circles-overlay');
+                }
+            }
+        }
+    }
+
+    buildOptions() {
+        if (this.options.height) {
+            this.selector.style.height = this.options.height;
+        }
+    }
+
+    buildSlides() {
+        const children = this.selector.children;
+
+        // Add the slide class to all child div elements
+        for (let i = 0; i < children.length; i++) {
+            children[i].classList.add('fc-slide');
         }
 
-        // Wrap the image tag, display the caption if it exists
-        function imageWrap() {
-          image.wrap('<figure class="fc-image"></figure>');
-          if(imageCaption) {
-            image.after('<figcaption>' + imageCaption + '</figcaption>');
-          }
+        // Wrap slides to reduce HTML markup
+        this.selector.innerHTML = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
+
+        const slides = this.selector.querySelector('.fc-slides');
+        const allSlides = slides.querySelectorAll('.fc-slide');
+
+        this.slideAmount = allSlides.length;
+
+        if (this.options.slidesVisible < this.slideAmount) {
+            this.slideWidth = 100 / this.options.slidesVisible;
+
+            // Add the min-width CSS property to all slides
+            for (let i = 0; i < this.slideAmount; i++) {
+                allSlides[i].style.minWidth = this.slideWidth + '%';
+            }
+
+            // Clone and prepend/append slides
+            const array = Array.from(allSlides);
+            const prepend = array.slice(this.slideAmount - this.options.slidesVisible, this.slideAmount).reverse();
+            const append = array.slice(0, this.options.slidesVisible);
+
+            for (let i = 0; i < prepend.length; i++) {
+                let clone = prepend[i].cloneNode(true);
+                clone.classList.add('fc-is-clone');
+                slides.insertBefore(clone, slides.firstChild);
+            }
+
+            for (let i = 0; i < append.length; i++) {
+                let clone = append[i].cloneNode(true);
+                clone.classList.add('fc-is-clone');
+                slides.appendChild(clone);
+            }
+
+            this.setTransform(this.getLeftSlide(this.currentSlide));
+        }
+    }
+
+    getLeftSlide(index) {
+        if (this.options.slidesVisible < this.slideAmount) {
+            this.slideOffset = (this.slideWidth * this.options.slidesVisible) * -1;
         }
 
-        // If the image's parent isn't the picture tag, wrap it
-        image.parent('picture').length ? '' : imageWrap();
-      });
-
-      if(self.options.transition === 'slide') {
-        slides.css('transform', 'translateX(' + slideWidth + ')');
-      }
+        return ((index * this.slideWidth) * -1) + this.slideOffset;
     }
-  };
 
-  object.changeOrder = function(amount, shift) {
-    const self = this;
-    let slide = self.selector.find('.fc-slide');
-    let slides = self.selector.find('.fc-slides');
-    let slideWidth = 100 / self.options.slidesVisible + '%';
+    init() {
+        // Check if the selector has the "fc" initializer class
+        if (!this.selector.classList.contains('fc')) {
+            this.selector.classList.add('fc');
+            this.buildSlides();
+            this.buildArrows();
+            this.buildCircles();
+            this.buildOptions();
+        }
+    }
 
-    if(amount === 'increase') {
-      // Determine whether the carousel is going forward or backward
-      if(self.options.transition === 'slide') {
-        slides.css('transform', 'translateX(-' + slideWidth + ')');
-      }
+    moveSlide(index) {
+        const unevenOffset = (this.slideAmount % this.options.slidesScrolling !== 0);
+        const indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentSlide) % this.options.slidesScrolling;
 
-      slide.each(function() {
-        let convertedOrder = parseInt($(this).css('order'));
-        let orderIncrease = convertedOrder + shift;
+        if (index === 'previous') {
+            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesVisible - indexOffset;
 
-        if(orderIncrease > slide.length) {
-          orderIncrease = orderIncrease - slide.length;
+            if (this.options.slidesVisible < this.slideAmount) {
+                this.slideController(this.currentSlide - slideOffset);
+            }
+        } else if (index === 'next') {
+            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
+
+            if (this.options.slidesVisible < this.slideAmount) {
+                this.slideController(this.currentSlide + slideOffset);
+            }
+        }
+    }
+
+    removeTransition() {
+        const slides = this.selector.querySelector('.fc-slides');
+
+        if (this.options.transition === 'slide') {
+            slides.style.transition = '';
+        }
+    }
+
+    setTransform(position) {
+        const obj = {};
+        const slides = this.selector.querySelector('.fc-slides');
+
+        obj.transform = 'translate3d(' + Math.ceil(position) + '%' + ', 0px, 0px)';
+        slides.style.transform = obj.transform;
+    }
+
+    slideController(index) {
+        let nextSlide;
+
+        if (index < 0) {
+            if (this.slideAmount % this.options.slidesScrolling !== 0) {
+                nextSlide = this.slideAmount - (this.slideAmount % this.options.slidesScrolling);
+            } else {
+                nextSlide = this.slideAmount + index;
+            }
+        } else if (index >= this.slideAmount) {
+            if (this.slideAmount % this.options.slidesScrolling !== 0) {
+                nextSlide = 0;
+            } else {
+                nextSlide = index - this.slideAmount;
+            }
+        } else {
+            nextSlide = index;
         }
 
-        $(this).css('order', orderIncrease);
-      });
-    } else {
-      // Determine whether the carousel is going forward or backward
-      if(self.options.transition === 'slide') {
-        slides.css('transform', 'translateX(' + slideWidth + ')');
-      }
-
-      slide.each(function() {
-        let convertedOrder = parseInt($(this).css('order'));
-        let orderDecrease = convertedOrder - shift;
-
-        if(orderDecrease <= 0) {
-          orderDecrease = slide.length + orderDecrease;
-        }
-
-        $(this).css('order', orderDecrease);
-      });
+        this.currentSlide = nextSlide;
+        this.animateSlide(this.getLeftSlide(index));
     }
-  };
+}
 
-  object.goToSlide = function(position) {
-    const self = this;
-    let activeSlide = self.activeSlide;
-    let direction = position > activeSlide ? "next": "prev";
-    let shift = Math.abs(activeSlide - position);
-
-    self.moveSlide(direction, shift);
-  };
-
-  object.height = function() {
-    const self = this;
-
-    if(self.options.height) {
-      self.selector.css('height', self.options.height);
-    }
-  };
-
-  object.init = function() {
-    const self = this;
-
-    if(!self.selector.hasClass('fc')) {
-      self.selector.addClass('fc');
-
-      self.buildSlides();
-      self.buildArrows();
-      self.buildCircles();
-      self.buildEvents();
-      self.height();
-      self.autoplay();
-    }
-  };
-
-  object.moveSlide = function(direction, shift) {
-    const self = this;
-    let activeSlide = self.activeSlide;
-    let circle = self.selector.find('.fc-circle');
-
-    if(direction) {
-      setTimeout(function () { self.transition(); }, 1);
-      self.transition();
-    }
-
-    if(direction === 'next') {
-      self.changeOrder('decrease', shift);
-    } else {
-      self.changeOrder('increase', shift);
-    }
-
-    // updating active slide number every time slide changes
-    self.updateActiveSlideNumber(direction, shift);
-    circle.eq(activeSlide).removeClass('fc-is-active');
-    circle.eq(self.activeSlide).addClass('fc-is-active');
-  };
-
-  object.transition = function() {
-    const self = this;
-    let slides = self.selector.find('.fc-slides');
-
-    if(self.options.transition === 'slide') {
-      slides.toggleClass('fc-slide-animation');
-    }
-  };
-
-  object.transitionClasses = function() {
-    const self = this;
-
-    if(self.options.transition === 'slide') {
-      return 'fc-slide-animation';
-    }
-  };
-
-  object.updateActiveSlideNumber = function(direction, shift) {
-    const self = this;
-    let slide = self.selector.find('.fc-slide:not(.fc-is-clone)');
-
-    if(direction === 'next') {
-      self.activeSlide += shift;
-      if(self.activeSlide >= slide.length) {
-        self.activeSlide = 0;
-      }
-    } else {
-      self.activeSlide -= shift;
-      if(self.activeSlide < -slide.length) {
-        self.activeSlide = slide.length - 1;
-      }
-    }
-  };
-
-  $.fn.flexCarousel = function() {
-    const self = this;
-    let options = arguments[0];
-
-    for (let i = 0; i < self.length; i++) {
-      if (typeof options == 'object' || typeof options == 'undefined') {
-        self[i].flexCarousel = new flexCarousel(self[i], options);
-      }
-    }
-
-    return self;
-  };
-}));
+export default FlexCarousel;
