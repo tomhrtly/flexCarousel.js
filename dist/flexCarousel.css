@@ -46,7 +46,6 @@
 .fc-arrows .fc-prev.fc-is-active .fc-icon {
   color: rgba(27, 27, 27, 0.4);
   display: inline-flex;
-  font-size: 32px;
   height: 32px;
   justify-content: center;
   position: absolute;
@@ -91,12 +90,12 @@
   padding: 0;
 }
 
-.fc.fc-arrows.fc-arrow-overlay {
+.fc.fc-arrows.fc-arrows-overlay {
   position: relative;
 }
 
-.fc.fc-arrows.fc-arrow-overlay .fc-next.fc-is-active,
-.fc.fc-arrows.fc-arrow-overlay .fc-prev.fc-is-active {
+.fc.fc-arrows.fc-arrows-overlay .fc-next.fc-is-active,
+.fc.fc-arrows.fc-arrows-overlay .fc-prev.fc-is-active {
   color: rgba(27, 27, 27, 0.4);
   font-size: 32px;
   height: 100%;
@@ -105,11 +104,11 @@
   z-index: 1;
 }
 
-.fc.fc-arrows.fc-arrow-overlay .fc-next.fc-is-active {
+.fc.fc-arrows.fc-arrows-overlay .fc-next.fc-is-active {
   right: 0;
 }
 
-.fc.fc-arrows.fc-arrow-overlay .fc-prev.fc-is-active {
+.fc.fc-arrows.fc-arrows-overlay .fc-prev.fc-is-active {
   left: 0;
 }
 
@@ -137,20 +136,9 @@
 .fc-slides {
   display: flex;
   flex-grow: 1;
-  position: relative;
-}
-
-.fc-slide-animation {
-  transform: none !important;
-  transition: all 250ms ease-in-out;
 }
 
 .fc-slide {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  justify-content: center;
   min-height: 96px;
   padding: 16px;
 }

@@ -1,6 +1,2 @@
-docs/_site
 node_modules
-test/
 .idea/
-.jekyll-metadata
-.sass-cache
