@@ -1,7 +1,6 @@
 docs/_site
-docs/assets/css/style.css
 node_modules
-test
+test/
 .idea/
 .jekyll-metadata
 .sass-cache

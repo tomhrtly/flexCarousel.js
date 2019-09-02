@@ -9,7 +9,6 @@
 // Initial variables
 $fc-black: #1b1b1b !default
 $fc-space: 16px !default
-$fc-transition-speed: 250ms !default
 
 // Derived variables
 $fc-prev-next-height: $fc-space * 1.5 !default
@@ -20,6 +19,52 @@ $fc-prev-next-min-width: $fc-space * 8 !default
   &::after,
   &::before
     box-sizing: border-box
+
+.fc-icon
+  display: none
+
+.fc-circles
+  .fc-circle
+    cursor: pointer
+    .fc-icon
+      &.fc-is-circle
+        background-color: rgba($fc-black, 0.40)
+        border-radius: 50%
+        display: flex
+        height: $fc-space / 2
+        width: $fc-space / 2
+    &:hover,
+    &.fc-is-active
+      .fc-icon
+        &.fc-is-circle
+          background-color: rgba($fc-black, 0.80)
+    & + .fc-circle
+      margin-left: $fc-space / 2
+
+.fc-arrows
+  .fc-next,
+  .fc-prev
+    &.fc-is-active
+      cursor: pointer
+      .fc-icon
+        color: rgba($fc-black, 0.40)
+        display: inline-flex
+        height: $fc-space * 2
+        justify-content: center
+        position: absolute
+        width: $fc-space * 2
+        svg
+          height: 100%
+          width: 100%
+      &:hover
+        .fc-icon
+          color: rgba($fc-black, 0.80)
+
+.fc-container
+  display: flex
+  flex-direction: column
+  flex-grow: 1
+  overflow: hidden
 
 .fc
   display: flex
@@ -38,7 +83,7 @@ $fc-prev-next-min-width: $fc-space * 8 !default
       min-width: $fc-prev-next-min-width / 2
       outline: none
       padding: 0
-    &.fc-arrow-overlay
+    &.fc-arrows-overlay
       position: relative
       .fc-next,
       .fc-prev
@@ -74,74 +119,11 @@ $fc-prev-next-min-width: $fc-space * 8 !default
       .fc-container
         position: relative
 
-.fc-arrows
-  .fc-next,
-  .fc-prev
-    border: none
-    background-color: transparent
-    color: inherit
-    cursor: pointer
-    font: inherit
-    padding: 0
-    .fc-icon
-      display: none
-    &.fc-is-active
-      cursor: pointer
-      .fc-icon
-        color: rgba($fc-black, 0.40)
-        display: inline-flex
-        font-size: $fc-space * 2
-        height: $fc-space * 2
-        justify-content: center
-        position: absolute
-        width: $fc-space * 2
-        svg
-          height: 100%
-          width: 100%
-      &:hover
-        .fc-icon
-          color: rgba($fc-black, 0.80)
-
-
-.fc-circles
-  .fc-circle
-    cursor: pointer
-    .fc-icon
-      &.fc-is-circle
-        background-color: rgba($fc-black, 0.40)
-        border-radius: 50%
-        display: flex
-        height: $fc-space / 2
-        width: $fc-space / 2
-    &:hover,
-    &.fc-is-active
-      .fc-icon
-        &.fc-is-circle
-          background-color: rgba($fc-black, 0.80)
-    & + .fc-circle
-      margin-left: $fc-space / 2
-
-.fc-container
-  display: flex
-  flex-direction: column
-  flex-grow: 1
-  overflow: hidden
-
 .fc-slides
   display: flex
   flex-grow: 1
-  position: relative
-
-.fc-slide-animation
-  transform: none !important
-  transition: all $fc-transition-speed ease-in-out
 
 .fc-slide
-  align-items: center
-  display: flex
-  flex-direction: column
-  flex-grow: 1
-  justify-content: center
   min-height: $fc-space * 6
   padding: $fc-space
   video

@@ -13,6 +13,64 @@
   box-sizing: border-box;
 }
 
+.fc-icon {
+  display: none;
+}
+
+.fc-circles .fc-circle {
+  cursor: pointer;
+}
+
+.fc-circles .fc-circle .fc-icon.fc-is-circle {
+  background-color: rgba(27, 27, 27, 0.4);
+  border-radius: 50%;
+  display: flex;
+  height: 8px;
+  width: 8px;
+}
+
+.fc-circles .fc-circle:hover .fc-icon.fc-is-circle, .fc-circles .fc-circle.fc-is-active .fc-icon.fc-is-circle {
+  background-color: rgba(27, 27, 27, 0.8);
+}
+
+.fc-circles .fc-circle + .fc-circle {
+  margin-left: 8px;
+}
+
+.fc-arrows .fc-next.fc-is-active,
+.fc-arrows .fc-prev.fc-is-active {
+  cursor: pointer;
+}
+
+.fc-arrows .fc-next.fc-is-active .fc-icon,
+.fc-arrows .fc-prev.fc-is-active .fc-icon {
+  color: rgba(27, 27, 27, 0.4);
+  display: inline-flex;
+  font-size: 32px;
+  height: 32px;
+  justify-content: center;
+  position: absolute;
+  width: 32px;
+}
+
+.fc-arrows .fc-next.fc-is-active .fc-icon svg,
+.fc-arrows .fc-prev.fc-is-active .fc-icon svg {
+  height: 100%;
+  width: 100%;
+}
+
+.fc-arrows .fc-next.fc-is-active:hover .fc-icon,
+.fc-arrows .fc-prev.fc-is-active:hover .fc-icon {
+  color: rgba(27, 27, 27, 0.8);
+}
+
+.fc-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
 .fc {
   display: flex;
   width: 100%;
@@ -76,75 +134,6 @@
   position: relative;
 }
 
-.fc-arrows .fc-next,
-.fc-arrows .fc-prev {
-  border: none;
-  background-color: transparent;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  padding: 0;
-}
-
-.fc-arrows .fc-next .fc-icon,
-.fc-arrows .fc-prev .fc-icon {
-  display: none;
-}
-
-.fc-arrows .fc-next.fc-is-active,
-.fc-arrows .fc-prev.fc-is-active {
-  cursor: pointer;
-}
-
-.fc-arrows .fc-next.fc-is-active .fc-icon,
-.fc-arrows .fc-prev.fc-is-active .fc-icon {
-  color: rgba(27, 27, 27, 0.4);
-  display: inline-flex;
-  font-size: 32px;
-  height: 32px;
-  justify-content: center;
-  position: absolute;
-  width: 32px;
-}
-
-.fc-arrows .fc-next.fc-is-active .fc-icon svg,
-.fc-arrows .fc-prev.fc-is-active .fc-icon svg {
-  height: 100%;
-  width: 100%;
-}
-
-.fc-arrows .fc-next.fc-is-active:hover .fc-icon,
-.fc-arrows .fc-prev.fc-is-active:hover .fc-icon {
-  color: rgba(27, 27, 27, 0.8);
-}
-
-.fc-circles .fc-circle {
-  cursor: pointer;
-}
-
-.fc-circles .fc-circle .fc-icon.fc-is-circle {
-  background-color: rgba(27, 27, 27, 0.4);
-  border-radius: 50%;
-  display: flex;
-  height: 8px;
-  width: 8px;
-}
-
-.fc-circles .fc-circle:hover .fc-icon.fc-is-circle, .fc-circles .fc-circle.fc-is-active .fc-icon.fc-is-circle {
-  background-color: rgba(27, 27, 27, 0.8);
-}
-
-.fc-circles .fc-circle + .fc-circle {
-  margin-left: 8px;
-}
-
-.fc-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow: hidden;
-}
-
 .fc-slides {
   display: flex;
   flex-grow: 1;
@@ -188,3 +177,5 @@
   margin-top: 16px;
   text-align: center;
 }
+
+/*# sourceMappingURL=flexCarousel.css.map */

@@ -1,6 +1,6 @@
 ## [flexCarousel.js](https://flexcarousel.com)
 
-A simple, lightweight Flexbox carousel jQuery plugin.
+A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork of [Slick Carousel](https://github.com/kenwheeler/slick/).
 
 ### Status
 
@@ -8,6 +8,7 @@ A simple, lightweight Flexbox carousel jQuery plugin.
 [![CSS gzip size](https://img.badgesize.io/tomhrtly/flexCarousel.js/master/dist/flexCarousel.min.css?compression=gzip&label=CSS+gzip+size)](https://github.com/tomhrtly/flexCarousel.js/tree/master/dist/flexCarousel.min.css)
 [![JS gzip size](https://img.badgesize.io/tomhrtly/flexCarousel.js/master/dist/flexCarousel.min.js?compression=gzip&label=JS+gzip+size)](https://github.com/tomhrtly/flexCarousel.js/tree/master/dist/flexCarousel.min.js)
 [![downloads](https://img.shields.io/npm/dm/flexcarouseljs.svg)](https://npmjs.com/package/flexcarouseljs)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/61550584-dff2-4240-9b67-5302b629d463/deploy-status)](https://app.netlify.com/sites/elegant-jepsen-3d0bbd/deploys)
 
 ### Getting Started
 
@@ -17,9 +18,9 @@ A simple, lightweight Flexbox carousel jQuery plugin.
 
 ### Compatibility
 
-flexCarousel.js supports the latest versions of all major browsers and platforms. We use Flexbox browser technology to build the carousels, which is supported by these [desktop and mobile browsers](https://caniuse.com/#search=flexbox). For JavaScript, we use jQuery as a dependency to which you can view the browser support [here](https://jquery.com/browser-support/).
+flexCarousel.js supports the latest versions of all major browsers and platforms. We use Flexbox browser technology to build the carousels, which is supported by these desktop and mobile browsers.
 
-Our compiled JavaScript uses ECMAScript 6, we use this to determine what browsers can support our jQuery plugin which you can view in the [documentation](https://flexcarousel.com/docs/).
+The JavaScript source file is built with ECMAScript 6, this is then compiled to ECMAScript 5 to be more browser friendly.
 
 ### Contributing
 

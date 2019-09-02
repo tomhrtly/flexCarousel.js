@@ -74,6 +74,21 @@ pre
 		border-top-right-radius: $radius
 		padding: 3rem
 
+.highlight
+	@extend %block
+	.nt,
+	.nb
+		color: #de695d
+	.na
+		color: #d09964
+	.s,
+	.s1
+		color: #99c27c
+	.nx
+		color: #65b0e7
+	.kd
+		color: #c57bdb
+
 .snippet
 	.highlight
 		height: 100%
@@ -120,22 +135,6 @@ pre
 				border-top-right-radius: 0
 			+tablet
 				border-bottom-left-radius: 0
-
-
-.highlight
-	@extend %block
-	.nt,
-	.nb
-		color: #de695d
-	.na
-		color: #d09964
-	.s,
-	.s1
-		color: #99c27c
-	.nx
-		color: #65b0e7
-	.kd
-		color: #c57bdb
 
 .codepen-logo
 	display: block
