@@ -29,7 +29,6 @@
     "url": "https://github.com/tomhrtly/flexCarousel.js/issues"
   },
   "homepage": "https://github.com/tomhrtly/flexCarousel.js#readme",
-  "author": "Tom Hartley",
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",

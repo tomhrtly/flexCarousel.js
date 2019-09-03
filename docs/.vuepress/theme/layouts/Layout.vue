@@ -1,7 +1,15 @@
 <template>
     <div>
         <Navbar></Navbar>
-        <Content></Content>
+        <section class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="column">
+                        <Content class="content"></Content>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
@@ -16,4 +24,9 @@
 </script>
 
 <style lang="scss">
+    @import '../styles/global';
+
+    .section {
+        padding: 3rem 1.5rem;
+    }
 </style>
