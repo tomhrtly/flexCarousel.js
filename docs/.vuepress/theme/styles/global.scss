@@ -1,11 +1,27 @@
 @import '~minireset.css/minireset.css';
 @import '~bulma/sass/utilities/_all';
 
+$blue: #158cd8;
+$primary: $blue;
+
+$navbar-padding-vertical: .5rem;
+
+$fullhd-enabled: false;
+
+.logo {
+    color: $primary;
+    font-family: 'Bree Serif', serif;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
 @import '~bulma/sass/base/_all';
 
 @import '~bulma/sass/grid/columns';
 
+@import '~bulma/sass/elements/button';
 @import '~bulma/sass/elements/container';
 @import '~bulma/sass/elements/content';
+@import "~bulma/sass/elements/icon";
 
 @import '~bulma/sass/components/navbar';
