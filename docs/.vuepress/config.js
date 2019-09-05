@@ -8,6 +8,7 @@ module.exports = {
         github: 'https://github.com/tomhrtly/flexCarousel.js',
         twitter: 'https://twitter.com/tomhrtly',
         download: 'https://github.com/tomhrtly/flexCarousel.js/releases/download/v0.2.1/flexCarousel-0.2.1.zip',
+        currentVersion: 'v0.2.1',
         versions: ['v0.3']
     }
 };

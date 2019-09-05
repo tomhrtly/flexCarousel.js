@@ -24,14 +24,6 @@
                 ref="menu"
             >
                 <div class="navbar-end">
-                    <router-link
-                        to="/docs"
-                        class="navbar-item"
-                    >Docs</router-link>
-                    <router-link
-                        to="/examples"
-                        class="navbar-item"
-                    >Examples</router-link>
                     <div class="navbar-item">
                         <div class="select">
                             <select>
