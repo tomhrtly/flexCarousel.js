@@ -1,8 +1,9 @@
 @import '~minireset.css/minireset.css';
-@import '~bulma/sass/utilities/_all';
 
 $blue: #158cd8;
 $primary: $blue;
+
+@import '~bulma/sass/utilities/_all';
 
 $navbar-padding-vertical: .5rem;
 
@@ -25,3 +26,6 @@ $fullhd-enabled: false;
 @import "~bulma/sass/elements/icon";
 
 @import '~bulma/sass/components/navbar';
+
+@import '~bulma/sass/form/shared';
+@import '~bulma/sass/form/select';

@@ -32,6 +32,16 @@
                         to="/examples"
                         class="navbar-item"
                     >Examples</router-link>
+                    <div class="navbar-item">
+                        <div class="select">
+                            <select>
+                                <option
+                                    v-for="(version, index) in versions" :key="index"
+                                    v-text="version"
+                                ></option>
+                            </select>
+                        </div>
+                    </div>
                     <a
                         :href="$site.themeConfig.github"
                         class="navbar-item"
@@ -64,6 +74,14 @@
 
 <script>
     export default {
+        data() {
+            return {
+                versions: [],
+            }
+        },
+        created() {
+            this.versions = this.$site.themeConfig.versions;
+        },
         methods: {
             toggleBurger() {
                 this.$refs.burger.classList.toggle('is-active');
