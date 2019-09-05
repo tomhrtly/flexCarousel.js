@@ -5,7 +5,9 @@
             <div class="container">
                 <div class="columns">
                     <div class="column">
-                        <Content class="content"></Content>
+                        <Home
+                            v-if="$page.frontmatter.home"
+                        />
                     </div>
                 </div>
             </div>
@@ -15,10 +17,12 @@
 
 <script>
     import Navbar from '../components/Navbar';
+    import Home from '../components/Home';
 
     export default {
         components: {
-            Navbar
+            Navbar,
+            Home
         }
     }
 </script>

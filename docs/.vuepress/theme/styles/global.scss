@@ -6,6 +6,7 @@ $primary: $blue;
 @import '~bulma/sass/utilities/_all';
 
 $navbar-padding-vertical: .5rem;
+$navbar-height: 4.25rem;
 
 $fullhd-enabled: false;
 
@@ -24,6 +25,7 @@ $fullhd-enabled: false;
 @import '~bulma/sass/elements/container';
 @import '~bulma/sass/elements/content';
 @import "~bulma/sass/elements/icon";
+@import "~bulma/sass/elements/title";
 
 @import '~bulma/sass/components/navbar';
 
