@@ -18,5 +18,11 @@ module.exports = {
         links: [
 
         ]
+    },
+    plugins: {
+        'clean-urls': {
+            normalSuffix: '',
+            indexSuffix: '/',
+        },
     }
 };
