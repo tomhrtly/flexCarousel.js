@@ -45,8 +45,8 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="title">{{ data.title }}</h2>
-                <h3 class="subtitle is-5">{{ data.description }}</h3>
+                <h2 class="title">{{ data.page.title }}</h2>
+                <h3 class="subtitle is-5">{{ data.page.description }}</h3>
                 <div class="content">
                     <Content/>
                 </div>
