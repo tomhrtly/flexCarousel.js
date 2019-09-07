@@ -178,6 +178,10 @@ class FlexCarousel {
         if (this.options.height) {
             this.selector.style.height = this.options.height;
         }
+
+        if (this.options.autoplay) {
+            setInterval(() => this.moveSlide('next'), this.options.autoplaySpeed);
+        }
     }
 
     buildSlides() {
@@ -234,7 +238,6 @@ class FlexCarousel {
     }
 
     init() {
-        // Check if the selector has the "fc" initializer class
         if (!this.selector.classList.contains('fc')) {
             this.selector.classList.add('fc');
             this.buildSlides();
