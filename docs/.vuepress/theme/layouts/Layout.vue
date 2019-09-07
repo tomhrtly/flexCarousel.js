@@ -6,6 +6,9 @@
                 <Home
                     v-if="$page.frontmatter.home"
                 />
+                <Page
+                    v-else=""
+                />
             </div>
         </section>
     </div>
@@ -14,11 +17,13 @@
 <script>
     import Navbar from '../components/Navbar';
     import Home from '../components/Home';
+    import Page from '../components/Page';
 
     export default {
         components: {
             Navbar,
-            Home
+            Home,
+            Page
         }
     }
 </script>

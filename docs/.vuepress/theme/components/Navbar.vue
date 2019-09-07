@@ -24,31 +24,25 @@
                 ref="menu"
             >
                 <div class="navbar-start">
-                    <router-link
-                        to="/docs"
-                        class="navbar-item"
-                    >Docs</router-link>
-                    <router-link
-                        to="/examples"
-                        class="navbar-item"
-                    >Examples</router-link>
-                    <a
-                        :href="$site.themeConfig.github + '/issues'"
-                        class="navbar-item"
-                        target="_blank"
-                    >Support</a>
+                   <div
+                       v-for="link in $site.themeConfig.nav"
+                   >
+                       <router-link
+                           v-if="!link.external"
+                           :to="link.url"
+                           class="navbar-item"
+                           v-text="link.text"
+                       ></router-link>
+                       <a
+                           v-else
+                           :href="link.url"
+                           class="navbar-item"
+                           v-text="link.text"
+                           target="_blank"
+                       ></a>
+                   </div>
                 </div>
                 <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="select">
-                            <select>
-                                <option
-                                    v-for="(version, index) in versions" :key="index"
-                                    v-text="version"
-                                ></option>
-                            </select>
-                        </div>
-                    </div>
                     <a
                         :href="$site.themeConfig.github"
                         class="navbar-item"
@@ -81,14 +75,6 @@
 
 <script>
     export default {
-        data() {
-            return {
-                versions: [],
-            }
-        },
-        created() {
-            this.versions = this.$site.themeConfig.versions;
-        },
         methods: {
             toggleBurger() {
                 this.$refs.burger.classList.toggle('is-active');
