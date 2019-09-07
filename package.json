@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "description": "A simple, lightweight Flexbox carousel jQuery plugin.",
   "scripts": {
-    "build": "npm-run-all css js",
+    "build": "npm-run-all css js docs:build",
     "css": "npm-run-all css-lint css-compile css-minify",
     "css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true src/flexCarousel.sass dist/flexCarousel.css",
     "css-lint": "stylelint 'src/flexCarousel.sass'",
