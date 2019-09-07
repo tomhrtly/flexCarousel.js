@@ -8,7 +8,7 @@
                             v-for="link in $site.themeConfig.links"
                         >
                             <router-link
-                                :to="link.url"
+                                :to="`/docs/${$site.themeConfig.currentVersion}/${link.slug}`"
                                 v-text="link.text"
                             ></router-link>
                         </li>
@@ -45,14 +45,11 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="title">{{ data.page.title }}</h2>
-                <h3 class="subtitle is-5">{{ data.page.description }}</h3>
                 <div class="content">
                     <Content/>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
