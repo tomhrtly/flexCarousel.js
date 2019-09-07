@@ -19,7 +19,7 @@
                                 :href="$site.themeConfig.download"
                                 class="button is-primary is-large is-fullwidth"
                             >
-                                Download {{ this.$site.themeConfig.currentVersion }}
+                                Download v{{ this.$site.themeConfig.currentVersion }}
                             </a>
                         </div>
                         <div class="column">
