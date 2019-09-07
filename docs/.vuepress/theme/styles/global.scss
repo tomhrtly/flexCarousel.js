@@ -18,6 +18,16 @@ $fullhd-enabled: false;
     font-weight: 600;
 }
 
+.preview {
+    background-color: #fff;
+    border-color: #f5f5f5;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 2px;
+    box-shadow: 0 2px 0 0 #f5f5f5;
+    padding: 1.5rem;
+}
+
 @import '~bulma/sass/base/_all';
 
 @import '~bulma/sass/grid/columns';

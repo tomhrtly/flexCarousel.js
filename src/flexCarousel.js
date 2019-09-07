@@ -72,7 +72,7 @@ class FlexCarousel {
                 resolve(true);
             }, this.options.transitionSpeed);
         }).then(() => this.setTransform(this.getLeftSlide(this.currentSlide)));
-}
+    }
 
     buildArrowEvents() {
         const nextArrow = this.selector.querySelector('.fc-next');

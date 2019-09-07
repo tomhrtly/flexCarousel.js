@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="columns">
+        <div class="columns is-variable is-8 is-vcentered">
             <div class="column is-5">
                 <h1 class="subtitle is-3">{{ data.title }}</h1>
                 <p class="subtitle is-6">{{ data.description }}</p>
@@ -34,11 +34,21 @@
             <div class="column">
                 <div class="preview">
                     <div class="carousel-example-js">
-                        <div>1</div>
-                        <div>2</div>
-                        <div>3</div>
-                        <div>4</div>
-                        <div>5</div>
+                        <div>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
+                        </div>
+                        <div>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
+                        </div>
+                        <div>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
+                        </div>
+                        <div>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
+                        </div>
+                        <div>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,10 +76,13 @@
         computed: {
             data() {
                 return this.$page.frontmatter;
-            },
-            created() {
-                new FlexCarousel('.carousel-example-js');
             }
+        },
+        created() {
+            setTimeout(() => { new FlexCarousel('.carousel-example-js', {
+                autoplay: true,
+                height: '150px'
+            }); }, 1000);
         }
     }
 </script>

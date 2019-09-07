@@ -23,6 +23,21 @@
                 class="navbar-menu"
                 ref="menu"
             >
+                <div class="navbar-start">
+                    <router-link
+                        to="/docs"
+                        class="navbar-item"
+                    >Docs</router-link>
+                    <router-link
+                        to="/examples"
+                        class="navbar-item"
+                    >Examples</router-link>
+                    <a
+                        :href="$site.themeConfig.github + '/issues'"
+                        class="navbar-item"
+                        target="_blank"
+                    >Support</a>
+                </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="select">
