@@ -80,17 +80,15 @@ class FlexCarousel {
         const nextArrow = this.selector.querySelector('.fc-next');
         const prevArrow = this.selector.querySelector('.fc-prev');
 
-        if (this.options.arrows) {
-            // Move to the next slide when clicking the next arrow
-            nextArrow.addEventListener('click', () => {
-                this.moveSlide('next');
-            });
+        // Move to the next slide when clicking the next arrow
+        nextArrow.addEventListener('click', () => {
+            this.moveSlide('next');
+        });
 
-            // Move to the previous slide when clicking the previous arrow
-            prevArrow.addEventListener('click', () => {
-                this.moveSlide('previous');
-            });
-        }
+        // Move to the previous slide when clicking the previous arrow
+        prevArrow.addEventListener('click', () => {
+            this.moveSlide('previous');
+        });
     }
 
     buildArrows() {
@@ -128,6 +126,16 @@ class FlexCarousel {
         }
     }
 
+    buildCircleEvents() {
+        const circles = this.selector.querySelectorAll('.fc-circle');
+
+        circles.forEach((element, index) => {
+            element.addEventListener('click', () => {
+                this.moveSlide(index);
+            });
+        });
+    }
+
     buildCircles() {
         const slides = this.selector.querySelector('.fc-slides');
         const allSlides = slides.querySelectorAll('.fc-slide:not(.fc-is-clone)');
@@ -161,6 +169,7 @@ class FlexCarousel {
                 }
 
                 this.updateCircles();
+                this.buildCircleEvents();
             }
         }
     }
@@ -251,6 +260,8 @@ class FlexCarousel {
             if (this.options.slidesVisible < this.slideAmount) {
                 this.slideController(this.currentSlide + slideOffset);
             }
+        } else {
+            this.slideController(index);
         }
 
         this.updateCircles();
@@ -296,7 +307,7 @@ class FlexCarousel {
     }
 
     updateCircles() {
-        const circle = document.querySelectorAll('.fc-circle');
+        const circle = this.selector.querySelectorAll('.fc-circle');
 
         for (let i = 0; i < circle.length; i += 1) {
             circle[i].classList.remove('fc-is-active');
