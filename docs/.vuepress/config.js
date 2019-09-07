@@ -16,7 +16,10 @@ module.exports = {
             { text: 'Support', url: 'https://github.com/tomhrtly/flexCarousel.js/issues', external: true, },
         ],
         links: [
-
+            { text: 'Introduction', slug: 'introduction', },
+            { text: 'Installation', slug: 'installation', },
+            { text: 'Configuration', slug: 'configuration', },
+            { text: 'Browser Support', slug: 'browser-support', },
         ]
     },
     plugins: {
