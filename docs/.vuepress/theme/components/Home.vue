@@ -33,7 +33,7 @@
             </div>
             <div class="column">
                 <div class="preview">
-                    <div class="carousel-example">
+                    <div class="carousel-example-js">
                         <div>1</div>
                         <div>2</div>
                         <div>3</div>
@@ -44,15 +44,32 @@
             </div>
         </div>
         <hr>
+        <div class="columns">
+            <div
+                v-for="column in data.columns"
+                class="column"
+            >
+                <div class="content">
+                    <h3>{{ column.title }}</h3>
+                    <p>{{ column.description }}</p>
+                    {{ column.code }}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import FlexCarousel from "../../../../src/flexCarousel";
+
     export default {
         computed: {
             data() {
                 return this.$page.frontmatter;
             },
+            created() {
+                new FlexCarousel('.carousel-example-js');
+            }
         }
     }
 </script>
