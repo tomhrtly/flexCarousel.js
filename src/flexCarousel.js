@@ -159,6 +159,8 @@ class FlexCarousel {
                 if (this.options.circlesOverlay) {
                     this.selector.classList.add('fc-circles-overlay');
                 }
+
+                this.updateCircles();
             }
         }
     }
@@ -250,6 +252,8 @@ class FlexCarousel {
                 this.slideController(this.currentSlide + slideOffset);
             }
         }
+
+        this.updateCircles();
     }
 
     removeTransition() {
@@ -289,6 +293,16 @@ class FlexCarousel {
 
         this.currentSlide = nextSlide;
         this.animateSlide(this.getLeftSlide(index));
+    }
+
+    updateCircles() {
+        const circle = document.querySelectorAll('.fc-circle');
+
+        for (let i = 0; i < circle.length; i += 1) {
+            circle[i].classList.remove('fc-is-active');
+        }
+
+        circle[this.currentSlide].classList.add('fc-is-active');
     }
 }
 
