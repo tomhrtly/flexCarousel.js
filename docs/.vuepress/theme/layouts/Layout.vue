@@ -3,13 +3,9 @@
         <Navbar></Navbar>
         <section class="section">
             <div class="container">
-                <div class="columns">
-                    <div class="column">
-                        <Home
-                            v-if="$page.frontmatter.home"
-                        />
-                    </div>
-                </div>
+                <Home
+                    v-if="$page.frontmatter.home"
+                />
             </div>
         </section>
     </div>
@@ -27,10 +23,6 @@
     }
 </script>
 
-<style lang="scss">
-    @import '../styles/global';
-
-    .section {
-        padding: 3rem 1.5rem;
-    }
+<style lang="sass">
+    @import '../styles/global'
 </style>
