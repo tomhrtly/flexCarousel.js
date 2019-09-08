@@ -9,25 +9,31 @@
  */
 
 class FlexCarousel {
-    constructor(selector, options) {
+    constructor(selector, options = null) {
         this.selector = document.querySelector(selector);
 
         function extend(object1, object2) {
             const extended = {};
-            const object1Keys = Object.keys(object1);
-            const object2Keys = Object.keys(object2);
 
-            object1Keys.forEach((value) => {
-                if (Object.prototype.hasOwnProperty.call(object1, value)) {
-                    extended[value] = object1[value];
-                }
-            });
+            if (object1) {
+                const object1Keys = Object.keys(object1);
 
-            object2Keys.forEach((value) => {
-                if (Object.prototype.hasOwnProperty.call(object2, value)) {
-                    extended[value] = object2[value];
-                }
-            });
+                object1Keys.forEach((value) => {
+                    if (Object.prototype.hasOwnProperty.call(object1, value)) {
+                        extended[value] = object1[value];
+                    }
+                });
+            }
+
+            if (object2) {
+                const object2Keys = Object.keys(object2);
+
+                object2Keys.forEach((value) => {
+                    if (Object.prototype.hasOwnProperty.call(object2, value)) {
+                        extended[value] = object2[value];
+                    }
+                });
+            }
 
             return extended;
         }
@@ -52,6 +58,7 @@ class FlexCarousel {
         this.slideOffset = null;
         this.slideAmount = null;
         this.currentSlide = 0;
+
         this.options = extend(this.defaults, options);
         this.init();
     }
@@ -103,12 +110,12 @@ class FlexCarousel {
                 // Create arrow button
                 const nextArrow = document.createElement('button');
                 nextArrow.classList.add('fc-next', 'fc-is-active');
-                nextArrow.innerHTML = `<span class="fc-icon">${this.options.nextArrow}</span>`;
+                nextArrow.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextArrow}</span>`;
 
                 // Create prev button
                 const prevArrow = document.createElement('button');
                 prevArrow.classList.add('fc-prev', 'fc-is-active');
-                prevArrow.innerHTML = `<span class="fc-icon">${this.options.prevArrow}</span>`;
+                prevArrow.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevArrow}</span>`;
 
                 // Append next arrow to the selector
                 this.selector.appendChild(nextArrow);
@@ -147,14 +154,14 @@ class FlexCarousel {
                 this.selector.classList.add('fc-circles');
 
                 // Create circles container
-                const circles = document.createElement('div');
+                const circles = document.createElement('ul');
                 circles.classList.add('fc-circles');
 
                 // Append circles to the container
                 container.appendChild(circles);
 
                 for (let i = 0; i < allSlides.length; i += 1) {
-                    const circle = document.createElement('div');
+                    const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
 
                     const icon = document.createElement('span');
