@@ -28,19 +28,17 @@ $fc-prev-next-min-width: $fc-space * 8 !default
     .fc-circle
         cursor: pointer
 
-        .fc-icon
-            &.fc-is-circle
-                background-color: rgba($fc-black, 0.40)
-                border-radius: 50%
-                display: flex
-                height: $fc-space / 2
-                width: $fc-space / 2
+        .fc-icon.fc-is-circle
+            background-color: rgba($fc-black, 0.40)
+            border-radius: 50%
+            display: flex
+            height: $fc-space / 2
+            width: $fc-space / 2
 
         &:hover,
         &.fc-is-active
-            .fc-icon
-                &.fc-is-circle
-                    background-color: rgba($fc-black, 0.80)
+            .fc-icon.fc-is-circle
+                background-color: rgba($fc-black, 0.80)
 
         & + .fc-circle
             margin-left: $fc-space / 2
@@ -63,9 +61,8 @@ $fc-prev-next-min-width: $fc-space * 8 !default
                     height: 100%
                     width: 100%
 
-            &:hover
-                .fc-icon
-                    color: rgba($fc-black, 0.80)
+            &:hover .fc-icon
+                color: rgba($fc-black, 0.80)
 
 .fc-container
     display: flex
@@ -105,20 +102,11 @@ $fc-prev-next-min-width: $fc-space * 8 !default
                     width: $fc-space * 2
                     z-index: 1
 
-            .fc-next
-                &.fc-is-active
+            .fc-next.fc-is-active
                     right: 0
 
-            .fc-prev
-                &.fc-is-active
+            .fc-prev.fc-is-active
                     left: 0
-
-        &.fc-circles
-            &:not(.fc-circles-overlay)
-                .fc-next,
-                .fc-prev
-                    &.fc-is-active
-                        height: calc(100% - #{$fc-prev-next-height})
 
     &.fc-circles
         .fc-circles
