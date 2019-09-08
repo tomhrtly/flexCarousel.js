@@ -9,25 +9,31 @@
  */
 
 class FlexCarousel {
-    constructor(selector, options) {
+    constructor(selector, options = null) {
         this.selector = document.querySelector(selector);
 
         function extend(object1, object2) {
             const extended = {};
-            const object1Keys = Object.keys(object1);
-            const object2Keys = Object.keys(object2);
 
-            object1Keys.forEach((value) => {
-                if (Object.prototype.hasOwnProperty.call(object1, value)) {
-                    extended[value] = object1[value];
-                }
-            });
+            if (object1) {
+                const object1Keys = Object.keys(object1);
 
-            object2Keys.forEach((value) => {
-                if (Object.prototype.hasOwnProperty.call(object2, value)) {
-                    extended[value] = object2[value];
-                }
-            });
+                object1Keys.forEach((value) => {
+                    if (Object.prototype.hasOwnProperty.call(object1, value)) {
+                        extended[value] = object1[value];
+                    }
+                });
+            }
+
+            if (object2) {
+                const object2Keys = Object.keys(object2);
+
+                object2Keys.forEach((value) => {
+                    if (Object.prototype.hasOwnProperty.call(object2, value)) {
+                        extended[value] = object2[value];
+                    }
+                });
+            }
 
             return extended;
         }
@@ -52,6 +58,7 @@ class FlexCarousel {
         this.slideOffset = null;
         this.slideAmount = null;
         this.currentSlide = 0;
+
         this.options = extend(this.defaults, options);
         this.init();
     }
