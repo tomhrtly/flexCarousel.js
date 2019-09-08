@@ -154,14 +154,14 @@ class FlexCarousel {
                 this.selector.classList.add('fc-circles');
 
                 // Create circles container
-                const circles = document.createElement('div');
+                const circles = document.createElement('ul');
                 circles.classList.add('fc-circles');
 
                 // Append circles to the container
                 container.appendChild(circles);
 
                 for (let i = 0; i < allSlides.length; i += 1) {
-                    const circle = document.createElement('div');
+                    const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
 
                     const icon = document.createElement('span');
@@ -251,6 +251,7 @@ class FlexCarousel {
             this.buildArrows();
             this.buildCircles();
             this.buildOptions();
+            this.buildAccessibility();
         }
     }
 
