@@ -73,9 +73,12 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
     .improve
         color: #b5b5b5
         padding-top: 6rem
         text-align: center
+
+    .extra-class
+        margin-bottom: 2rem
 </style>

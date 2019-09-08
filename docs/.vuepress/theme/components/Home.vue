@@ -36,24 +36,24 @@
             <div class="column">
                 <div class="inner">
                     <div class="preview">
-                    <div class="carousel-example-js">
-                        <div>
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
-                        </div>
-                        <div>
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
-                        </div>
-                        <div>
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
-                        </div>
-                        <div>
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
-                        </div>
-                        <div>
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
-                        </div>
+                        <Carousel id="example">
+                            <div>
+                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
+                            </div>
+                            <div>
+                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
+                            </div>
+                            <div>
+                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
+                            </div>
+                            <div>
+                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
+                            </div>
+                            <div>
+                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
+                            </div>
+                        </Carousel>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -92,19 +92,16 @@
 </template>
 
 <script>
-    import FlexCarousel from "../../../../src/flexCarousel";
+    import Carousel from './Carousel.vue'
 
     export default {
+        components: {
+            Carousel
+        },
         computed: {
             data() {
                 return this.$page.frontmatter;
             }
-        },
-        created() {
-            setTimeout(() => { new FlexCarousel('.carousel-example-js', {
-                autoplay: true,
-                height: '150px'
-            }); }, 1000);
         }
     }
 </script>
