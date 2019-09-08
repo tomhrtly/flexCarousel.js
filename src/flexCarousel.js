@@ -110,12 +110,12 @@ class FlexCarousel {
                 // Create arrow button
                 const nextArrow = document.createElement('button');
                 nextArrow.classList.add('fc-next', 'fc-is-active');
-                nextArrow.innerHTML = `<span class="fc-icon">${this.options.nextArrow}</span>`;
+                nextArrow.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextArrow}</span>`;
 
                 // Create prev button
                 const prevArrow = document.createElement('button');
                 prevArrow.classList.add('fc-prev', 'fc-is-active');
-                prevArrow.innerHTML = `<span class="fc-icon">${this.options.prevArrow}</span>`;
+                prevArrow.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevArrow}</span>`;
 
                 // Append next arrow to the selector
                 this.selector.appendChild(nextArrow);
