@@ -49,7 +49,6 @@
   },
   "dependencies": {
     "bulma": "^0.7.5",
-    "minireset.css": "0.0.5",
     "vuepress": "^1.0.3",
     "vuepress-plugin-clean-urls": "^1.0.3"
   }

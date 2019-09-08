@@ -15,130 +15,151 @@ $fc-prev-next-height: $fc-space * 1.5 !default
 $fc-prev-next-min-width: $fc-space * 8 !default
 
 *
-  box-sizing: border-box
-  &::after,
-  &::before
     box-sizing: border-box
 
+    &::after,
+    &::before
+        box-sizing: border-box
+
 .fc-icon
-  display: none
+    display: none
 
 .fc-circles
-  .fc-circle
-    cursor: pointer
-    .fc-icon
-      &.fc-is-circle
-        background-color: rgba($fc-black, 0.40)
-        border-radius: 50%
-        display: flex
-        height: $fc-space / 2
-        width: $fc-space / 2
-    &:hover,
-    &.fc-is-active
-      .fc-icon
-        &.fc-is-circle
-          background-color: rgba($fc-black, 0.80)
-    & + .fc-circle
-      margin-left: $fc-space / 2
+    list-style-type: none
+    margin: 0
+    padding: 0
+
+    .fc-circle
+        cursor: pointer
+
+        .fc-icon.fc-is-circle
+            background-color: rgba($fc-black, 0.40)
+            border-radius: 50%
+            display: flex
+            height: $fc-space / 2
+            width: $fc-space / 2
+
+        &:hover,
+        &.fc-is-active
+            .fc-icon.fc-is-circle
+                background-color: rgba($fc-black, 0.80)
+
+        & + .fc-circle
+            margin-left: $fc-space / 2
 
 .fc-arrows
-  .fc-next,
-  .fc-prev
-    &.fc-is-active
-      cursor: pointer
-      .fc-icon
-        color: rgba($fc-black, 0.40)
-        display: inline-flex
-        height: $fc-space * 2
-        justify-content: center
-        position: absolute
-        width: $fc-space * 2
-        svg
-          height: 100%
-          width: 100%
-      &:hover
-        .fc-icon
-          color: rgba($fc-black, 0.80)
-
-.fc-container
-  display: flex
-  flex-direction: column
-  flex-grow: 1
-  overflow: hidden
-
-.fc
-  display: flex
-  width: 100%
-  &.fc-arrows
     .fc-next,
     .fc-prev
-      align-items: center
-      background-color: transparent
-      border: none
-      color: inherit
-      cursor: pointer
-      display: flex
-      font: inherit
-      justify-content: center
-      min-width: $fc-prev-next-min-width / 2
-      outline: none
-      padding: 0
-    &.fc-arrows-overlay
-      position: relative
-      .fc-next,
-      .fc-prev
         &.fc-is-active
-          color: rgba($fc-black, 0.40)
-          font-size: $fc-space * 2
-          height: 100%
-          position: absolute
-          width: $fc-space * 2
-          z-index: 1
-      .fc-next
-        &.fc-is-active
-          right: 0
-      .fc-prev
-        &.fc-is-active
-          left: 0
-    &.fc-circles
-      &:not(.fc-circles-overlay)
+            cursor: pointer
+
+            .fc-icon
+                color: rgba($fc-black, 0.40)
+                display: inline-flex
+                height: $fc-space * 2
+                justify-content: center
+                position: absolute
+                width: $fc-space * 2
+
+                svg
+                    height: 100%
+                    width: 100%
+
+            &:hover .fc-icon
+                color: rgba($fc-black, 0.80)
+
+.fc-container
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    overflow: hidden
+
+.fc
+    display: flex
+    width: 100%
+
+    &.fc-arrows
         .fc-next,
         .fc-prev
-          &.fc-is-active
-            height: calc(100% - #{$fc-prev-next-height})
-  &.fc-circles
-    .fc-circles
-      display: flex
-      justify-content: center
-      margin-top: $fc-space
-    &.fc-circles-overlay
-      .fc-circles
-        bottom: 5%
-        position: absolute
-        width: 100%
-      .fc-container
-        position: relative
+            align-items: center
+            background-color: transparent
+            border: none
+            color: inherit
+            cursor: pointer
+            display: flex
+            font: inherit
+            justify-content: center
+            min-width: $fc-prev-next-min-width / 2
+            outline: none
+            padding: 0
+
+        &.fc-arrows-overlay
+            position: relative
+
+            .fc-next,
+            .fc-prev
+                &.fc-is-active
+                    color: rgba($fc-black, 0.40)
+                    font-size: $fc-space * 2
+                    height: 100%
+                    position: absolute
+                    width: $fc-space * 2
+                    z-index: 1
+
+            .fc-next.fc-is-active
+                    right: 0
+
+            .fc-prev.fc-is-active
+                    left: 0
+
+    &.fc-circles
+        .fc-circles
+            display: flex
+            justify-content: center
+            margin-top: $fc-space
+
+        &.fc-circles-overlay
+            .fc-circles
+                bottom: 5%
+                position: absolute
+                width: 100%
+
+            .fc-container
+                position: relative
 
 .fc-slides
-  display: flex
-  flex-grow: 1
+    display: flex
+    flex-grow: 1
 
 .fc-slide
-  min-height: $fc-space * 6
-  padding: $fc-space
-  video
-    height: auto
-    max-width: 100%
+    min-height: $fc-space * 6
+    padding: $fc-space
+
+    video
+        height: auto
+        max-width: 100%
 
 .fc-image
-  display: block
-  margin: 0
-  position: relative
-  img,
-  picture
     display: block
-    height: auto
-    max-width: 100%
-  figcaption
-    margin-top: $fc-space
-    text-align: center
+    margin: 0
+    position: relative
+
+    img,
+    picture
+        display: block
+        height: auto
+        max-width: 100%
+
+    figcaption
+        margin-top: $fc-space
+        text-align: center
+
+.fc-is-sr-only
+    border: none !important
+    clip: rect(0, 0, 0, 0) !important
+    height: 0.01em !important
+    overflow: hidden !important
+    padding: 0 !important
+    position: absolute !important
+    white-space: nowrap !important
+    width: 0.01em !important
