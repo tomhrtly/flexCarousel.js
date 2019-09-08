@@ -251,7 +251,6 @@ class FlexCarousel {
             this.buildArrows();
             this.buildCircles();
             this.buildOptions();
-            this.buildAccessibility();
         }
     }
 
