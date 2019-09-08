@@ -15,7 +15,7 @@
                     </ul>
                 </aside>
             </div>
-            <div class="column">
+            <div class="column is-9">
                 <div class="columns">
                     <div class="column">
                         <div class="field has-addons">
