@@ -43,7 +43,6 @@ class FlexCarousel {
             arrowsOverlay: true,
             autoplay: false,
             autoplaySpeed: 5000,
-            center: true,
             circles: true,
             circlesOverlay: true,
             height: null,
@@ -51,18 +50,16 @@ class FlexCarousel {
             prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
             slidesScrolling: 1,
             slidesPerPage: 1,
-            startingSlide: 0,
             transition: 'slide',
             transitionSpeed: 250,
         };
 
-        this.options = extend(this.defaults, options);
-
         this.slideWidth = null;
         this.slideOffset = null;
         this.slideAmount = null;
-        this.currentSlide = this.options.startingSlide;
+        this.currentSlide = 0;
 
+        this.options = extend(this.defaults, options);
         this.init();
     }
 
@@ -84,26 +81,6 @@ class FlexCarousel {
                 resolve(true);
             }, this.options.transitionSpeed);
         }).then(() => this.setTransform(this.getLeftSlide(this.currentSlide)));
-    }
-
-    autoplay() {
-        let pause = false;
-
-        if (this.options.autoplay) {
-            setInterval(() => {
-                if (!pause) {
-                    this.moveSlide('next');
-                }
-            }, this.options.autoplaySpeed);
-
-            this.selector.addEventListener('mouseenter', () => {
-                pause = true;
-            });
-
-            this.selector.addEventListener('mouseleave', () => {
-                pause = false;
-            });
-        }
     }
 
     buildArrowEvents() {
@@ -159,9 +136,9 @@ class FlexCarousel {
     buildCircleEvents() {
         const circles = this.selector.querySelectorAll('.fc-circle');
 
-        circles.forEach((element) => {
+        circles.forEach((element, index) => {
             element.addEventListener('click', () => {
-                this.moveSlide(this.currentSlide);
+                this.moveSlide(index);
             });
         });
     }
@@ -183,9 +160,7 @@ class FlexCarousel {
                 // Append circles to the container
                 container.appendChild(circles);
 
-                const amount = Math.ceil(allSlides.length / this.options.slidesPerPage);
-
-                for (let i = 0; i < amount; i += 1) {
+                for (let i = 0; i < allSlides.length; i += 1) {
                     const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
 
@@ -211,7 +186,9 @@ class FlexCarousel {
             this.selector.style.height = this.options.height;
         }
 
-        this.autoplay();
+        if (this.options.autoplay) {
+            setInterval(() => this.moveSlide('next'), this.options.autoplaySpeed);
+        }
     }
 
     buildSlides() {
@@ -240,8 +217,7 @@ class FlexCarousel {
 
             // Clone and prepend/append slides
             const array = Array.from(allSlides);
-            const prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount)
-                .reverse();
+            const prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount).reverse();
             const append = array.slice(0, this.options.slidesPerPage);
 
             for (let i = 0; i < prepend.length; i += 1) {
@@ -347,8 +323,7 @@ class FlexCarousel {
             circle[i].classList.remove('fc-is-active');
         }
 
-        const index = Math.floor(this.currentSlide / this.options.slidesScrolling);
-        circle[index].classList.add('fc-is-active');
+        circle[this.currentSlide].classList.add('fc-is-active');
     }
 }
 
