@@ -49,7 +49,7 @@ class FlexCarousel {
             nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
             prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
             slidesScrolling: 1,
-            slidesVisible: 1,
+            slidesPerPage: 1,
             startingSlide: 0,
             transition: 'slide',
             transitionSpeed: 250,
@@ -105,8 +105,8 @@ class FlexCarousel {
         const slide = slides.querySelectorAll('.fc-slide');
 
         if (this.options.arrows) {
-            // Only show the arrows if there are more slides then slidesVisible option
-            if (this.options.slidesVisible < slide.length) {
+            // Only show the arrows if there are more slides then slidesPerPage option
+            if (this.options.slidesPerPage < slide.length) {
                 this.selector.classList.add('fc-arrows');
 
                 // Create arrow button
@@ -138,9 +138,9 @@ class FlexCarousel {
     buildCircleEvents() {
         const circles = this.selector.querySelectorAll('.fc-circle');
 
-        circles.forEach((element, index) => {
+        circles.forEach((element) => {
             element.addEventListener('click', () => {
-                this.moveSlide(index);
+                this.moveSlide(this.currentSlide);
             });
         });
     }
@@ -151,8 +151,8 @@ class FlexCarousel {
         const container = this.selector.querySelector('.fc-container');
 
         if (this.options.circles) {
-            // Only show the arrows if there are more slides then slidesVisible option
-            if (this.options.slidesVisible < allSlides.length) {
+            // Only show the arrows if there are more slides then slidesPerPage option
+            if (this.options.slidesPerPage < allSlides.length) {
                 this.selector.classList.add('fc-circles');
 
                 // Create circles container
@@ -162,7 +162,9 @@ class FlexCarousel {
                 // Append circles to the container
                 container.appendChild(circles);
 
-                for (let i = 0; i < allSlides.length; i += 1) {
+                const amount = Math.ceil(allSlides.length / this.options.slidesPerPage);
+
+                for (let i = 0; i < amount; i += 1) {
                     const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
 
@@ -209,8 +211,8 @@ class FlexCarousel {
 
         this.slideAmount = allSlides.length;
 
-        if (this.options.slidesVisible < this.slideAmount) {
-            this.slideWidth = 100 / this.options.slidesVisible;
+        if (this.options.slidesPerPage < this.slideAmount) {
+            this.slideWidth = 100 / this.options.slidesPerPage;
 
             // Add the min-width CSS property to all slides
             for (let i = 0; i < this.slideAmount; i += 1) {
@@ -219,8 +221,9 @@ class FlexCarousel {
 
             // Clone and prepend/append slides
             const array = Array.from(allSlides);
-            const prepend = array.slice(this.slideAmount - this.options.slidesVisible, this.slideAmount).reverse();
-            const append = array.slice(0, this.options.slidesVisible);
+            const prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount)
+                .reverse();
+            const append = array.slice(0, this.options.slidesPerPage);
 
             for (let i = 0; i < prepend.length; i += 1) {
                 const clone = prepend[i].cloneNode(true);
@@ -239,8 +242,8 @@ class FlexCarousel {
     }
 
     getLeftSlide(index) {
-        if (this.options.slidesVisible < this.slideAmount) {
-            this.slideOffset = (this.slideWidth * this.options.slidesVisible) * -1;
+        if (this.options.slidesPerPage < this.slideAmount) {
+            this.slideOffset = (this.slideWidth * this.options.slidesPerPage) * -1;
         }
 
         return ((index * this.slideWidth) * -1) + this.slideOffset;
@@ -261,15 +264,15 @@ class FlexCarousel {
         const indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentSlide) % this.options.slidesScrolling;
 
         if (index === 'previous') {
-            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesVisible - indexOffset;
+            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesPerPage - indexOffset;
 
-            if (this.options.slidesVisible < this.slideAmount) {
+            if (this.options.slidesPerPage < this.slideAmount) {
                 this.slideController(this.currentSlide - slideOffset);
             }
         } else if (index === 'next') {
             const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
 
-            if (this.options.slidesVisible < this.slideAmount) {
+            if (this.options.slidesPerPage < this.slideAmount) {
                 this.slideController(this.currentSlide + slideOffset);
             }
         } else {
@@ -325,7 +328,8 @@ class FlexCarousel {
             circle[i].classList.remove('fc-is-active');
         }
 
-        circle[this.currentSlide].classList.add('fc-is-active');
+        const index = Math.floor(this.currentSlide / this.options.slidesScrolling);
+        circle[index].classList.add('fc-is-active');
     }
 }
 
