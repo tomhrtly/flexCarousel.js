@@ -48,8 +48,8 @@ class FlexCarousel {
             height: null,
             nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
             prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
-            slidesScrolling: 1,
             slidesPerPage: 1,
+            slidesScrolling: 1,
             transition: 'slide',
             transitionSpeed: 250,
         };
@@ -57,7 +57,7 @@ class FlexCarousel {
         this.slideWidth = null;
         this.slideOffset = null;
         this.slideAmount = null;
-        this.currentSlide = 0;
+        this.currentPage = 0;
 
         this.options = extend(this.defaults, options);
         this.init();
@@ -71,7 +71,8 @@ class FlexCarousel {
         }
     }
 
-    animateSlide(target) {
+
+    animatePage(target) {
         this.addTransition();
         this.setTransform(Math.ceil(target));
 
@@ -80,7 +81,7 @@ class FlexCarousel {
                 this.removeTransition();
                 resolve(true);
             }, this.options.transitionSpeed);
-        }).then(() => this.setTransform(this.getLeftSlide(this.currentSlide)));
+        }).then(() => this.setTransform(this.getLeftPage(this.currentPage)));
     }
 
     buildArrowEvents() {
@@ -89,12 +90,12 @@ class FlexCarousel {
 
         // Move to the next slide when clicking the next arrow
         nextArrow.addEventListener('click', () => {
-            this.moveSlide('next');
+            this.movePage('next');
         });
 
         // Move to the previous slide when clicking the previous arrow
         prevArrow.addEventListener('click', () => {
-            this.moveSlide('previous');
+            this.movePage('previous');
         });
     }
 
@@ -137,20 +138,16 @@ class FlexCarousel {
         const circles = this.selector.querySelectorAll('.fc-circle');
 
         circles.forEach((element, index) => {
-            element.addEventListener('click', () => {
-                this.moveSlide(index);
-            });
+            element.addEventListener('click', () => this.movePage(index));
         });
     }
 
     buildCircles() {
-        const slides = this.selector.querySelector('.fc-slides');
-        const allSlides = slides.querySelectorAll('.fc-slide:not(.fc-is-clone)');
         const container = this.selector.querySelector('.fc-container');
 
         if (this.options.circles) {
             // Only show the arrows if there are more slides then slidesPerPage option
-            if (this.options.slidesPerPage < allSlides.length) {
+            if (this.options.slidesPerPage < this.slideAmount) {
                 this.selector.classList.add('fc-circles');
 
                 // Create circles container
@@ -160,7 +157,7 @@ class FlexCarousel {
                 // Append circles to the container
                 container.appendChild(circles);
 
-                for (let i = 0; i < allSlides.length; i += 1) {
+                for (let i = 0; i < this.slideAmount; i += 1) {
                     const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
 
@@ -187,7 +184,7 @@ class FlexCarousel {
         }
 
         if (this.options.autoplay) {
-            setInterval(() => this.moveSlide('next'), this.options.autoplaySpeed);
+            setInterval(() => this.movePage('next'), this.options.autoplaySpeed);
         }
     }
 
@@ -232,11 +229,11 @@ class FlexCarousel {
                 slides.appendChild(clone);
             }
 
-            this.setTransform(this.getLeftSlide(this.currentSlide));
+            this.setTransform(this.getLeftPage(this.currentPage));
         }
     }
 
-    getLeftSlide(index) {
+    getLeftPage(index) {
         if (this.options.slidesPerPage < this.slideAmount) {
             this.slideOffset = (this.slideWidth * this.options.slidesPerPage) * -1;
         }
@@ -254,21 +251,21 @@ class FlexCarousel {
         }
     }
 
-    moveSlide(index) {
+    movePage(index) {
         const unevenOffset = (this.slideAmount % this.options.slidesScrolling !== 0);
-        const indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentSlide) % this.options.slidesScrolling;
+        const indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentPage) % this.options.slidesScrolling;
 
         if (index === 'previous') {
             const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesPerPage - indexOffset;
 
             if (this.options.slidesPerPage < this.slideAmount) {
-                this.slideController(this.currentSlide - slideOffset);
+                this.slideController(this.currentPage - slideOffset);
             }
         } else if (index === 'next') {
             const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
 
             if (this.options.slidesPerPage < this.slideAmount) {
-                this.slideController(this.currentSlide + slideOffset);
+                this.slideController(this.currentPage + slideOffset);
             }
         } else {
             this.slideController(index);
@@ -294,26 +291,26 @@ class FlexCarousel {
     }
 
     slideController(index) {
-        let nextSlide;
+        let nextPage;
 
         if (index < 0) {
             if (this.slideAmount % this.options.slidesScrolling !== 0) {
-                nextSlide = this.slideAmount - (this.slideAmount % this.options.slidesScrolling);
+                nextPage = this.slideAmount - (this.slideAmount % this.options.slidesScrolling);
             } else {
-                nextSlide = this.slideAmount + index;
+                nextPage = this.slideAmount + index;
             }
         } else if (index >= this.slideAmount) {
             if (this.slideAmount % this.options.slidesScrolling !== 0) {
-                nextSlide = 0;
+                nextPage = 0;
             } else {
-                nextSlide = index - this.slideAmount;
+                nextPage = index - this.slideAmount;
             }
         } else {
-            nextSlide = index;
+            nextPage = index;
         }
 
-        this.currentSlide = nextSlide;
-        this.animateSlide(this.getLeftSlide(index));
+        this.currentPage = nextPage;
+        this.animatePage(this.getLeftPage(index));
     }
 
     updateCircles() {
@@ -323,7 +320,7 @@ class FlexCarousel {
             circle[i].classList.remove('fc-is-active');
         }
 
-        circle[this.currentSlide].classList.add('fc-is-active');
+        circle[this.currentPage].classList.add('fc-is-active');
     }
 }
 
