@@ -83,6 +83,21 @@ class FlexCarousel {
         }).then(() => this.setTransform(this.getLeftPage(this.currentPage)));
     }
 
+    autoplay() {
+        let pause = false;
+
+        if (this.options.autoplay) {
+            setInterval(() => {
+                if (!pause) {
+                    this.movePage('next');
+                }
+            }, this.options.autoplaySpeed);
+
+            this.selector.addEventListener('mouseenter', () => { pause = true; });
+            this.selector.addEventListener('mouseleave', () => { pause = false; });
+        }
+    }
+
     buildArrowEvents() {
         const nextArrow = this.selector.querySelector('.fc-next');
         const prevArrow = this.selector.querySelector('.fc-prev');
@@ -184,9 +199,7 @@ class FlexCarousel {
             this.selector.style.height = this.options.height;
         }
 
-        if (this.options.autoplay) {
-            setInterval(() => this.movePage('next'), this.options.autoplaySpeed);
-        }
+        this.autoplay();
     }
 
     buildSlides() {
