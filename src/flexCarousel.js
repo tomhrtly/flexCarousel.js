@@ -43,6 +43,7 @@ class FlexCarousel {
             arrowsOverlay: true,
             autoplay: false,
             autoplaySpeed: 5000,
+            center: true,
             circles: true,
             circlesOverlay: true,
             height: null,
