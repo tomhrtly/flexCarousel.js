@@ -157,7 +157,9 @@ class FlexCarousel {
                 // Append circles to the container
                 container.appendChild(circles);
 
-                for (let i = 0; i < this.slideAmount; i += 1) {
+                const amount = Math.ceil(this.slideAmount / this.options.slidesPerPage);
+
+                for (let i = 0; i < amount; i += 1) {
                     const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
 
@@ -268,7 +270,8 @@ class FlexCarousel {
                 this.slideController(this.currentPage + slideOffset);
             }
         } else {
-            this.slideController(index);
+            const page = index === 0 ? 0 : index * this.options.slidesScrolling;
+            this.slideController(page);
         }
 
         this.updateCircles();
@@ -320,7 +323,9 @@ class FlexCarousel {
             circle[i].classList.remove('fc-is-active');
         }
 
-        circle[this.currentPage].classList.add('fc-is-active');
+        const index = Math.floor(this.currentPage / this.options.slidesScrolling);
+
+        circle[index].classList.add('fc-is-active');
     }
 }
 
