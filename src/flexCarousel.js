@@ -70,7 +70,7 @@ class FlexCarousel {
             slides.style.transition = `all ${this.options.transitionSpeed}ms ease-in-out 0s`;
         }
     }
-    
+
     animatePage(target) {
         this.addTransition();
         this.setTransform(Math.ceil(target));
