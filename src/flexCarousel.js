@@ -171,7 +171,8 @@ class FlexCarousel {
                 // Append circles to the container
                 container.appendChild(circles);
 
-                const amount = Math.ceil(this.slideAmount / this.options.slidesPerPage);
+                const option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
+                const amount = Math.ceil(this.slideAmount / option);
 
                 for (let i = 0; i < amount; i += 1) {
                     const circle = document.createElement('li');
