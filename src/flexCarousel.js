@@ -206,13 +206,15 @@ class FlexCarousel {
     buildSlides() {
         const { children } = this.selector;
 
+        children[0].classList.add('fc-slides');
+
         // Add the slide class to all child div elements
-        for (let i = 0; i < children.length; i += 1) {
-            children[i].classList.add('fc-slide');
+        for (let i = 0; i < children[0].children.length; i += 1) {
+            children[0].children[i].classList.add('fc-slide');
         }
 
         // Wrap slides to reduce HTML markup
-        this.selector.innerHTML = `<div class="fc-container"><div class="fc-slides">${this.selector.innerHTML}</div></div>`;
+        this.selector.innerHTML = `<div class="fc-container">${this.selector.innerHTML}</div>`;
 
         const slides = this.selector.querySelector('.fc-slides');
         const allSlides = slides.querySelectorAll('.fc-slide');
