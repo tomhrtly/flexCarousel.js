@@ -180,7 +180,7 @@ class FlexCarousel {
                     const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
                     circle.setAttribute('role', 'button');
-                    circle.setAttribute('aria-label', `${FlexCarousel.suffix(i)} page`);
+                    circle.setAttribute('aria-label', `${FlexCarousel.suffix(i + 1)} page`);
 
                     const icon = document.createElement('span');
                     icon.classList.add('fc-icon', 'fc-is-circle');
