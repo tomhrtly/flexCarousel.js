@@ -9,7 +9,7 @@
  */
 
 class FlexCarousel {
-    constructor(selector, options = null) {
+    constructor(selector, options = {}) {
         this.selector = document.querySelector(selector);
 
         function extend(object1, object2) {
@@ -39,6 +39,8 @@ class FlexCarousel {
         }
 
         this.defaults = {
+            appendArrows: this.selector,
+            appendCircles: null,
             arrows: true,
             arrowsOverlay: true,
             autoplay: false,
@@ -99,8 +101,8 @@ class FlexCarousel {
     }
 
     buildArrowEvents() {
-        const nextButton = this.selector.querySelector('.fc-next');
-        const prevButton = this.selector.querySelector('.fc-prev');
+        const nextButton = this.options.appendArrows.querySelector('.fc-next');
+        const prevButton = this.options.appendArrows.querySelector('.fc-prev');
 
         // Move to the next slide when clicking the next arrow
         nextButton.addEventListener('click', () => {
@@ -135,10 +137,10 @@ class FlexCarousel {
                 prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevButton}</span>`;
 
                 // Append next arrow to the selector
-                this.selector.appendChild(nextButton);
+                this.options.appendArrows.appendChild(nextButton);
 
                 // Prepend prev arrow to the selector
-                this.selector.insertBefore(prevButton, this.selector.firstChild);
+                this.options.appendArrows.insertBefore(prevButton, this.options.appendArrows.firstChild);
 
                 // Add the overlay class if needed
                 if (this.options.arrowsOverlay) {
@@ -151,7 +153,7 @@ class FlexCarousel {
     }
 
     buildCircleEvents() {
-        const circles = this.selector.querySelectorAll('.fc-circle');
+        const circles = this.options.appendCircles.querySelectorAll('.fc-circle');
 
         circles.forEach((element, index) => {
             element.addEventListener('click', () => this.movePage(index));
@@ -159,8 +161,6 @@ class FlexCarousel {
     }
 
     buildCircles() {
-        const container = this.selector.querySelector('.fc-container');
-
         if (this.options.circles) {
             // Only show the arrows if there are more slides then slidesPerPage option
             if (this.options.slidesPerPage < this.slideAmount) {
@@ -170,8 +170,7 @@ class FlexCarousel {
                 const circles = document.createElement('ul');
                 circles.classList.add('fc-circles');
 
-                // Append circles to the container
-                container.appendChild(circles);
+                this.options.appendCircles.appendChild(circles);
 
                 const option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
                 const amount = Math.ceil(this.slideAmount / option);
@@ -215,17 +214,21 @@ class FlexCarousel {
     }
 
     buildSlides() {
-        const { children } = this.selector;
+        const ul = this.selector.querySelector('ul');
 
-        children[0].classList.add('fc-slides');
+        ul.classList.add('fc-slides');
 
         // Add the slide class to all child div elements
-        for (let i = 0; i < children[0].children.length; i += 1) {
-            children[0].children[i].classList.add('fc-slide');
+        for (let i = 0; i < ul.children.length; i += 1) {
+            ul.children[i].classList.add('fc-slide');
         }
 
         // Wrap slides to reduce HTML markup
         this.selector.innerHTML = `<div class="fc-container">${this.selector.innerHTML}</div>`;
+
+        if (!this.options.appendCircles) {
+            this.options.appendCircles = this.selector.querySelector('.fc-container');
+        }
 
         const slides = this.selector.querySelector('.fc-slides');
         const allSlides = slides.querySelectorAll('.fc-slide');
@@ -355,7 +358,7 @@ class FlexCarousel {
     }
 
     updateCircles() {
-        const circle = this.selector.querySelectorAll('.fc-circle');
+        const circle = this.options.appendCircles.querySelectorAll('.fc-circle');
 
         for (let i = 0; i < circle.length; i += 1) {
             circle[i].classList.remove('fc-is-active');
