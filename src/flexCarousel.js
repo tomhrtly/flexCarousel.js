@@ -46,8 +46,8 @@ class FlexCarousel {
             circles: true,
             circlesOverlay: true,
             height: null,
-            nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
-            prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
+            nextButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
+            prevButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
             slidesPerPage: 1,
             slidesScrolling: 1,
             transition: 'slide',
@@ -99,16 +99,16 @@ class FlexCarousel {
     }
 
     buildArrowEvents() {
-        const nextArrow = this.selector.querySelector('.fc-next');
-        const prevArrow = this.selector.querySelector('.fc-prev');
+        const nextButton = this.selector.querySelector('.fc-next');
+        const prevButton = this.selector.querySelector('.fc-prev');
 
         // Move to the next slide when clicking the next arrow
-        nextArrow.addEventListener('click', () => {
+        nextButton.addEventListener('click', () => {
             this.movePage('next');
         });
 
         // Move to the previous slide when clicking the previous arrow
-        prevArrow.addEventListener('click', () => {
+        prevButton.addEventListener('click', () => {
             this.movePage('previous');
         });
     }
@@ -123,20 +123,20 @@ class FlexCarousel {
                 this.selector.classList.add('fc-arrows');
 
                 // Create arrow button
-                const nextArrow = document.createElement('button');
-                nextArrow.classList.add('fc-next', 'fc-is-active');
-                nextArrow.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextArrow}</span>`;
+                const nextButton = document.createElement('button');
+                nextButton.classList.add('fc-next', 'fc-is-active');
+                nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextButton}</span>`;
 
                 // Create prev button
-                const prevArrow = document.createElement('button');
-                prevArrow.classList.add('fc-prev', 'fc-is-active');
-                prevArrow.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevArrow}</span>`;
+                const prevButton = document.createElement('button');
+                prevButton.classList.add('fc-prev', 'fc-is-active');
+                prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevButton}</span>`;
 
                 // Append next arrow to the selector
-                this.selector.appendChild(nextArrow);
+                this.selector.appendChild(nextButton);
 
                 // Prepend prev arrow to the selector
-                this.selector.insertBefore(prevArrow, this.selector.firstChild);
+                this.selector.insertBefore(prevButton, this.selector.firstChild);
 
                 // Add the overlay class if needed
                 if (this.options.arrowsOverlay) {
