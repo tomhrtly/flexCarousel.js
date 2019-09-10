@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="columns">
                     <div class="column">
-                        <h1 class="subtitle is-3">404 - Page Not Found</h1>
+                        <h1 class="title is-spaced is-3">404 - Page Not Found</h1>
                         <p class="subtitle is-6">Looks like this page was either moved, deleted or never existed.</p>
                     </div>
                 </div>
