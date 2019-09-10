@@ -125,11 +125,13 @@ class FlexCarousel {
                 // Create arrow button
                 const nextButton = document.createElement('button');
                 nextButton.classList.add('fc-next', 'fc-is-active');
+                nextButton.setAttribute('aria-label', 'Next');
                 nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextButton}</span>`;
 
                 // Create prev button
                 const prevButton = document.createElement('button');
                 prevButton.classList.add('fc-prev', 'fc-is-active');
+                prevButton.setAttribute('aria-label', 'Previous');
                 prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevButton}</span>`;
 
                 // Append next arrow to the selector
@@ -177,11 +179,18 @@ class FlexCarousel {
                 for (let i = 0; i < amount; i += 1) {
                     const circle = document.createElement('li');
                     circle.classList.add('fc-circle');
+                    circle.setAttribute('role', 'button');
+                    circle.setAttribute('aria-label', `${FlexCarousel.suffix(i)} page`);
 
                     const icon = document.createElement('span');
                     icon.classList.add('fc-icon', 'fc-is-circle');
 
+                    const text = document.createElement('span');
+                    text.classList.add('fc-is-sr-only');
+                    text.innerHTML = i + 1;
+
                     circle.appendChild(icon);
+                    circle.appendChild(text);
                     circles.appendChild(circle);
                 }
 
@@ -353,6 +362,25 @@ class FlexCarousel {
         const index = Math.floor(this.currentPage / this.options.slidesScrolling);
 
         circle[index].classList.add('fc-is-active');
+    }
+
+    static suffix(index) {
+        const j = index % 10;
+        const k = index % 100;
+
+        if (j === 1 && k !== 11) {
+            return `${index}st`;
+        }
+
+        if (j === 2 && k !== 12) {
+            return `${index}nd`;
+        }
+
+        if (j === 3 && k !== 13) {
+            return `${index}rd`;
+        }
+
+        return `${index}th`;
     }
 }
 
