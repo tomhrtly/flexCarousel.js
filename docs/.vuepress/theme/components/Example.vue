@@ -23,21 +23,23 @@
                     :id="$page.key"
                     :options="options"
                 >
-                    <div>
-                        <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
-                    </div>
-                    <div>
-                        <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
-                    </div>
-                    <div>
-                        <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
-                    </div>
-                    <div>
-                        <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
-                    </div>
-                    <div>
-                        <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
-                    </div>
+                    <ul>
+                        <li>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
+                        </li>
+                        <li>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
+                        </li>
+                        <li>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
+                        </li>
+                        <li>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
+                        </li>
+                        <li>
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
+                        </li>
+                    </ul>
                 </Carousel>
             </div>
         </div>
