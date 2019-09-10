@@ -9,12 +9,10 @@
         - [Sass](#sass)
         - [File Structure](#file-structure)
 
-## Configuration
-
-### How to Use
+## How to Use
 Before you start using flexCarousel.js, make sure your web page is set up to the latest development standards. This means using the correct document declaration and including the responsive meta tag.
 
-#### Document Setup
+### Document Setup
 ```html
 <!DOCTYPE html>
 <html>
@@ -26,7 +24,7 @@ Before you start using flexCarousel.js, make sure your web page is set up to the
 </html>
 ```
 
-#### Quick-start Template
+### Quick-start Template
 After setting up your web page correctly, this is what your full HTML structure should look like to initialize flexCarousel.js.
 
 Use a semantic unordered list with a list item for each carousel slide wrapped in a HTML tag with a unique identifier to initialize the carousel.
@@ -59,7 +57,7 @@ Having trouble getting your carousel to work correctly? Check out this [CodePen 
 </html>
 ```
 
-### Options
+## Options
 It's very easy to customise your carousel by changing the options given to you. All you have to do is invoke the flexCarousel function and pass an object with the options you wish to change from the default value.
 
 ```html
@@ -90,3 +88,9 @@ For a full list of all the options available so that you can customise your caro
 | `slidesScrolling` | Integer | `1` | |
 | `transition` | String | `slide` | Defines which transition should be used when changing the active slide(s). Current transitions available are: `none` and `slide`. |
 | `transitionSpeed` | Integer | `250` | Defines the transition speed when the slide is being changed. `transition` must be set to `slide` for this option to work. |
+
+## Styling
+
+### Sass
+
+### File Structure
