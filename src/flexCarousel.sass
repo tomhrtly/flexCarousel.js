@@ -114,15 +114,22 @@ $fc-prev-next-min-width: $fc-space * 8 !default
             .fc-prev.fc-is-active
                 left: 0
 
+            &:not(.fc-has-circles-overlay)
+                .fc-next,
+                .fc-prev
+                    &.fc-is-active
+                        height: calc(100% - #{$fc-space * 2})
+
     &.fc-has-circles
         .fc-circles
             display: flex
             justify-content: center
-            margin-top: $fc-space
+            padding-bottom: $fc-space / 2
+            padding-top: $fc-space / 2
 
         &.fc-has-circles-overlay
             .fc-circles
-                bottom: 5%
+                bottom: 0
                 position: absolute
                 width: 100%
 
@@ -157,7 +164,7 @@ $fc-prev-next-min-width: $fc-space * 8 !default
         max-width: 100%
 
     figcaption
-        margin-top: $fc-space
+        padding-top: $fc-space
         text-align: center
 
 .fc-is-sr-only
