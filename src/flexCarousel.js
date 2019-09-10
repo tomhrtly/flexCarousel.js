@@ -392,7 +392,7 @@ class FlexCarousel {
         const circle = this.options.appendCircles.querySelectorAll('.fc-circle');
 
         for (let index = 0; index < circle.length; index += 1) {
-            circle[i].classList.remove('fc-is-active');
+            circle[index].classList.remove('fc-is-active');
         }
 
         const index = Math.floor(this.currentPage / this.options.slidesScrolling);
