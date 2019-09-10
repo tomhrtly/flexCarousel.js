@@ -229,8 +229,8 @@ class FlexCarousel {
 
             // Clone and prepend/append slides
             const array = Array.from(allSlides);
-            const prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount).reverse();
-            const append = array.slice(0, this.options.slidesPerPage);
+            const prepend = array.slice(this.slideAmount - this.options.slidesPerPage - 1, this.slideAmount).reverse();
+            const append = array.slice(0, this.options.slidesPerPage + 1);
 
             for (let i = 0; i < prepend.length; i += 1) {
                 const clone = prepend[i].cloneNode(true);
@@ -250,7 +250,7 @@ class FlexCarousel {
 
     getLeftPage(index) {
         if (this.options.slidesPerPage < this.slideAmount) {
-            this.slideOffset = (this.slideWidth * this.options.slidesPerPage) * -1;
+            this.slideOffset = (this.slideWidth * (this.options.slidesPerPage + 1)) * -1;
         }
 
         return ((index * this.slideWidth) * -1) + this.slideOffset;
