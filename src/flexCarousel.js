@@ -48,6 +48,7 @@ class FlexCarousel {
             circles: true,
             circlesOverlay: true,
             height: null,
+            infinite: true,
             nextButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
             prevButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
             slidesPerPage: 1,
@@ -126,13 +127,13 @@ class FlexCarousel {
 
                 // Create arrow button
                 const nextButton = document.createElement('button');
-                nextButton.classList.add('fc-next', 'fc-is-active', 'fc-button');
+                nextButton.classList.add('fc-next', 'fc-button');
                 nextButton.setAttribute('aria-label', 'Next');
                 nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextButton}</span>`;
 
                 // Create prev button
                 const prevButton = document.createElement('button');
-                prevButton.classList.add('fc-prev', 'fc-is-active', 'fc-button');
+                prevButton.classList.add('fc-prev', 'fc-button');
                 prevButton.setAttribute('aria-label', 'Previous');
                 prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevButton}</span>`;
 
@@ -148,6 +149,7 @@ class FlexCarousel {
                 }
 
                 this.buildArrowEvents();
+                this.updateArrows();
             }
         }
     }
@@ -243,29 +245,31 @@ class FlexCarousel {
                 allSlides[i].style.minWidth = `${this.slideWidth}%`;
             }
 
-            // Clone and prepend/append slides
-            const array = Array.from(allSlides);
-            let prepend;
-            let append;
+            if (this.options.infinite) {
+                // Clone and prepend/append slides
+                const array = Array.from(allSlides);
+                let prepend;
+                let append;
 
-            if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                prepend = array.slice(this.slideAmount - this.options.slidesPerPage - 1, this.slideAmount).reverse();
-                append = array.slice(0, this.options.slidesPerPage + 1);
-            } else {
-                prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount).reverse();
-                append = array.slice(0, this.options.slidesPerPage);
-            }
+                if (this.options.slidesPerPage >= this.options.slidesScrolling) {
+                    prepend = array.slice(this.slideAmount - this.options.slidesPerPage - 1, this.slideAmount).reverse();
+                    append = array.slice(0, this.options.slidesPerPage + 1);
+                } else {
+                    prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount).reverse();
+                    append = array.slice(0, this.options.slidesPerPage);
+                }
 
-            for (let i = 0; i < prepend.length; i += 1) {
-                const clone = prepend[i].cloneNode(true);
-                clone.classList.add('fc-is-clone');
-                slides.insertBefore(clone, slides.firstChild);
-            }
+                for (let i = 0; i < prepend.length; i += 1) {
+                    const clone = prepend[i].cloneNode(true);
+                    clone.classList.add('fc-is-clone');
+                    slides.insertBefore(clone, slides.firstChild);
+                }
 
-            for (let i = 0; i < append.length; i += 1) {
-                const clone = append[i].cloneNode(true);
-                clone.classList.add('fc-is-clone');
-                slides.appendChild(clone);
+                for (let i = 0; i < append.length; i += 1) {
+                    const clone = append[i].cloneNode(true);
+                    clone.classList.add('fc-is-clone');
+                    slides.appendChild(clone);
+                }
             }
 
             this.setTransform(this.getLeftPage(this.currentPage));
@@ -278,6 +282,10 @@ class FlexCarousel {
                 this.slideOffset = (this.slideWidth * (this.options.slidesPerPage + 1)) * -1;
             } else {
                 this.slideOffset = (this.slideWidth * this.options.slidesPerPage) * -1;
+            }
+
+            if (!this.options.infinite) {
+                this.slideOffset = 0;
             }
         }
 
@@ -315,6 +323,7 @@ class FlexCarousel {
             this.slideController(page);
         }
 
+        this.updateArrows();
         this.updateCircles();
     }
 
@@ -355,6 +364,28 @@ class FlexCarousel {
 
         this.currentPage = nextPage;
         this.animatePage(this.getLeftPage(index));
+    }
+
+    updateArrows() {
+        const prevButton = this.options.appendArrows.querySelector('.fc-prev');
+        const nextButton = this.options.appendArrows.querySelector('.fc-next');
+
+        if (!this.options.infinite) {
+            if (this.currentPage === 0) {
+                prevButton.classList.remove('fc-is-active');
+            } else {
+                prevButton.classList.add('fc-is-active');
+            }
+
+            if (this.currentPage === this.slideAmount - 1) {
+                nextButton.classList.remove('fc-is-active');
+            } else {
+                nextButton.classList.add('fc-is-active');
+            }
+        } else {
+            prevButton.classList.add('fc-is-active');
+            nextButton.classList.add('fc-is-active');
+        }
     }
 
     updateCircles() {
