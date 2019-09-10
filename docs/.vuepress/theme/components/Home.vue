@@ -146,7 +146,6 @@
         fill: none
         margin-left: auto
         margin-right: auto
-        padding-top: 2rem
         stroke: #0a0a0a
         stroke-width: 2.3
         stroke-linejoin: round
