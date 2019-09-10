@@ -5,6 +5,7 @@
 </template>
 
 <script>
+    import FlexCarousel from "../../../../src/flexCarousel";
     export default {
         props: ['options'],
         mounted() {
