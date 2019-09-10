@@ -33,6 +33,7 @@
                                 <div class="select">
                                     <select
                                         v-model="data.selected"
+                                        @change="redirect"
                                     >
                                         <option
                                             v-for="(version, index) in $site.themeConfig.versions"
@@ -72,6 +73,11 @@
                 }
             },
         },
+        methods: {
+            redirect() {
+                window.location.replace(`/docs/${this.data.selected}/`);
+            }
+        }
     }
 </script>
 
