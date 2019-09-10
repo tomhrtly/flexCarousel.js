@@ -120,17 +120,17 @@ class FlexCarousel {
         if (this.options.arrows) {
             // Only show the arrows if there are more slides then slidesPerPage option
             if (this.options.slidesPerPage < slide.length) {
-                this.selector.classList.add('fc-arrows');
+                this.selector.classList.add('fc-has-arrows');
 
                 // Create arrow button
                 const nextButton = document.createElement('button');
-                nextButton.classList.add('fc-next', 'fc-is-active');
+                nextButton.classList.add('fc-next', 'fc-is-active', 'fc-button');
                 nextButton.setAttribute('aria-label', 'Next');
                 nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextButton}</span>`;
 
                 // Create prev button
                 const prevButton = document.createElement('button');
-                prevButton.classList.add('fc-prev', 'fc-is-active');
+                prevButton.classList.add('fc-prev', 'fc-is-active', 'fc-button');
                 prevButton.setAttribute('aria-label', 'Previous');
                 prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevButton}</span>`;
 
@@ -142,7 +142,7 @@ class FlexCarousel {
 
                 // Add the overlay class if needed
                 if (this.options.arrowsOverlay) {
-                    this.selector.classList.add('fc-arrows-overlay');
+                    this.selector.classList.add('fc-has-arrows-overlay');
                 }
 
                 this.buildArrowEvents();
@@ -164,7 +164,7 @@ class FlexCarousel {
         if (this.options.circles) {
             // Only show the arrows if there are more slides then slidesPerPage option
             if (this.options.slidesPerPage < this.slideAmount) {
-                this.selector.classList.add('fc-circles');
+                this.selector.classList.add('fc-has-circles');
 
                 // Create circles container
                 const circles = document.createElement('ul');
@@ -177,9 +177,10 @@ class FlexCarousel {
                 const amount = Math.ceil(this.slideAmount / option);
 
                 for (let i = 0; i < amount; i += 1) {
-                    const circle = document.createElement('li');
-                    circle.classList.add('fc-circle');
-                    circle.setAttribute('role', 'button');
+                    const li = document.createElement('li');
+
+                    const circle = document.createElement('button');
+                    circle.classList.add('fc-circle', 'fc-button');
                     circle.setAttribute('aria-label', `${FlexCarousel.suffix(i + 1)} page`);
 
                     const icon = document.createElement('span');
@@ -191,11 +192,12 @@ class FlexCarousel {
 
                     circle.appendChild(icon);
                     circle.appendChild(text);
-                    circles.appendChild(circle);
+                    li.appendChild(circle);
+                    circles.appendChild(li);
                 }
 
                 if (this.options.circlesOverlay) {
-                    this.selector.classList.add('fc-circles-overlay');
+                    this.selector.classList.add('fc-has-circles-overlay');
                 }
 
                 this.updateCircles();
