@@ -3,7 +3,7 @@
         <div class="columns is-vcentered">
             <div class="column">
                 <div class="inner">
-                    <h1 class="subtitle is-3">{{ data.title }}</h1>
+                    <h1 class="title is-spaced is-3">{{ data.title }}</h1>
                     <p class="subtitle is-6">{{ data.description }}</p>
                     <div class="badges">
                         <div class="badge">

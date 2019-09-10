@@ -6,8 +6,9 @@
 
 <script>
     export default {
+        props: ['options'],
         mounted() {
-            new FlexCarousel(`#${this.$attrs.id}`);
+            new FlexCarousel(`#${this.$attrs.id}`, this.options);
         }
     }
 </script>

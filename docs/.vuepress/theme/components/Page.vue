@@ -47,13 +47,15 @@
                 </div>
                 <div class="content">
                     <Content/>
-                    <p class="improve">
-                        Think you could improve the documentation on this page?
-                        <a
-                        :href="`https://github.com/tomhrtly/flexcarousel.js/blob/master/docs/docs/${$site.themeConfig.currentVersion}/${$page.title.toLowerCase()}.md`"
-                        target="_blank"
-                        >Edit it on GitHub!</a>
-                    </p>
+                    <div class="meta">
+                        <p>
+                            Think you could improve the documentation on this page?
+                            <a
+                                :href="`https://github.com/tomhrtly/flexcarousel.js/blob/master/docs/docs/${$site.themeConfig.currentVersion}/${$page.title.toLowerCase()}.md`"
+                                target="_blank"
+                            >Edit it on GitHub!</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,7 +76,7 @@
 </script>
 
 <style lang="sass">
-    .improve
+    .meta
         color: #b5b5b5
         padding-top: 6rem
         text-align: center
