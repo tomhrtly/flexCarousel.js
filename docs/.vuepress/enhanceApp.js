@@ -1,7 +1,3 @@
-import FlexCarousel from '../../src/flexCarousel';
-
-document.window.FlexCarousel = FlexCarousel;
-
 export default ({
     Vue,
     router,
