@@ -75,27 +75,31 @@ $fc-prev-next-min-width: $fc-space * 8 !default
         .fc-next,
         .fc-prev
             align-items: center
-            display: none
+            display: flex
             justify-content: center
             min-width: $fc-prev-next-min-width / 2
 
-            &.fc-is-active
-                display: flex
+            .fc-icon
+                color: rgba($fc-black, 0.40)
+                display: inline-flex
+                height: $fc-space * 2
+                justify-content: center
+                position: absolute
+                width: $fc-space * 2
+
+                svg
+                    height: 100%
+                    width: 100%
+
+            &:disabled
+                cursor: not-allowed
+                opacity: .5
 
                 .fc-icon
-                    color: rgba($fc-black, 0.40)
-                    display: inline-flex
-                    height: $fc-space * 2
-                    justify-content: center
-                    position: absolute
-                    width: $fc-space * 2
+                    color: rgba($fc-black, 0.20)
 
-                    svg
-                        height: 100%
-                        width: 100%
-
-                &:hover .fc-icon
-                    color: rgba($fc-black, 0.80)
+            &:hover:not(:disabled) .fc-icon
+                color: rgba($fc-black, 0.80)
 
         &.fc-has-arrows-overlay
             position: relative
