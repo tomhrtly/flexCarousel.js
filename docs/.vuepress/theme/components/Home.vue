@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="columns is-vcentered">
-            <div class="column">
+            <div class="column is-6">
                 <div class="inner">
-                    <h1 class="title is-spaced is-3">{{ data.title }}</h1>
-                    <p class="subtitle is-6">{{ data.description }}</p>
+                    <h1 class="title is-spaced is-3">{{ data.page.title }}</h1>
+                    <p class="subtitle is-6">{{ data.page.description }}</p>
                     <div class="badges">
                         <div class="badge">
                             <iframe src="https://ghbtns.com/github-btn.html?user=tomhrtly&repo=flexCarousel.js&type=star&count=true&size=large" frameborder="0" scrolling="0" width="120px" height="30px"></iframe>
@@ -33,25 +33,30 @@
                     </div>
                 </div>
             </div>
-            <div class="column">
+            <div class="column is-6">
                 <div class="inner">
                     <div class="preview">
-                        <Carousel id="example">
-                            <div>
-                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
-                            </div>
-                            <div>
-                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
-                            </div>
-                            <div>
-                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
-                            </div>
-                            <div>
-                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
-                            </div>
-                            <div>
-                                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
-                            </div>
+                        <Carousel
+                            id="example"
+                            :options="data.options"
+                        >
+                            <ul>
+                                <li>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
+                                </li>
+                                <li>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
+                                </li>
+                                <li>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
+                                </li>
+                                <li>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
+                                </li>
+                                <li>
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
+                                </li>
+                            </ul>
                         </Carousel>
                     </div>
                 </div>
@@ -100,7 +105,13 @@
         },
         computed: {
             data() {
-                return this.$page.frontmatter;
+                return {
+                    page: this.$page.frontmatter,
+                    options: {
+                        autoplay: true,
+                        height: '200px'
+                    }
+                }
             }
         }
     }
