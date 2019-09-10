@@ -372,19 +372,16 @@ class FlexCarousel {
 
         if (!this.options.infinite) {
             if (this.currentPage === 0) {
-                prevButton.classList.remove('fc-is-active');
+                prevButton.setAttribute('disabled', 'disabled');
             } else {
-                prevButton.classList.add('fc-is-active');
+                prevButton.removeAttribute('disabled', 'disabled');
             }
 
             if (this.currentPage === this.slideAmount - 1) {
-                nextButton.classList.remove('fc-is-active');
+                nextButton.setAttribute('disabled', 'disabled');
             } else {
-                nextButton.classList.add('fc-is-active');
+                nextButton.removeAttribute('disabled', 'disabled');
             }
-        } else {
-            prevButton.classList.add('fc-is-active');
-            nextButton.classList.add('fc-is-active');
         }
     }
 
