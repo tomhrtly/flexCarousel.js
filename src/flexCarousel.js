@@ -221,8 +221,8 @@ class FlexCarousel {
         ul.classList.add('fc-slides');
 
         // Add the slide class to all child div elements
-        for (let i = 0; i < ul.children.length; i += 1) {
-            ul.children[i].classList.add('fc-slide');
+        for (let index = 0; index < ul.children.length; index += 1) {
+            ul.children[index].classList.add('fc-slide');
         }
 
         // Wrap slides to reduce HTML markup
@@ -241,8 +241,8 @@ class FlexCarousel {
             this.slideWidth = 100 / this.options.slidesPerPage;
 
             // Add the min-width CSS property to all slides
-            for (let i = 0; i < this.slideAmount; i += 1) {
-                allSlides[i].style.minWidth = `${this.slideWidth}%`;
+            for (let index = 0; index < this.slideAmount; index += 1) {
+                allSlides[index].style.minWidth = `${this.slideWidth}%`;
             }
 
             if (this.options.infinite) {
@@ -259,14 +259,14 @@ class FlexCarousel {
                     append = array.slice(0, this.options.slidesPerPage);
                 }
 
-                for (let i = 0; i < prepend.length; i += 1) {
-                    const clone = prepend[i].cloneNode(true);
+                for (let index = 0; index < prepend.length; index += 1) {
+                    const clone = prepend[index].cloneNode(true);
                     clone.classList.add('fc-is-clone');
                     slides.insertBefore(clone, slides.firstChild);
                 }
 
-                for (let i = 0; i < append.length; i += 1) {
-                    const clone = append[i].cloneNode(true);
+                for (let index = 0; index < append.length; index += 1) {
+                    const clone = append[index].cloneNode(true);
                     clone.classList.add('fc-is-clone');
                     slides.appendChild(clone);
                 }
@@ -391,7 +391,7 @@ class FlexCarousel {
     updateCircles() {
         const circle = this.options.appendCircles.querySelectorAll('.fc-circle');
 
-        for (let i = 0; i < circle.length; i += 1) {
+        for (let index = 0; index < circle.length; index += 1) {
             circle[i].classList.remove('fc-is-active');
         }
 
