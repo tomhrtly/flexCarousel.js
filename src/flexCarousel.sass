@@ -75,11 +75,13 @@ $fc-prev-next-min-width: $fc-space * 8 !default
         .fc-next,
         .fc-prev
             align-items: center
-            display: flex
+            display: none
             justify-content: center
             min-width: $fc-prev-next-min-width / 2
 
             &.fc-is-active
+                display: flex
+
                 .fc-icon
                     color: rgba($fc-black, 0.40)
                     display: inline-flex
