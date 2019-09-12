@@ -2,161 +2,183 @@
  * flexCarousel.js v0.2.1
  * https://github.com/tomhrtly/flexCarousel.js
  *
- * Copyright 2018 Tom Hartley
+ * Copyright 2019 Tom Hartley
  * Released under the MIT license
  */
 
 // Initial variables
 $fc-black: #1b1b1b !default
 $fc-space: 16px !default
-$fc-transition-speed: 250ms !default
 
 // Derived variables
 $fc-prev-next-height: $fc-space * 1.5 !default
 $fc-prev-next-min-width: $fc-space * 8 !default
 
 *
-  box-sizing: border-box
-  &::after,
-  &::before
     box-sizing: border-box
 
-.fc
-  display: flex
-  width: 100%
-  &.fc-arrows
-    .fc-next,
-    .fc-prev
-      align-items: center
-      background-color: transparent
-      border: none
-      color: inherit
-      cursor: pointer
-      display: flex
-      font: inherit
-      justify-content: center
-      min-width: $fc-prev-next-min-width / 2
-      outline: none
-      padding: 0
-    &.fc-arrow-overlay
-      position: relative
-      .fc-next,
-      .fc-prev
-        &.fc-is-active
-          color: rgba($fc-black, 0.40)
-          font-size: $fc-space * 2
-          height: 100%
-          position: absolute
-          width: $fc-space * 2
-          z-index: 1
-      .fc-next
-        &.fc-is-active
-          right: 0
-      .fc-prev
-        &.fc-is-active
-          left: 0
-    &.fc-circles
-      &:not(.fc-circles-overlay)
-        .fc-next,
-        .fc-prev
-          &.fc-is-active
-            height: calc(100% - #{$fc-prev-next-height})
-  &.fc-circles
-    .fc-circles
-      display: flex
-      justify-content: center
-      margin-top: $fc-space
-    &.fc-circles-overlay
-      .fc-circles
-        bottom: 5%
-        position: absolute
-        width: 100%
-      .fc-container
-        position: relative
+    &::after,
+    &::before
+        box-sizing: border-box
 
-.fc-arrows
-  .fc-next,
-  .fc-prev
-    border: none
+.fc-button
+    -webkit-appearance: button
     background-color: transparent
-    color: inherit
+    border: none
     cursor: pointer
-    font: inherit
+    font-family: inherit
+    font-size: 100%
+    line-height: 1.15
+    margin: 0
     padding: 0
-    .fc-icon
-      display: none
-    &.fc-is-active
-      cursor: pointer
-      .fc-icon
-        color: rgba($fc-black, 0.40)
-        display: inline-flex
-        font-size: $fc-space * 2
-        height: $fc-space * 2
-        justify-content: center
-        position: absolute
-        width: $fc-space * 2
-        svg
-          height: 100%
-          width: 100%
-      &:hover
-        .fc-icon
-          color: rgba($fc-black, 0.80)
-
+    overflow: visible
+    text-transform: none
 
 .fc-circles
-  .fc-circle
-    cursor: pointer
-    .fc-icon
-      &.fc-is-circle
+    list-style-type: none
+    margin: 0
+    padding: 0
+
+    li
+        display: block
+
+.fc-circle
+    align-items: center
+    display: flex
+    height: $fc-space
+    justify-content: center
+    width: $fc-space
+
+    .fc-icon.fc-is-circle
         background-color: rgba($fc-black, 0.40)
         border-radius: 50%
         display: flex
         height: $fc-space / 2
         width: $fc-space / 2
+
     &:hover,
     &.fc-is-active
-      .fc-icon
-        &.fc-is-circle
-          background-color: rgba($fc-black, 0.80)
-    & + .fc-circle
-      margin-left: $fc-space / 2
+        .fc-icon.fc-is-circle
+            background-color: rgba($fc-black, 0.80)
 
 .fc-container
-  display: flex
-  flex-direction: column
-  flex-grow: 1
-  overflow: hidden
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    overflow: hidden
+
+.fc
+    display: flex
+    width: 100%
+
+    &.fc-has-arrows
+        .fc-next,
+        .fc-prev
+            align-items: center
+            display: flex
+            justify-content: center
+            min-width: $fc-prev-next-min-width / 2
+
+            .fc-icon
+                color: rgba($fc-black, 0.40)
+                display: inline-flex
+                height: $fc-space * 2
+                justify-content: center
+                position: absolute
+                width: $fc-space * 2
+
+                svg
+                    height: 100%
+                    width: 100%
+
+            &:disabled
+                cursor: not-allowed
+                opacity: .5
+
+                .fc-icon
+                    color: rgba($fc-black, 0.20)
+
+            &:hover:not(:disabled) .fc-icon
+                color: rgba($fc-black, 0.80)
+
+        &.fc-has-arrows-overlay
+            position: relative
+
+            .fc-next,
+            .fc-prev
+                &.fc-is-active
+                    color: rgba($fc-black, 0.40)
+                    font-size: $fc-space * 2
+                    height: 100%
+                    position: absolute
+                    width: $fc-space * 2
+                    z-index: 1
+
+            .fc-next.fc-is-active
+                right: 0
+
+            .fc-prev.fc-is-active
+                left: 0
+
+            &:not(.fc-has-circles-overlay)
+                .fc-next,
+                .fc-prev
+                    &.fc-is-active
+                        height: calc(100% - #{$fc-space * 2})
+
+    &.fc-has-circles
+        .fc-circles
+            display: flex
+            justify-content: center
+            padding-bottom: $fc-space / 2
+            padding-top: $fc-space / 2
+
+        &.fc-has-circles-overlay
+            .fc-circles
+                bottom: 0
+                position: absolute
+                width: 100%
+
+            .fc-container
+                position: relative
 
 .fc-slides
-  display: flex
-  flex-grow: 1
-  position: relative
-
-.fc-slide-animation
-  transform: none !important
-  transition: all $fc-transition-speed ease-in-out
+    display: flex
+    flex-grow: 1
+    list-style-type: none
+    margin: 0
+    padding: 0
 
 .fc-slide
-  align-items: center
-  display: flex
-  flex-direction: column
-  flex-grow: 1
-  justify-content: center
-  min-height: $fc-space * 6
-  padding: $fc-space
-  video
-    height: auto
-    max-width: 100%
+    display: block
+    min-height: $fc-space * 6
+    padding: $fc-space
+
+    video
+        height: auto
+        max-width: 100%
 
 .fc-image
-  display: block
-  margin: 0
-  position: relative
-  img,
-  picture
     display: block
-    height: auto
-    max-width: 100%
-  figcaption
-    margin-top: $fc-space
-    text-align: center
+    margin: 0
+    position: relative
+
+    img,
+    picture
+        display: block
+        height: auto
+        max-width: 100%
+
+    figcaption
+        padding-top: $fc-space
+        text-align: center
+
+.fc-is-sr-only
+    border: none !important
+    clip: rect(0, 0, 0, 0) !important
+    height: 0.01em !important
+    overflow: hidden !important
+    padding: 0 !important
+    position: absolute !important
+    white-space: nowrap !important
+    width: 0.01em !important

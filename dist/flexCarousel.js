@@ -1,33 +1,45 @@
-'use strict';
+var flexCarousel = (function () {
+  'use strict';
 
-/*!
- * flexCarousel.js v0.2.1
- * https://github.com/tomhrtly/flexCarousel.js
- *
- * Copyright 2018 Tom Hartley
- * Released under the MIT license
- *
- * Icons provided by Font Awesome: https://fontawesome.com
- */
-
-(function(factory) {
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery'], factory);
-  } else if (typeof exports !== 'undefined') {
-    module.exports = factory(require('jquery'));
-  } else {
-    factory(jQuery);
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
   }
-}(function($) {
 
-  // Set flexCarousel as a object
-  let flexCarousel = window.flexCarousel || {};
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
 
-  flexCarousel = (function() {
-    function flexCarousel(selector, options) {
-      const self = this;
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
 
-      self.defaults = {
+  /*
+   * flexCarousel.js v0.3.0
+   * https://github.com/tomhrtly/flexCarousel.js
+   *
+   * Copyright 2018 Tom Hartley
+   * Released under the MIT license
+   *
+   * Icons provided by Font Awesome: https://fontawesome.com
+   */
+  var FlexCarousel =
+  /*#__PURE__*/
+  function () {
+    function FlexCarousel(selector, options) {
+      _classCallCheck(this, FlexCarousel);
+
+      this.selector = document.querySelector(selector);
+      this.defaults = {
         arrows: true,
         arrowsOverlay: true,
         autoplay: false,
@@ -37,316 +49,289 @@
         height: null,
         nextArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
         prevArrow: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
+        slidesScrolling: 1,
         slidesVisible: 1,
         transition: 'slide',
+        transitionSpeed: 250
       };
+      this.slideWidth = null;
+      this.slideOffset = null;
+      this.slideAmount = null;
+      this.currentSlide = 0;
+      this.options = extend(this.defaults, options);
+      this.init();
 
-      // Combine both objects
-      self.options = $.extend(self.defaults, options);
+      function extend(defaults, options) {
+        var extended = {};
 
-      // This will always have active slide index
-      self.activeSlide = 0;
-
-      self.selector = $(selector);
-      self.init();
-    }
-
-    return flexCarousel;
-  }());
-
-  let object = flexCarousel.prototype;
-
-  object.autoplay = function() {
-    const self = this;
-
-    if(self.options.autoplay) {
-      self.timer = setInterval(function() { self.moveSlide('next', 1); }, self.options.autoplaySpeed);
-    }
-  };
-
-  object.buildArrowEvents = function() {
-    const self = this;
-    let next = self.selector.find('.fc-next');
-    let prev = self.selector.find('.fc-prev');
-
-    if(self.options.arrows) {
-      prev.click(function() { self.moveSlide('prev', 1); });
-      next.click(function() { self.moveSlide('next', 1); });
-    }
-  };
-
-  object.buildArrows = function() {
-    const self = this;
-    let slide = self.selector.find('.fc-slide');
-
-    if(self.options.arrows) {
-      if(self.options.slidesVisible < slide.length) {
-        self.selector.addClass('fc-arrows');
-        self.selector.prepend('<button class="fc-prev"><span class="fc-icon">' + self.options.prevArrow + '</span></button>');
-        self.selector.append('<button class="fc-next"><span class="fc-icon">' + self.options.nextArrow + '</span></button>');
-
-        let prev = self.selector.find('.fc-prev');
-        let next = self.selector.find('.fc-next');
-
-        next.addClass('fc-is-active');
-        prev.addClass('fc-is-active');
-
-        if (self.options.arrowsOverlay) {
-          self.selector.addClass('fc-arrow-overlay');
-        }
-      }
-    }
-  };
-
-  object.buildCircleEvents = function() {
-    let self = this;
-    let circle = self.selector.find('.fc-circle');
-
-    if(self.options.circles) {
-      circle.click(function() {
-        if(!$(this).hasClass('fc-is-active')) {
-          let index = $(this).index();
-          self.goToSlide(index);
-        }
-      });
-    }
-  };
-
-  object.buildCircles = function() {
-    let self = this;
-    let container = self.selector.find('.fc-container');
-    let slide = self.selector.find('.fc-slide:not(.fc-is-clone)');
-
-    if(self.options.circles) {
-      if(self.options.slidesVisible < slide.length) {
-        self.selector.addClass('fc-circles');
-        container.append('<div class="fc-circles" />');
-
-        let circles = self.selector.find('.fc-circles');
-
-        slide.each(function () {
-          circles.append('<div class="fc-circle"><span class="fc-icon fc-is-circle"></span></div>');
-        });
-
-        let circle = self.selector.find('.fc-circle');
-
-        circle.first().addClass('fc-is-active');
-
-        if (self.options.circlesOverlay) {
-          self.selector.addClass('fc-circles-overlay');
-        }
-      }
-    }
-  };
-
-  object.buildEvents = function() {
-    const self = this;
-
-    self.buildArrowEvents();
-    self.buildCircleEvents();
-  };
-
-  object.buildSlides = function() {
-    const self = this;
-
-    let slide = self.selector.find('> div');
-    slide.addClass('fc-slide').wrapAll('<div class="fc-container"><div class="fc-slides ' + self.transitionClasses() + '" /></div>');
-
-    let slideWidth = 100 / self.options.slidesVisible + '%';
-
-    let slides = self.selector.find('.fc-slides');
-
-    if(self.options.slidesVisible < slide.length) {
-      slide.css('min-width', 'calc(100% / ' + self.options.slidesVisible + ')');
-
-      slides.css('left', '-' + slideWidth);
-
-      // Clone all the slides, add the correct order property value, slide width and append to the slides container
-      // Fixes issue #2
-      if(self.options.slidesVisible === slide.length - 1) {
-        slide.each(function() {
-          $(this).clone().addClass('fc-is-clone').appendTo(slides);
-        });
-      }
-      slides.children().last().css('order', 1);
-
-      let i = 2;
-      slides.children().slice(0, slides.children().length - 1).each(function () {
-        $(this).css('order', i++);
-      });
-
-      slide.each(function() {
-        let image = $(this).find('img');
-        let imageCaption = image.data('caption');
-        let picture = $(this).find('picture');
-        let pictureCaption = picture.find('img').data('caption');
-
-        // If the image's parent is picture, wrap the picture tag
-        image.parent('picture').wrap('<figure class="fc-image"></figure>');
-
-        // If there is a caption for the image inside the picture, display the caption if it exists
-        if(pictureCaption) {
-          picture.after('<figcaption>' + imageCaption + '</figcaption>');
-        }
-
-        // Wrap the image tag, display the caption if it exists
-        function imageWrap() {
-          image.wrap('<figure class="fc-image"></figure>');
-          if(imageCaption) {
-            image.after('<figcaption>' + imageCaption + '</figcaption>');
+        for (var prop in defaults) {
+          if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
+            extended[prop] = defaults[prop];
           }
         }
 
-        // If the image's parent isn't the picture tag, wrap it
-        image.parent('picture').length ? '' : imageWrap();
-      });
-
-      if(self.options.transition === 'slide') {
-        slides.css('transform', 'translateX(' + slideWidth + ')');
-      }
-    }
-  };
-
-  object.changeOrder = function(amount, shift) {
-    const self = this;
-    let slide = self.selector.find('.fc-slide');
-    let slides = self.selector.find('.fc-slides');
-    let slideWidth = 100 / self.options.slidesVisible + '%';
-
-    if(amount === 'increase') {
-      // Determine whether the carousel is going forward or backward
-      if(self.options.transition === 'slide') {
-        slides.css('transform', 'translateX(-' + slideWidth + ')');
-      }
-
-      slide.each(function() {
-        let convertedOrder = parseInt($(this).css('order'));
-        let orderIncrease = convertedOrder + shift;
-
-        if(orderIncrease > slide.length) {
-          orderIncrease = orderIncrease - slide.length;
+        for (var _prop in options) {
+          if (Object.prototype.hasOwnProperty.call(options, _prop)) {
+            extended[_prop] = options[_prop];
+          }
         }
 
-        $(this).css('order', orderIncrease);
-      });
-    } else {
-      // Determine whether the carousel is going forward or backward
-      if(self.options.transition === 'slide') {
-        slides.css('transform', 'translateX(' + slideWidth + ')');
+        return extended;
       }
+    }
 
-      slide.each(function() {
-        let convertedOrder = parseInt($(this).css('order'));
-        let orderDecrease = convertedOrder - shift;
+    _createClass(FlexCarousel, [{
+      key: "addTransition",
+      value: function addTransition() {
+        var slides = this.selector.querySelector('.fc-slides');
 
-        if(orderDecrease <= 0) {
-          orderDecrease = slide.length + orderDecrease;
+        if (this.options.transition === 'slide') {
+          slides.style.transition = 'all ' + this.options.transitionSpeed + 'ms ease-in-out 0s';
+        }
+      }
+    }, {
+      key: "animateSlide",
+      value: function animateSlide(target) {
+        var _this = this;
+
+        this.addTransition();
+        this.setTransform(Math.ceil(target));
+        new Promise(function (resolve) {
+          setTimeout(function () {
+            _this.removeTransition();
+
+            resolve(true);
+          }, _this.options.transitionSpeed);
+        }).then(function () {
+          return _this.setTransform(_this.getLeftSlide(_this.currentSlide));
+        });
+      }
+    }, {
+      key: "buildArrowEvents",
+      value: function buildArrowEvents() {
+        var _this2 = this;
+
+        var nextArrow = this.selector.querySelector('.fc-next');
+        var prevArrow = this.selector.querySelector('.fc-prev');
+
+        if (this.options.arrows) {
+          // Move to the next slide when clicking the next arrow
+          nextArrow.addEventListener('click', function () {
+            _this2.moveSlide('next');
+          }); // Move to the previous slide when clicking the previous arrow
+
+          prevArrow.addEventListener('click', function () {
+            _this2.moveSlide('previous');
+          });
+        }
+      }
+    }, {
+      key: "buildArrows",
+      value: function buildArrows() {
+        var slides = this.selector.querySelector('.fc-slides');
+        var slide = slides.querySelectorAll('.fc-slide');
+
+        if (this.options.arrows) {
+          // Only show the arrows if there are more slides then slidesVisible option
+          if (this.options.slidesVisible < slide.length) {
+            this.selector.classList.add('fc-arrows'); // Create arrow button
+
+            var nextArrow = document.createElement('button');
+            nextArrow.classList.add('fc-next', 'fc-is-active');
+            nextArrow.innerHTML = '<span class="fc-icon">' + this.options.nextArrow + '</span>'; // Create prev button
+
+            var prevArrow = document.createElement('button');
+            prevArrow.classList.add('fc-prev', 'fc-is-active');
+            prevArrow.innerHTML = '<span class="fc-icon">' + this.options.prevArrow + '</span>'; // Append next arrow to the selector
+
+            this.selector.appendChild(nextArrow); // Prepend prev arrow to the selector
+
+            this.selector.insertBefore(prevArrow, this.selector.firstChild); // Add the overlay class if needed
+
+            if (this.options.arrowsOverlay) {
+              this.selector.classList.add('fc-arrows-overlay');
+            }
+
+            this.buildArrowEvents();
+          }
+        }
+      }
+    }, {
+      key: "buildCircles",
+      value: function buildCircles() {
+        var slides = this.selector.querySelector('.fc-slides');
+        var allSlides = slides.querySelectorAll('.fc-slide');
+        var container = this.selector.querySelector('.fc-container');
+        var circles = this.selector.querySelector('.fc-circles');
+
+        if (this.options.circles) {
+          // Only show the arrows if there are more slides then slidesVisible option
+          if (this.options.slidesVisible < allSlides.length) {
+            this.selector.classList.add('fc-circles'); // Create circles container
+
+            var _circles = document.createElement('div');
+
+            _circles.classList.add('fc-circles'); // Append circles to the container
+
+
+            container.appendChild(_circles);
+
+            for (var i = 0; i < allSlides.length; i++) {
+              var circle = document.createElement('div');
+              circle.classList.add('fc-circle');
+              var icon = document.createElement('span');
+              icon.classList.add('fc-icon', 'fc-is-circle');
+              circle.appendChild(icon);
+
+              _circles.appendChild(circle);
+            }
+
+            if (this.options.circlesOverlay) {
+              this.selector.classList.add('fc-circles-overlay');
+            }
+          }
+        }
+      }
+    }, {
+      key: "buildOptions",
+      value: function buildOptions() {
+        if (this.options.height) {
+          this.selector.style.height = this.options.height;
+        }
+      }
+    }, {
+      key: "buildSlides",
+      value: function buildSlides() {
+        var children = this.selector.children; // Add the slide class to all child div elements
+
+        for (var i = 0; i < children.length; i++) {
+          children[i].classList.add('fc-slide');
+        } // Wrap slides to reduce HTML markup
+
+
+        this.selector.innerHTML = '<div class="fc-container"><div class="fc-slides">' + this.selector.innerHTML + '</div></div>';
+        var slides = this.selector.querySelector('.fc-slides');
+        var allSlides = slides.querySelectorAll('.fc-slide');
+        this.slideAmount = allSlides.length;
+
+        if (this.options.slidesVisible < this.slideAmount) {
+          this.slideWidth = 100 / this.options.slidesVisible; // Add the min-width CSS property to all slides
+
+          for (var _i = 0; _i < this.slideAmount; _i++) {
+            allSlides[_i].style.minWidth = this.slideWidth + '%';
+          } // Clone and prepend/append slides
+
+
+          var array = Array.from(allSlides);
+          var prepend = array.slice(this.slideAmount - this.options.slidesVisible, this.slideAmount).reverse();
+          var append = array.slice(0, this.options.slidesVisible);
+
+          for (var _i2 = 0; _i2 < prepend.length; _i2++) {
+            var clone = prepend[_i2].cloneNode(true);
+
+            clone.classList.add('fc-is-clone');
+            slides.insertBefore(clone, slides.firstChild);
+          }
+
+          for (var _i3 = 0; _i3 < append.length; _i3++) {
+            var _clone = append[_i3].cloneNode(true);
+
+            _clone.classList.add('fc-is-clone');
+
+            slides.appendChild(_clone);
+          }
+
+          this.setTransform(this.getLeftSlide(this.currentSlide));
+        }
+      }
+    }, {
+      key: "getLeftSlide",
+      value: function getLeftSlide(index) {
+        if (this.options.slidesVisible < this.slideAmount) {
+          this.slideOffset = this.slideWidth * this.options.slidesVisible * -1;
         }
 
-        $(this).css('order', orderDecrease);
-      });
-    }
-  };
-
-  object.goToSlide = function(position) {
-    const self = this;
-    let activeSlide = self.activeSlide;
-    let direction = position > activeSlide ? "next": "prev";
-    let shift = Math.abs(activeSlide - position);
-
-    self.moveSlide(direction, shift);
-  };
-
-  object.height = function() {
-    const self = this;
-
-    if(self.options.height) {
-      self.selector.css('height', self.options.height);
-    }
-  };
-
-  object.init = function() {
-    const self = this;
-
-    if(!self.selector.hasClass('fc')) {
-      self.selector.addClass('fc');
-
-      self.buildSlides();
-      self.buildArrows();
-      self.buildCircles();
-      self.buildEvents();
-      self.height();
-      self.autoplay();
-    }
-  };
-
-  object.moveSlide = function(direction, shift) {
-    const self = this;
-    let activeSlide = self.activeSlide;
-    let circle = self.selector.find('.fc-circle');
-
-    if(direction) {
-      setTimeout(function () { self.transition(); }, 1);
-      self.transition();
-    }
-
-    if(direction === 'next') {
-      self.changeOrder('decrease', shift);
-    } else {
-      self.changeOrder('increase', shift);
-    }
-
-    // updating active slide number every time slide changes
-    self.updateActiveSlideNumber(direction, shift);
-    circle.eq(activeSlide).removeClass('fc-is-active');
-    circle.eq(self.activeSlide).addClass('fc-is-active');
-  };
-
-  object.transition = function() {
-    const self = this;
-    let slides = self.selector.find('.fc-slides');
-
-    if(self.options.transition === 'slide') {
-      slides.toggleClass('fc-slide-animation');
-    }
-  };
-
-  object.transitionClasses = function() {
-    const self = this;
-
-    if(self.options.transition === 'slide') {
-      return 'fc-slide-animation';
-    }
-  };
-
-  object.updateActiveSlideNumber = function(direction, shift) {
-    const self = this;
-    let slide = self.selector.find('.fc-slide:not(.fc-is-clone)');
-
-    if(direction === 'next') {
-      self.activeSlide += shift;
-      if(self.activeSlide >= slide.length) {
-        self.activeSlide = 0;
+        return index * this.slideWidth * -1 + this.slideOffset;
       }
-    } else {
-      self.activeSlide -= shift;
-      if(self.activeSlide < -slide.length) {
-        self.activeSlide = slide.length - 1;
+    }, {
+      key: "init",
+      value: function init() {
+        // Check if the selector has the "fc" initializer class
+        if (!this.selector.classList.contains('fc')) {
+          this.selector.classList.add('fc');
+          this.buildSlides();
+          this.buildArrows();
+          this.buildCircles();
+          this.buildOptions();
+        }
       }
-    }
-  };
+    }, {
+      key: "moveSlide",
+      value: function moveSlide(index) {
+        var unevenOffset = this.slideAmount % this.options.slidesScrolling !== 0;
+        var indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentSlide) % this.options.slidesScrolling;
 
-  $.fn.flexCarousel = function() {
-    const self = this;
-    let options = arguments[0];
+        if (index === 'previous') {
+          var slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesVisible - indexOffset;
 
-    for (let i = 0; i < self.length; i++) {
-      if (typeof options == 'object' || typeof options == 'undefined') {
-        self[i].flexCarousel = new flexCarousel(self[i], options);
+          if (this.options.slidesVisible < this.slideAmount) {
+            this.slideController(this.currentSlide - slideOffset);
+          }
+        } else if (index === 'next') {
+          var _slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
+
+          if (this.options.slidesVisible < this.slideAmount) {
+            this.slideController(this.currentSlide + _slideOffset);
+          }
+        }
       }
-    }
+    }, {
+      key: "removeTransition",
+      value: function removeTransition() {
+        var slides = this.selector.querySelector('.fc-slides');
 
-    return self;
-  };
-}));
+        if (this.options.transition === 'slide') {
+          slides.style.transition = '';
+        }
+      }
+    }, {
+      key: "setTransform",
+      value: function setTransform(position) {
+        var obj = {};
+        var slides = this.selector.querySelector('.fc-slides');
+        obj.transform = 'translate3d(' + Math.ceil(position) + '%' + ', 0px, 0px)';
+        slides.style.transform = obj.transform;
+      }
+    }, {
+      key: "slideController",
+      value: function slideController(index) {
+        var nextSlide;
+
+        if (index < 0) {
+          if (this.slideAmount % this.options.slidesScrolling !== 0) {
+            nextSlide = this.slideAmount - this.slideAmount % this.options.slidesScrolling;
+          } else {
+            nextSlide = this.slideAmount + index;
+          }
+        } else if (index >= this.slideAmount) {
+          if (this.slideAmount % this.options.slidesScrolling !== 0) {
+            nextSlide = 0;
+          } else {
+            nextSlide = index - this.slideAmount;
+          }
+        } else {
+          nextSlide = index;
+        }
+
+        this.currentSlide = nextSlide;
+        this.animateSlide(this.getLeftSlide(index));
+      }
+    }]);
+
+    return FlexCarousel;
+  }();
+
+  return FlexCarousel;
+
+}());
 //# sourceMappingURL=flexCarousel.js.map
