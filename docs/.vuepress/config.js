@@ -1,6 +1,6 @@
 module.exports = {
     title: 'flexCarousel.js',
-    description: 'A simple, lightweight Flexbox carousel JavaScript module.',
+    description: 'A simple, lightweight Flexbox carousel JavaScript plugin.',
     head: [
         ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Bree+Serif', }]
     ],
