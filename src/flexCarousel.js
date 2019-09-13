@@ -61,6 +61,7 @@ class FlexCarousel {
         this.slideOffset = null;
         this.slideAmount = null;
         this.currentPage = 0;
+        this.autoplayDirection = 'right';
 
         this.options = extend(this.defaults, options);
         this.init();
@@ -88,11 +89,29 @@ class FlexCarousel {
 
     autoplay() {
         let pause = false;
+        let slide;
 
         if (this.options.autoplay) {
             setInterval(() => {
                 if (!pause) {
-                    this.movePage('next');
+                    if (!this.options.infinite) {
+                        if (this.autoplayDirection === 'right') {
+                            slide = 'next';
+
+                            if ((this.currentPage + 1) === (this.slideAmount - 1)) {
+                                this.autoplayDirection = 'left';
+                            }
+                        } else if (this.autoplayDirection === 'left') {
+                            slide = 'previous';
+
+                            if (this.currentPage === 1) {
+                                this.autoplayDirection = 'right';
+                            }
+                        }
+                    } else {
+                        slide = 'next';
+                    }
+                    this.movePage(slide);
                 }
             }, this.options.autoplaySpeed);
 
