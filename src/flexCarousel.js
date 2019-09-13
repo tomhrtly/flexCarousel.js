@@ -374,13 +374,13 @@ class FlexCarousel {
             if (this.currentPage === 0) {
                 prevButton.setAttribute('disabled', 'disabled');
             } else {
-                prevButton.removeAttribute('disabled', 'disabled');
+                prevButton.removeAttribute('disabled');
             }
 
             if (this.currentPage === this.slideAmount - 1) {
                 nextButton.setAttribute('disabled', 'disabled');
             } else {
-                nextButton.removeAttribute('disabled', 'disabled');
+                nextButton.removeAttribute('disabled');
             }
         }
     }
