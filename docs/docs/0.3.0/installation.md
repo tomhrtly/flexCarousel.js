@@ -9,7 +9,7 @@
 
 ## Package Manager
 [NPM](https://www.npmjs.com/) is the recommended way of installing flexCarousel.js for use with your application. It also integrates with module bundlers such as [Webpack](https://webpack.js.org/).
-```shell script
+```shell
 npm install flexcarouseljs
 ```
 
