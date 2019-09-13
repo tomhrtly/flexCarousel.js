@@ -1,7 +1,11 @@
-build
 docs
 test
+.babelrc
+.editorconfig
+.eslintrc.js
 .gitattributes
 .gitignore
-package-lock.json
 .idea
+.stylelintrc
+rollup.config.js
+package-lock.json
