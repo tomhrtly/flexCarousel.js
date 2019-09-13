@@ -106,18 +106,17 @@ $fc-prev-next-min-width: $fc-space * 8 !default
 
             .fc-next,
             .fc-prev
-                &.fc-is-active
-                    color: rgba($fc-black, 0.40)
-                    font-size: $fc-space * 2
-                    height: 100%
-                    position: absolute
-                    width: $fc-space * 2
-                    z-index: 1
+                color: rgba($fc-black, 0.40)
+                font-size: $fc-space * 2
+                height: 100%
+                position: absolute
+                width: $fc-space * 2
+                z-index: 1
 
-            .fc-next.fc-is-active
+            .fc-next
                 right: 0
 
-            .fc-prev.fc-is-active
+            .fc-prev
                 left: 0
 
             &:not(.fc-has-circles-overlay)
