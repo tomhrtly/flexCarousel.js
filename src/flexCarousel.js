@@ -58,12 +58,12 @@ class FlexCarousel {
             transitionSpeed: 250,
         };
 
-        this.slideWidth = null;
-        this.slideOffset = null;
-        this.slideAmount = null;
-        this.currentPage = 0;
         this.autoplayDirection = 'right';
         this.breakpoints = [];
+        this.currentPage = 0;
+        this.slideAmount = null;
+        this.slideOffset = null;
+        this.slideWidth = null;
 
         this.options = extend(this.defaults, options);
         this.init();
@@ -176,14 +176,17 @@ class FlexCarousel {
     }
 
     buildBreakpoints() {
-        if (this.options.responsive) {
-            this.options.responsive.forEach((value, index) => {
-                const { breakpoint } = this.options.responsive[index];
+        const breakpoints = [];
 
-                if (!this.breakpoints.includes(breakpoint)) {
-                    this.breakpoints.push(breakpoint);
+        if (this.options.responsive) {
+            this.options.responsive.forEach(({ breakpoint, options }) => {
+                if (!breakpoints.includes(breakpoint)) {
+                    breakpoints.push(breakpoint);
+                    this.breakpoints[breakpoint] = options;
                 }
             });
+
+            breakpoints.sort((a, b) => a - b);
         }
     }
 
@@ -210,19 +213,19 @@ class FlexCarousel {
                 const option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
                 const amount = Math.ceil(this.slideAmount / option);
 
-                for (let i = 0; i < amount; i += 1) {
+                for (let index = 0; index < amount; index += 1) {
                     const li = document.createElement('li');
 
                     const circle = document.createElement('button');
                     circle.classList.add('fc-circle', 'fc-button');
-                    circle.setAttribute('aria-label', `${FlexCarousel.suffix(i + 1)} page`);
+                    circle.setAttribute('aria-label', `${FlexCarousel.suffix(index + 1)} page`);
 
                     const icon = document.createElement('span');
                     icon.classList.add('fc-icon', 'fc-is-circle');
 
                     const text = document.createElement('span');
                     text.classList.add('fc-is-sr-only');
-                    text.innerHTML = i + 1;
+                    text.innerHTML = index + 1;
 
                     circle.appendChild(icon);
                     circle.appendChild(text);
@@ -370,11 +373,8 @@ class FlexCarousel {
     }
 
     setTransform(position) {
-        const obj = {};
         const slides = this.selector.querySelector('.fc-slides');
-
-        obj.transform = `translate3d(${Math.ceil(position)}%, 0px, 0px)`;
-        slides.style.transform = obj.transform;
+        slides.style.transform = `translate3d(${Math.ceil(position)}%, 0px, 0px)`;
     }
 
     slideController(index) {
