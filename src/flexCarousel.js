@@ -151,7 +151,6 @@ class FlexCarousel {
 
     buildBreakpoints() {
         const breakpoints = [];
-        const breakpointOptions = {};
 
         if (this.options.responsive) {
             let previous = this.options;
@@ -160,13 +159,13 @@ class FlexCarousel {
                 if (!breakpoints.includes(breakpoint)) {
                     breakpoints.push(breakpoint);
 
-                    breakpointOptions[breakpoint] = FlexCarousel.extend(previous, options);
-                    previous = FlexCarousel.extend(this.options, options);
+                    this.breakpoints[breakpoint] = FlexCarousel.extend(previous, options);
+                    previous = FlexCarousel.extend(previous, options);
                 }
             });
-
-            breakpoints.sort((a, b) => a - b);
         }
+
+        this.updateResponsive();
     }
 
     buildCircleEvents() {
@@ -408,6 +407,24 @@ class FlexCarousel {
         const index = Math.floor(this.currentPage / this.options.slidesScrolling);
 
         circle[index].classList.add('fc-is-active');
+    }
+
+    updateResponsive() {
+        let currentBreakpoint;
+
+        window.addEventListener('resize', () => {
+            this.breakpoints.forEach((options, breakpoint) => {
+                if (window.innerWidth >= breakpoint) {
+                    currentBreakpoint = breakpoint;
+                } else if (window.innerWidth < currentBreakpoint) {
+                    currentBreakpoint = null;
+                }
+            });
+
+            if (currentBreakpoint) {
+                this.options = this.breakpoints[currentBreakpoint];
+            }
+        });
     }
 
     static extend(defaults, options) {
