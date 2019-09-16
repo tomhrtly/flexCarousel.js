@@ -10,6 +10,7 @@
 
 class FlexCarousel {
     constructor(selector, options = {}) {
+        this.selectorName = selector.toString();
         this.selector = document.querySelector(selector);
 
         this.defaults = {
@@ -288,6 +289,27 @@ class FlexCarousel {
 
             this.setTransform(this.getLeftPage(this.currentPage));
         }
+    }
+
+    destroy() {
+        this.selector.querySelectorAll('.fc-slide.fc-is-clone').forEach((element) => {
+            this.selector.querySelector('.fc-slides').removeChild(element);
+        });
+
+        this.selector.querySelectorAll('.fc-slide').forEach((element) => {
+            element.className = '';
+            element.style.minWidth = '';
+        });
+
+        this.selector.querySelector('.fc-slides').style.transform = '';
+        this.selector.querySelector('.fc-slides').className = '';
+        this.selector.innerHTML = this.selector.querySelector('.fc-container').innerHTML;
+        this.selector.removeChild(this.selector.querySelector('.fc-circles'));
+
+        this.selector.className = this.selectorName.replace('.', '');
+        this.selector.removeAttribute('style');
+
+        this.currentPage = 0;
     }
 
     getLeftPage(index) {
