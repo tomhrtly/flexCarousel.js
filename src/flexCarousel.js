@@ -12,32 +12,6 @@ class FlexCarousel {
     constructor(selector, options = {}) {
         this.selector = document.querySelector(selector);
 
-        function extend(object1, object2) {
-            const extended = {};
-
-            if (object1) {
-                const object1Keys = Object.keys(object1);
-
-                object1Keys.forEach((value) => {
-                    if (Object.prototype.hasOwnProperty.call(object1, value)) {
-                        extended[value] = object1[value];
-                    }
-                });
-            }
-
-            if (object2) {
-                const object2Keys = Object.keys(object2);
-
-                object2Keys.forEach((value) => {
-                    if (Object.prototype.hasOwnProperty.call(object2, value)) {
-                        extended[value] = object2[value];
-                    }
-                });
-            }
-
-            return extended;
-        }
-
         this.defaults = {
             appendArrows: this.selector,
             appendCircles: null,
@@ -65,7 +39,7 @@ class FlexCarousel {
         this.slideOffset = null;
         this.slideWidth = null;
 
-        this.options = extend(this.defaults, options);
+        this.options = FlexCarousel.extend(this.defaults, options);
         this.init();
     }
 
@@ -177,12 +151,17 @@ class FlexCarousel {
 
     buildBreakpoints() {
         const breakpoints = [];
+        const breakpointOptions = {};
 
         if (this.options.responsive) {
+            let previous = this.options;
+
             this.options.responsive.forEach(({ breakpoint, options }) => {
                 if (!breakpoints.includes(breakpoint)) {
                     breakpoints.push(breakpoint);
-                    this.breakpoints[breakpoint] = options;
+
+                    breakpointOptions[breakpoint] = FlexCarousel.extend(previous, options);
+                    previous = FlexCarousel.extend(this.options, options);
                 }
             });
 
@@ -429,6 +408,32 @@ class FlexCarousel {
         const index = Math.floor(this.currentPage / this.options.slidesScrolling);
 
         circle[index].classList.add('fc-is-active');
+    }
+
+    static extend(defaults, options) {
+        const extended = {};
+
+        if (defaults) {
+            const keys = Object.keys(defaults);
+
+            keys.forEach((value) => {
+                if (Object.prototype.hasOwnProperty.call(defaults, value)) {
+                    extended[value] = defaults[value];
+                }
+            });
+        }
+
+        if (options) {
+            const keys = Object.keys(options);
+
+            keys.forEach((value) => {
+                if (Object.prototype.hasOwnProperty.call(options, value)) {
+                    extended[value] = options[value];
+                }
+            });
+        }
+
+        return extended;
     }
 
     static suffix(index) {
