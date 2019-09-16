@@ -20,5 +20,6 @@ module.exports = {
           "code": 150,
           "ignoreStrings": true,
       }],
+      "no-param-reassign": [2, { "props": false }]
   },
 };
