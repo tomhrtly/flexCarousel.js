@@ -15,7 +15,6 @@ class FlexCarousel {
 
         this.defaults = {
             appendArrows: this.selector,
-            appendCircles: null,
             arrows: true,
             arrowsOverlay: true,
             autoplay: false,
@@ -37,11 +36,12 @@ class FlexCarousel {
         this.autoplayDirection = 'right';
         this.breakpoints = [];
         this.currentPage = 0;
+        this.options = FlexCarousel.extend(this.defaults, options);
+        this.originalOptions = this.options;
         this.slideAmount = null;
         this.slideOffset = null;
         this.slideWidth = null;
 
-        this.options = FlexCarousel.extend(this.defaults, options);
         this.init();
     }
 
@@ -171,7 +171,7 @@ class FlexCarousel {
     }
 
     buildCircleEvents() {
-        const circles = this.options.appendCircles.querySelectorAll('.fc-circle');
+        const circles = this.selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
         circles.forEach((element, index) => {
             element.addEventListener('click', () => this.movePage(index));
@@ -188,7 +188,7 @@ class FlexCarousel {
                 const circles = document.createElement('ul');
                 circles.classList.add('fc-circles');
 
-                this.options.appendCircles.appendChild(circles);
+                this.selector.querySelector('.fc-container').appendChild(circles);
 
                 const option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
                 const amount = Math.ceil(this.slideAmount / option);
@@ -243,10 +243,6 @@ class FlexCarousel {
 
         // Wrap slides to reduce HTML markup
         this.selector.innerHTML = `<div class="fc-container">${this.selector.innerHTML}</div>`;
-
-        if (!this.options.appendCircles) {
-            this.options.appendCircles = this.selector.querySelector('.fc-container');
-        }
 
         const slides = this.selector.querySelector('.fc-slides');
         const allSlides = slides.querySelectorAll('.fc-slide');
@@ -305,7 +301,10 @@ class FlexCarousel {
         this.selector.querySelector('.fc-slides').removeAttribute('style');
         this.selector.querySelector('.fc-slides').removeAttribute('class');
 
-        this.selector.querySelector('.fc-container').removeChild(this.selector.querySelector('.fc-circles'));
+        if (this.options.circles) {
+            this.selector.querySelector('.fc-container').removeChild(this.selector.querySelector('.fc-circles'));
+        }
+
         this.selector.innerHTML = this.selector.querySelector('.fc-container').innerHTML;
 
         this.selector.className = this.selectorName.replace('.', '');
@@ -428,31 +427,41 @@ class FlexCarousel {
     }
 
     updateCircles() {
-        const circle = this.options.appendCircles.querySelectorAll('.fc-circle');
+        const circles = this.selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
-        for (let index = 0; index < circle.length; index += 1) {
-            circle[index].classList.remove('fc-is-active');
+        for (let index = 0; index < circles.length; index += 1) {
+            circles[index].classList.remove('fc-is-active');
         }
 
         const index = Math.floor(this.currentPage / this.options.slidesScrolling);
 
-        circle[index].classList.add('fc-is-active');
+        circles[index].classList.add('fc-is-active');
     }
 
     updateResponsive() {
-        let currentBreakpoint;
+        let targetBreakpoint;
+        let activeBreakpoint;
 
         window.addEventListener('resize', () => {
             this.breakpoints.forEach((options, breakpoint) => {
                 if (window.innerWidth >= breakpoint) {
-                    currentBreakpoint = breakpoint;
-                } else if (window.innerWidth < currentBreakpoint) {
-                    currentBreakpoint = null;
+                    targetBreakpoint = breakpoint;
                 }
             });
 
-            if (currentBreakpoint) {
-                this.options = this.breakpoints[currentBreakpoint];
+            if (targetBreakpoint) {
+                if (activeBreakpoint) {
+                    if (targetBreakpoint !== this.activeBreakpoint) {
+                        activeBreakpoint = targetBreakpoint;
+                        this.reinit(this.breakpoints[targetBreakpoint]);
+                    }
+                } else {
+                    activeBreakpoint = targetBreakpoint;
+                    this.reinit(this.breakpoints[targetBreakpoint]);
+                }
+            } else if (!targetBreakpoint && activeBreakpoint) {
+                activeBreakpoint = null;
+                this.reinit(this.originalOptions);
             }
         });
     }
