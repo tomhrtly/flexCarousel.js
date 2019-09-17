@@ -33,6 +33,7 @@ class FlexCarousel {
             transitionSpeed: 250,
         };
 
+        this.activeBreakpoint = null;
         this.autoplayDirection = 'right';
         this.breakpoints = [];
         this.currentPage = 0;
@@ -297,14 +298,15 @@ class FlexCarousel {
         });
 
         this.selector.querySelectorAll('.fc-slide').forEach((element) => {
-            element.className = '';
-            element.style.minWidth = '';
+            element.removeAttribute('class');
+            element.removeAttribute('style');
         });
 
-        this.selector.querySelector('.fc-slides').style.transform = '';
-        this.selector.querySelector('.fc-slides').className = '';
+        this.selector.querySelector('.fc-slides').removeAttribute('style');
+        this.selector.querySelector('.fc-slides').removeAttribute('class');
+
+        this.selector.querySelector('.fc-container').removeChild(this.selector.querySelector('.fc-circles'));
         this.selector.innerHTML = this.selector.querySelector('.fc-container').innerHTML;
-        this.selector.removeChild(this.selector.querySelector('.fc-circles'));
 
         this.selector.className = this.selectorName.replace('.', '');
         this.selector.removeAttribute('style');
@@ -362,6 +364,12 @@ class FlexCarousel {
 
         this.updateArrows();
         this.updateCircles();
+    }
+
+    reinit(options = {}) {
+        this.destroy();
+        this.options = FlexCarousel.extend(this.defaults, options);
+        this.init();
     }
 
     removeTransition() {
