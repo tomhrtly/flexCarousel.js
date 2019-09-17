@@ -32,7 +32,6 @@ class FlexCarousel {
             transitionSpeed: 250,
         };
 
-        this.activeBreakpoint = null;
         this.autoplayDirection = 'right';
         this.breakpoints = [];
         this.currentPage = 0;
@@ -442,28 +441,26 @@ class FlexCarousel {
         let targetBreakpoint;
         let activeBreakpoint;
 
-        window.addEventListener('resize', () => {
-            this.breakpoints.forEach((options, breakpoint) => {
-                if (window.innerWidth >= breakpoint) {
-                    targetBreakpoint = breakpoint;
-                }
-            });
+        this.breakpoints.forEach((options, breakpoint) => {
+            if (window.innerWidth >= breakpoint) {
+                targetBreakpoint = breakpoint;
+            }
+        });
 
-            if (targetBreakpoint) {
-                if (activeBreakpoint) {
-                    if (targetBreakpoint !== this.activeBreakpoint) {
-                        activeBreakpoint = targetBreakpoint;
-                        this.reinit(this.breakpoints[targetBreakpoint]);
-                    }
-                } else {
+        if (targetBreakpoint) {
+            if (activeBreakpoint) {
+                if (targetBreakpoint !== activeBreakpoint) {
                     activeBreakpoint = targetBreakpoint;
                     this.reinit(this.breakpoints[targetBreakpoint]);
                 }
-            } else if (!targetBreakpoint && activeBreakpoint) {
-                activeBreakpoint = null;
-                this.reinit(this.originalOptions);
+            } else {
+                activeBreakpoint = targetBreakpoint;
+                this.reinit(this.breakpoints[targetBreakpoint]);
             }
-        });
+        } else if (activeBreakpoint !== null) {
+            activeBreakpoint = null;
+            this.reinit(this.originalOptions);
+        }
     }
 
     static extend(defaults, options) {
