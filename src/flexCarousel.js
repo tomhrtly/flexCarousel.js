@@ -38,7 +38,6 @@ class FlexCarousel {
         this.options = FlexCarousel.extend(this.defaults, options);
         this.originalOptions = this.options;
         this.slideAmount = null;
-        this.slideOffset = null;
         this.slideWidth = null;
 
         this.init();
@@ -313,19 +312,21 @@ class FlexCarousel {
     }
 
     getLeftPage(index) {
+        let slideOffset;
+
         if (this.options.slidesPerPage < this.slideAmount) {
             if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                this.slideOffset = (this.slideWidth * (this.options.slidesPerPage + 1)) * -1;
+                slideOffset = (this.slideWidth * (this.options.slidesPerPage + 1)) * -1;
             } else {
-                this.slideOffset = (this.slideWidth * this.options.slidesPerPage) * -1;
+                slideOffset = (this.slideWidth * this.options.slidesPerPage) * -1;
             }
 
             if (!this.options.infinite) {
-                this.slideOffset = 0;
+                slideOffset = 0;
             }
         }
 
-        return ((index * this.slideWidth) * -1) + this.slideOffset;
+        return ((index * this.slideWidth) * -1) + slideOffset;
     }
 
     init() {
