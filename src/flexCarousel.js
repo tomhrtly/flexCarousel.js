@@ -32,6 +32,7 @@ class FlexCarousel {
             transitionSpeed: 250,
         };
 
+        this.activeBreakpoint = null;
         this.autoplayDirection = 'right';
         this.breakpoints = [];
         this.currentPage = 0;
@@ -149,6 +150,17 @@ class FlexCarousel {
         }
     }
 
+    buildBreakpointEvent() {
+        let timer;
+
+        window.addEventListener('resize', () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                this.updateResponsive();
+            }, 500);
+        });
+    }
+
     buildBreakpoints() {
         const breakpoints = [];
 
@@ -165,7 +177,8 @@ class FlexCarousel {
             });
         }
 
-        this.updateResponsive();
+        this.buildBreakpointEvent();
+        this.updateResponsive(false);
     }
 
     buildCircleEvents() {
@@ -445,7 +458,6 @@ class FlexCarousel {
 
     updateResponsive() {
         let targetBreakpoint;
-        let activeBreakpoint;
 
         this.breakpoints.forEach((options, breakpoint) => {
             if (window.innerWidth >= breakpoint) {
@@ -454,18 +466,18 @@ class FlexCarousel {
         });
 
         if (targetBreakpoint) {
-            if (activeBreakpoint) {
-                if (targetBreakpoint !== activeBreakpoint) {
-                    activeBreakpoint = targetBreakpoint;
-                    // this.reinit(this.breakpoints[targetBreakpoint]);
+            if (this.activeBreakpoint) {
+                if (targetBreakpoint !== this.activeBreakpoint) {
+                    this.activeBreakpoint = targetBreakpoint;
+                    this.reinit(this.breakpoints[targetBreakpoint]);
                 }
             } else {
-                activeBreakpoint = targetBreakpoint;
-                // this.reinit(this.breakpoints[targetBreakpoint]);
+                this.activeBreakpoint = targetBreakpoint;
+                this.reinit(this.breakpoints[targetBreakpoint]);
             }
-        } else if (activeBreakpoint !== null) {
-            activeBreakpoint = null;
-            // this.reinit(this.originalOptions);
+        } else if (this.activeBreakpoint !== null) {
+            this.activeBreakpoint = null;
+            this.reinit(this.originalOptions);
         }
     }
 
