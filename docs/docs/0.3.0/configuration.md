@@ -81,7 +81,7 @@ We do not recommend that you edit the flexCarousel.js source files within `node_
 
 To change any of the available Sass variables stated above, you should import the source file into your Sass setup and override the default variables. Your file structure should look something like this if using a package manager.
 
-```text
+```
 my-project/
 ├── sass
 │   └── custom.sass
