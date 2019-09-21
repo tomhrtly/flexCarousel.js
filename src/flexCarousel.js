@@ -361,8 +361,13 @@ class FlexCarousel {
             this.slideController(page);
         }
 
-        this.updateArrows();
-        this.updateCircles();
+        if (this.options.arrows) {
+            this.updateArrows();
+        }
+
+        if (this.options.circles) {
+            this.updateCircles();
+        }
     }
 
     reinit(options = {}) {
@@ -452,15 +457,15 @@ class FlexCarousel {
             if (activeBreakpoint) {
                 if (targetBreakpoint !== activeBreakpoint) {
                     activeBreakpoint = targetBreakpoint;
-                    this.reinit(this.breakpoints[targetBreakpoint]);
+                    // this.reinit(this.breakpoints[targetBreakpoint]);
                 }
             } else {
                 activeBreakpoint = targetBreakpoint;
-                this.reinit(this.breakpoints[targetBreakpoint]);
+                // this.reinit(this.breakpoints[targetBreakpoint]);
             }
         } else if (activeBreakpoint !== null) {
             activeBreakpoint = null;
-            this.reinit(this.originalOptions);
+            // this.reinit(this.originalOptions);
         }
     }
 
