@@ -34,6 +34,7 @@ For a full list of all the options available so that you can customise your caro
 | `initialPage` | Integer | `0` | Defines which page should the carousel start on. |
 | `nextButton` | String | `<svg ...` | Defines the HTML code for the element which changes the active slide(s) to the next slide when clicked on. Out of the box, we use [Font Awesome](https://fontawesome.com) icons. |
 | `prevButton` | String | `<svg ...` | Defines the HTML code for the element which changes the active slide(s) to the previous slide when clicked on. Out of the box, we use [Font Awesome](https://fontawesome.com) icons. |
+| `responsive` | Array | `null` | A collection of objects which defines options for specific breakpoints. |
 | `slidesPerPage` | Integer | `1` | Defines how many slides are visible on a page at any given time. |
 | `slidesScrolling` | Integer | `1` | Defines how many slides should be moved when going to the next page of slides. |
 | `transition` | String | `slide` | Defines which transition should be used when changing the active slide(s). Current transitions available are: `none` and `slide`. |
