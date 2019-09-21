@@ -40,35 +40,10 @@ var flexCarousel = (function () {
 
       _classCallCheck(this, FlexCarousel);
 
+      this.selectorName = selector.toString();
       this.selector = document.querySelector(selector);
-
-      function extend(object1, object2) {
-        var extended = {};
-
-        if (object1) {
-          var object1Keys = Object.keys(object1);
-          object1Keys.forEach(function (value) {
-            if (Object.prototype.hasOwnProperty.call(object1, value)) {
-              extended[value] = object1[value];
-            }
-          });
-        }
-
-        if (object2) {
-          var object2Keys = Object.keys(object2);
-          object2Keys.forEach(function (value) {
-            if (Object.prototype.hasOwnProperty.call(object2, value)) {
-              extended[value] = object2[value];
-            }
-          });
-        }
-
-        return extended;
-      }
-
       this.defaults = {
         appendArrows: this.selector,
-        appendCircles: null,
         arrows: true,
         arrowsOverlay: true,
         autoplay: false,
@@ -77,18 +52,23 @@ var flexCarousel = (function () {
         circlesOverlay: true,
         height: null,
         infinite: true,
+        initialPage: 0,
         nextButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>',
         prevButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-left" class="svg-inline--fa fa-angle-left fa-w-8" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><path fill="currentColor" d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"></path></svg>',
+        responsive: null,
         slidesPerPage: 1,
         slidesScrolling: 1,
         transition: 'slide',
         transitionSpeed: 250
       };
-      this.slideWidth = null;
-      this.slideOffset = null;
+      this.activeBreakpoint = null;
+      this.autoplayDirection = 'right';
+      this.breakpoints = [];
+      this.options = FlexCarousel.extend(this.defaults, options);
+      this.originalOptions = this.options;
       this.slideAmount = null;
-      this.currentPage = 0;
-      this.options = extend(this.defaults, options);
+      this.slideWidth = null;
+      this.currentPage = this.options.initialPage;
       this.init();
     }
 
@@ -124,11 +104,30 @@ var flexCarousel = (function () {
         var _this2 = this;
 
         var pause = false;
+        var slide;
 
         if (this.options.autoplay) {
           setInterval(function () {
             if (!pause) {
-              _this2.movePage('next');
+              if (!_this2.options.infinite) {
+                if (_this2.autoplayDirection === 'right') {
+                  slide = 'next';
+
+                  if (_this2.currentPage + 1 === _this2.slideAmount - 1) {
+                    _this2.autoplayDirection = 'left';
+                  }
+                } else if (_this2.autoplayDirection === 'left') {
+                  slide = 'previous';
+
+                  if (_this2.currentPage === 1) {
+                    _this2.autoplayDirection = 'right';
+                  }
+                }
+              } else {
+                slide = 'next';
+              }
+
+              _this2.movePage(slide);
             }
           }, this.options.autoplaySpeed);
           this.selector.addEventListener('mouseenter', function () {
@@ -190,14 +189,51 @@ var flexCarousel = (function () {
         }
       }
     }, {
-      key: "buildCircleEvents",
-      value: function buildCircleEvents() {
+      key: "buildBreakpointEvent",
+      value: function buildBreakpointEvent() {
         var _this4 = this;
 
-        var circles = this.options.appendCircles.querySelectorAll('.fc-circle');
+        var timer;
+        window.addEventListener('resize', function () {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            _this4.updateResponsive();
+          }, 500);
+        });
+      }
+    }, {
+      key: "buildBreakpoints",
+      value: function buildBreakpoints() {
+        var _this5 = this;
+
+        var breakpoints = [];
+
+        if (this.options.responsive) {
+          var previous = this.options;
+          this.options.responsive.forEach(function (_ref) {
+            var breakpoint = _ref.breakpoint,
+                options = _ref.options;
+
+            if (!breakpoints.includes(breakpoint)) {
+              breakpoints.push(breakpoint);
+              _this5.breakpoints[breakpoint] = FlexCarousel.extend(previous, options);
+              previous = FlexCarousel.extend(previous, options);
+            }
+          });
+        }
+
+        this.buildBreakpointEvent();
+        this.updateResponsive(false);
+      }
+    }, {
+      key: "buildCircleEvents",
+      value: function buildCircleEvents() {
+        var _this6 = this;
+
+        var circles = this.selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
         circles.forEach(function (element, index) {
           element.addEventListener('click', function () {
-            return _this4.movePage(index);
+            return _this6.movePage(index);
           });
         });
       }
@@ -211,20 +247,20 @@ var flexCarousel = (function () {
 
             var circles = document.createElement('ul');
             circles.classList.add('fc-circles');
-            this.options.appendCircles.appendChild(circles);
+            this.selector.querySelector('.fc-container').appendChild(circles);
             var option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
             var amount = Math.ceil(this.slideAmount / option);
 
-            for (var i = 0; i < amount; i += 1) {
+            for (var index = 0; index < amount; index += 1) {
               var li = document.createElement('li');
               var circle = document.createElement('button');
               circle.classList.add('fc-circle', 'fc-button');
-              circle.setAttribute('aria-label', "".concat(FlexCarousel.suffix(i + 1), " page"));
+              circle.setAttribute('aria-label', "".concat(FlexCarousel.suffix(index + 1), " page"));
               var icon = document.createElement('span');
               icon.classList.add('fc-icon', 'fc-is-circle');
               var text = document.createElement('span');
               text.classList.add('fc-is-sr-only');
-              text.innerHTML = i + 1;
+              text.innerHTML = index + 1;
               circle.appendChild(icon);
               circle.appendChild(text);
               li.appendChild(circle);
@@ -261,11 +297,6 @@ var flexCarousel = (function () {
 
 
         this.selector.innerHTML = "<div class=\"fc-container\">".concat(this.selector.innerHTML, "</div>");
-
-        if (!this.options.appendCircles) {
-          this.options.appendCircles = this.selector.querySelector('.fc-container');
-        }
-
         var slides = this.selector.querySelector('.fc-slides');
         var allSlides = slides.querySelectorAll('.fc-slide');
         this.slideAmount = allSlides.length;
@@ -311,21 +342,46 @@ var flexCarousel = (function () {
         }
       }
     }, {
+      key: "destroy",
+      value: function destroy() {
+        var _this7 = this;
+
+        this.selector.querySelectorAll('.fc-slide.fc-is-clone').forEach(function (element) {
+          _this7.selector.querySelector('.fc-slides').removeChild(element);
+        });
+        this.selector.querySelectorAll('.fc-slide').forEach(function (element) {
+          element.removeAttribute('class');
+          element.removeAttribute('style');
+        });
+        this.selector.querySelector('.fc-slides').removeAttribute('style');
+        this.selector.querySelector('.fc-slides').removeAttribute('class');
+
+        if (this.options.circles) {
+          this.selector.querySelector('.fc-container').removeChild(this.selector.querySelector('.fc-circles'));
+        }
+
+        this.selector.innerHTML = this.selector.querySelector('.fc-container').innerHTML;
+        this.selector.className = this.selectorName.replace('.', '');
+        this.selector.removeAttribute('style');
+      }
+    }, {
       key: "getLeftPage",
       value: function getLeftPage(index) {
+        var slideOffset;
+
         if (this.options.slidesPerPage < this.slideAmount) {
           if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-            this.slideOffset = this.slideWidth * (this.options.slidesPerPage + 1) * -1;
+            slideOffset = this.slideWidth * (this.options.slidesPerPage + 1) * -1;
           } else {
-            this.slideOffset = this.slideWidth * this.options.slidesPerPage * -1;
+            slideOffset = this.slideWidth * this.options.slidesPerPage * -1;
           }
 
           if (!this.options.infinite) {
-            this.slideOffset = 0;
+            slideOffset = 0;
           }
         }
 
-        return index * this.slideWidth * -1 + this.slideOffset;
+        return index * this.slideWidth * -1 + slideOffset;
       }
     }, {
       key: "init",
@@ -336,6 +392,7 @@ var flexCarousel = (function () {
           this.buildArrows();
           this.buildCircles();
           this.buildOptions();
+          this.buildBreakpoints();
         }
       }
     }, {
@@ -361,8 +418,21 @@ var flexCarousel = (function () {
           this.slideController(page);
         }
 
-        this.updateArrows();
-        this.updateCircles();
+        if (this.options.arrows) {
+          this.updateArrows();
+        }
+
+        if (this.options.circles) {
+          this.updateCircles();
+        }
+      }
+    }, {
+      key: "reinit",
+      value: function reinit() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        this.destroy();
+        this.options = FlexCarousel.extend(this.defaults, options);
+        this.init();
       }
     }, {
       key: "removeTransition",
@@ -376,10 +446,8 @@ var flexCarousel = (function () {
     }, {
       key: "setTransform",
       value: function setTransform(position) {
-        var obj = {};
         var slides = this.selector.querySelector('.fc-slides');
-        obj.transform = "translate3d(".concat(Math.ceil(position), "%, 0px, 0px)");
-        slides.style.transform = obj.transform;
+        slides.style.transform = "translate3d(".concat(Math.ceil(position), "%, 0px, 0px)");
       }
     }, {
       key: "slideController",
@@ -415,29 +483,80 @@ var flexCarousel = (function () {
           if (this.currentPage === 0) {
             prevButton.setAttribute('disabled', 'disabled');
           } else {
-            prevButton.removeAttribute('disabled', 'disabled');
+            prevButton.removeAttribute('disabled');
           }
 
           if (this.currentPage === this.slideAmount - 1) {
             nextButton.setAttribute('disabled', 'disabled');
           } else {
-            nextButton.removeAttribute('disabled', 'disabled');
+            nextButton.removeAttribute('disabled');
           }
         }
       }
     }, {
       key: "updateCircles",
       value: function updateCircles() {
-        var circle = this.options.appendCircles.querySelectorAll('.fc-circle');
+        var circles = this.selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
-        for (var _index4 = 0; _index4 < circle.length; _index4 += 1) {
-          circle[_index4].classList.remove('fc-is-active');
+        for (var _index4 = 0; _index4 < circles.length; _index4 += 1) {
+          circles[_index4].classList.remove('fc-is-active');
         }
 
         var index = Math.floor(this.currentPage / this.options.slidesScrolling);
-        circle[index].classList.add('fc-is-active');
+        circles[index].classList.add('fc-is-active');
+      }
+    }, {
+      key: "updateResponsive",
+      value: function updateResponsive() {
+        var targetBreakpoint;
+        this.breakpoints.forEach(function (options, breakpoint) {
+          if (window.innerWidth >= breakpoint) {
+            targetBreakpoint = breakpoint;
+          }
+        });
+
+        if (targetBreakpoint) {
+          if (this.activeBreakpoint) {
+            if (targetBreakpoint !== this.activeBreakpoint) {
+              this.activeBreakpoint = targetBreakpoint;
+              this.reinit(this.breakpoints[targetBreakpoint]);
+            }
+          } else {
+            this.activeBreakpoint = targetBreakpoint;
+            this.reinit(this.breakpoints[targetBreakpoint]);
+          }
+        } else if (this.activeBreakpoint !== null) {
+          this.activeBreakpoint = null;
+          this.reinit(this.originalOptions);
+        }
       }
     }], [{
+      key: "extend",
+      value: function extend(defaults, options) {
+        var extended = {};
+
+        if (defaults) {
+          var keys = Object.keys(defaults);
+          keys.forEach(function (value) {
+            if (Object.prototype.hasOwnProperty.call(defaults, value)) {
+              extended[value] = defaults[value];
+            }
+          });
+        }
+
+        if (options) {
+          var _keys = Object.keys(options);
+
+          _keys.forEach(function (value) {
+            if (Object.prototype.hasOwnProperty.call(options, value)) {
+              extended[value] = options[value];
+            }
+          });
+        }
+
+        return extended;
+      }
+    }, {
       key: "suffix",
       value: function suffix(index) {
         var j = index % 10;

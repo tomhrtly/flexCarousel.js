@@ -1,5 +1,5 @@
 /*!
- * flexCarousel.js v0.2.1
+ * flexCarousel.js v0.3.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2019 Tom Hartley
@@ -113,8 +113,8 @@
   position: relative;
 }
 
-.fc.fc-has-arrows.fc-has-arrows-overlay .fc-next.fc-is-active,
-.fc.fc-has-arrows.fc-has-arrows-overlay .fc-prev.fc-is-active {
+.fc.fc-has-arrows.fc-has-arrows-overlay .fc-next,
+.fc.fc-has-arrows.fc-has-arrows-overlay .fc-prev {
   color: rgba(27, 27, 27, 0.4);
   font-size: 32px;
   height: 100%;
@@ -123,11 +123,11 @@
   z-index: 1;
 }
 
-.fc.fc-has-arrows.fc-has-arrows-overlay .fc-next.fc-is-active {
+.fc.fc-has-arrows.fc-has-arrows-overlay .fc-next {
   right: 0;
 }
 
-.fc.fc-has-arrows.fc-has-arrows-overlay .fc-prev.fc-is-active {
+.fc.fc-has-arrows.fc-has-arrows-overlay .fc-prev {
   left: 0;
 }
 
