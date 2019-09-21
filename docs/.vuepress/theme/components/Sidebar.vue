@@ -11,11 +11,11 @@
             </li>
         </ul>
         <hr>
-        <div class="columns is-vcentered">
+        <div class="columns is-vcentered is-centered">
             <div class="column is-narrow">
                 <p>Version:</p>
             </div>
-            <div class="column">
+            <div class="column is-narrow">
                 <div class="field">
                     <div class="control">
                         <div class="select">

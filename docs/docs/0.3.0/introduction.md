@@ -1,5 +1,12 @@
 # Introduction
 
+- [Introduction](#introduction)
+    - [What is flexCarousel.js?](#what-is-flexcarouseljs)
+    - [Dependency Free](#dependency-free)
+    - [Module Bundlers](#module-bundlers)
+
+## What is flexCarousel.js?
+    
 flexCarousel.js is a JavaScript plugin which allows developers to create customisable and accessible carousel components for their websites by utilizing Flexbox and ES6 browser technology.
 
 This plugin aims to stay on the edge of the constantly expanding browser technology and will be maintained as a reliable plugin that can be easily adapted to your needs whilst being compatible on any device.

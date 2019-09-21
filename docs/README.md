@@ -10,7 +10,7 @@ description: flexCarousel.js gives you the ability to create accessible, customi
             <h3>Install</h3>
             <p>Feel free to use npm to add flexCarousel.js to your project. The package includes the source and distribution files but no documentation.</p>
 
-```shell
+```
 npm install flexcarouseljs
 ```
 
