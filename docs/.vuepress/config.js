@@ -7,9 +7,9 @@ module.exports = {
     themeConfig: {
         github: 'https://github.com/tomhrtly/flexCarousel.js',
         twitter: 'https://twitter.com/tomhrtly',
-        download: 'https://github.com/tomhrtly/flexCarousel.js/releases/download/v0.3.0/flexCarousel-0.3.0.zip',
-        currentVersion: '0.3.0',
-        versions: ['master', '0.3.0'],
+        download: 'https://github.com/tomhrtly/flexCarousel.js/releases/download/v1.0.0/flexCarousel-1.0.0.zip',
+        currentVersion: '1.0.0',
+        versions: ['master', '1.0.0'],
         nav: [
             { text: 'Home', url: '/', },
             { text: 'Docs', url: '/docs', },
@@ -20,7 +20,7 @@ module.exports = {
             { text: 'Installation', slug: 'installation', },
             { text: 'Configuration', slug: 'configuration', },
             { text: 'Options', slug: 'options', },
-            { text: 'Browser Support', slug: 'browser-support', },
+            { text: 'Compatibility', slug: 'compatibility', },
         ],
     },
     plugins: {
