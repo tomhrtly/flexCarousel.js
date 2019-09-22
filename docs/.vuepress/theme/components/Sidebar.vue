@@ -13,7 +13,7 @@
         <hr>
         <div class="columns is-vcentered is-centered">
             <div class="column is-narrow">
-                <p>Version:</p>
+                <label class="label" for="versions">Version:</label>
             </div>
             <div class="column is-narrow">
                 <div class="field">
@@ -22,6 +22,7 @@
                             <select
                                 v-model="data.selected"
                                 @change="redirect"
+                                id="versions"
                             >
                                 <option
                                     v-for="(version, index) in $site.themeConfig.versions"
