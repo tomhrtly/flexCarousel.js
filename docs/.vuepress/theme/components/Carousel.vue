@@ -5,12 +5,10 @@
 </template>
 
 <script>
-    import FlexCarousel from "../../../../src/flexCarousel";
-
     export default {
         props: ['options'],
         mounted() {
-            new FlexCarousel(`#${this.$attrs.id}`, this.options);
+            const carousel = new flexCarousel(`#${this.$attrs.id}`, this.options);
         }
     }
 </script>

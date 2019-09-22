@@ -19,6 +19,12 @@
     border-width: 2px
     box-shadow: 0 2px 0 0 $white-ter
     padding: 1.5rem
+    ul
+        margin: 0
+        &:not(:last-child)
+            margin-bottom: 0
+        li + li
+            margin-top: 0
 
 .icon svg
     width: 80%
