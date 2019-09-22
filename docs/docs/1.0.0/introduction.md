@@ -1,7 +1,7 @@
 # Introduction
 
 - [Introduction](#introduction)
-    - [What is flexCarousel.js?](#what-is-flexcarouseljs)
+    - [What is flexCarousel.js?](#what-is-flexcarousel-js)
     - [Dependency Free](#dependency-free)
     - [Module Bundlers](#module-bundlers)
 
