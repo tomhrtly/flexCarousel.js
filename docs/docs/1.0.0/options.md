@@ -768,6 +768,66 @@ Default: `1`
 
 Defines how many slides are visible on a page at any given time.
 
+<div class="preview">
+    <div class="example">
+        <div class="slides-per-page-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.slides-per-page-js', {
+                slidesPerPage: 3,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    slidesPerPage: 3,
+});
+``` 
+
+</div>
+</div>
+
 ### `slidesScrolling`
 
 Type: Integer
