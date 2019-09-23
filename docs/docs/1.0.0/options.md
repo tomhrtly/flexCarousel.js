@@ -834,7 +834,69 @@ Type: Integer
 
 Default: `1`
 
-Defines how many slides should be moved when going to the next page of slides.
+Defines how many slides should be moved when going to the next page of slides. You don't want to have this option value higher than `slidesPerPage` as this may lead to poor accessibility and user experience.
+
+<div class="preview">
+    <div class="example">
+        <div class="slides-scrolling-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.slides-scrolling-js', {
+                slidesPerPage: 3,
+                slidesScrolling: 3,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    slidesPerPage: 3,
+    slidesScrolling: 3,
+});
+``` 
+
+</div>
+</div>
 
 ### `transition`
 
