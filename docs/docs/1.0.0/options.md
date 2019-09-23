@@ -973,3 +973,63 @@ Type: Integer
 Default: `250`
 
 Defines the transition speed when the slide is being changed. `transition` must be set to `slide` for this option to work.
+
+<div class="preview">
+    <div class="example">
+        <div class="transition-speed-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.transition-speed-js', {
+                transitionSpeed: 1000,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    transitionSpeed: 1000,
+});
+``` 
+
+</div>
+</div>
