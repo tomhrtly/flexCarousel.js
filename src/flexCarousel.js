@@ -244,6 +244,12 @@ class FlexCarousel {
         this.autoplay();
     }
 
+    buildSlideEvents() {
+        window.addEventListener('orientationchange', () => {
+            this.orientationChange();
+        });
+    }
+
     buildSlides() {
         const ul = this.selector.querySelector('ul');
 
@@ -299,6 +305,8 @@ class FlexCarousel {
 
             this.setTransform(this.getLeftPage(this.currentPage));
         }
+
+        this.buildSlideEvents();
     }
 
     destroy() {
@@ -381,6 +389,11 @@ class FlexCarousel {
         if (this.options.circles) {
             this.updateCircles();
         }
+    }
+
+    orientationChange() {
+        this.updateResponsive();
+        this.setTransform();
     }
 
     reinit(options = {}) {
