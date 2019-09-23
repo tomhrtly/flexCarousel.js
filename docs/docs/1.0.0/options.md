@@ -680,7 +680,85 @@ Type: Array
 
 Default: `null`
 
-A collection of objects which defines options for specific breakpoints.
+A collection of objects which defines options for specific breakpoints. Each object must contain a `breakpoint` and `options` key. The former key must be an integer which defines the breakpoint for the `options` object to apply to.
+
+This works from a mobile-first approach and each breakpoint will use the previous breakpoint's options. Notice how in the example below, even though we did not change the `arrows` option for the 992px breakpoint, it did not revert back to it's default value.
+
+<div class="preview">
+    <div class="example">
+        <div class="responsive-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.responsive-js', {
+                arrows: false,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        options: {
+                            autoplay: true,
+                        },
+                    },
+                ],
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    arrows: false,
+    responsive: [
+        {
+            breakpoint: 992,
+            options: {
+                autoplay: true,
+            },
+        },
+    ],
+});
+``` 
+
+</div>
+</div>
 
 ### `slidesPerPage`
 
