@@ -326,6 +326,66 @@ Default: `true`
 
 Determines whether navigation circles should be shown at the bottom of the carousel for users to quickly select which slide to view.
 
+<div class="preview">
+    <div class="example">
+        <div class="circles-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.circles-js', {
+                circles: false,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    circles: false,
+});
+``` 
+
+</div>
+</div>
+
 ### `circlesOverlay`
 
 Type: Boolean
@@ -333,6 +393,66 @@ Type: Boolean
 Default: `true`
 
 Determines whether the circles overlay onto the active slide(s) or have their own wrapping elements. `circles` must be set to `true` for this option to work.
+
+<div class="preview">
+    <div class="example">
+        <div class="circles-overlay-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.circles-overlay-js', {
+                circlesOverlay: false,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    circlesOverlay: false,
+});
+``` 
+
+</div>
+</div>
 
 ### `height`
 
