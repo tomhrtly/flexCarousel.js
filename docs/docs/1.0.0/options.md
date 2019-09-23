@@ -906,6 +906,66 @@ Default: `slide`
 
 Defines which transition should be used when changing the active slide(s). Current transitions available are: `none` and `slide`.
 
+<div class="preview">
+    <div class="example">
+        <div class="transition-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.transition-js', {
+                transition: 'none',
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    transition: 'none',
+});
+``` 
+
+</div>
+</div>
+
 ### `transitionSpeed`
 
 Type: Integer
