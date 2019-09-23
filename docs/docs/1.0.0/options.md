@@ -530,6 +530,66 @@ Default: `true`
 
 Determines if the carousel will continuously loop over the slides or have the prev/next buttons disabled when on the first/last slide.
 
+<div class="preview">
+    <div class="example">
+        <div class="infinite-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.infinite-js', {
+                infinite: false,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    infinite: false,
+});
+``` 
+
+</div>
+</div>
+
 ### `initialPage`
 
 Type: Integer
