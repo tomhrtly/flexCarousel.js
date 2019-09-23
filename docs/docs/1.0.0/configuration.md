@@ -8,6 +8,7 @@
         - [Sass](#sass)
             - [Initial Variables](#initial-variables)
             - [Derived Variables](#derived-variables)
+        - [Custom Themes](#custom-themes)
         - [File Structure](#file-structure)
 
 ## How to Use
@@ -76,7 +77,14 @@ Below you can find two tables of all the Sass variables available for you to cha
 | `$fc-prev-next-height` | Computed | `$space * 1.5` |
 | `$fc-prev-next-min-width` | Computed | `$space * 8` |
 
+### Custom Themes
+
+Out of the box, flexCarousel.js has a very basic user interface. This is so developers can easily add their own custom UI without having to fight over CSS specificity and trying to override existing styles.
+
+For example, the carousel shown below is created by creating a "theme" stylesheet and adding styles to work with the basic UI provided. 
+
 ### File Structure
+
 We do not recommend that you edit the flexCarousel.js source files within `node_modules`, this is because when you update the package through npm, your changes will be removed and there may be problems sharing your repository with flexCarousel.js as a dependency.
 
 To change any of the available Sass variables stated above, you should import the source file into your Sass setup and override the default variables. Your file structure should look something like this if using a package manager.
