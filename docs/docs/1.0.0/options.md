@@ -462,6 +462,66 @@ Default: `null`
 
 Defines whether a fixed height is to be added to the carousel selector element.
 
+<div class="preview">
+    <div class="example">
+        <div class="height-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.height-js', {
+                height: '400px',
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    height: '400px',
+});
+``` 
+
+</div>
+</div>
+
 ### `infinite`
 
 Type: Boolean
