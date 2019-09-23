@@ -36,28 +36,30 @@
             <div class="column is-6">
                 <div class="inner">
                     <div class="preview">
-                        <Carousel
-                            id="example"
-                            :options="data.options"
-                        >
-                            <ul>
-                                <li>
-                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">1</div>
-                                </li>
-                                <li>
-                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">2</div>
-                                </li>
-                                <li>
-                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">3</div>
-                                </li>
-                                <li>
-                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">4</div>
-                                </li>
-                                <li>
-                                    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">5</div>
-                                </li>
-                            </ul>
-                        </Carousel>
+                        <div class="example">
+                            <Carousel
+                                id="example"
+                                :options="data.options"
+                            >
+                                <ul>
+                                    <li>
+                                        <div>1</div>
+                                    </li>
+                                    <li>
+                                        <div>2</div>
+                                    </li>
+                                    <li>
+                                        <div>3</div>
+                                    </li>
+                                    <li>
+                                        <div>4</div>
+                                    </li>
+                                    <li>
+                                        <div>5</div>
+                                    </li>
+                                </ul>
+                            </Carousel>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -18,13 +18,42 @@
     border-style: solid
     border-width: 2px
     box-shadow: 0 2px 0 0 $white-ter
-    padding: 1.5rem
     ul
         margin: 0
         &:not(:last-child)
             margin-bottom: 0
         li + li
             margin-top: 0
+    ul li div
+        align-items: center
+        display: flex
+        justify-content: center
+        height: 100%
+    .example
+        padding: 1.5rem
+    .code
+        +desktop
+            display: flex
+        div
+            flex-basis: 0
+            flex-grow: 1
+            flex-shrink: 1
+            margin-bottom: 0
+            pre
+                border-radius: 0
+                height: 100%
+                margin: 0
+                padding-top: 3.5rem
+                position: relative
+                &.language-javascript::before,
+                &.language-html::before
+                    position: absolute
+                    top: 1rem
+                    left: 1rem
+                &.language-javascript::before
+                    content: 'JavaScript'
+                &.language-html::before
+                    content: 'HTML'
 
 .icon svg
     width: 80%
