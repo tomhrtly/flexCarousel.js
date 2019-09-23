@@ -3,6 +3,22 @@
 - [Options](#options)
     - [Introduction](#introduction)
     - [Available Options](#available-options)
+        - [appendArrows](#appendarrows)
+        - [arrows](#arrows)
+        - [arrowsOverlay](#arrowsoverlay)
+        - [autoplay](#autoplay)
+        - [autoplaySpeed](#autoplaySpeed)
+        - [circles](#circles)
+        - [circlesOverlay](#circlesoverlay)
+        - [height](#height)
+        - [infinite](#infinite)
+        - [initialPage](#initialpage)
+        - [nextButton](#nextbutton)
+        - [prevButton](#prevbutton)
+        - [responsive](#responsive)
+        - [slidesPerPage](#slidesperpage)
+        - [transition](#transition)
+        - [transitionSpeed](#transitionspeed)
 
 ## Introduction
 
@@ -26,7 +42,7 @@ Type: String
 
 Default: `this.selector`
 
-The selector which the arrows will be appended to if you want to have more flexibility to how your carousel looks.
+The HTML element which the arrows will be appended to if you want to have more flexibility to how your carousel looks.
 
 ### `arrows`
 
@@ -35,6 +51,66 @@ Type: Boolean
 Default: `true`
 
 Determines whether a previous and next arrow should be shown on either side of the slides so that the user can change the active page.
+
+<div class="preview">
+    <div class="example">
+        <div class="arrows-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.arrows-js', {
+                arrows: false,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    arrows: false,
+});
+``` 
+
+</div>
+</div>
 
 ### `arrowsOverlay`
 
