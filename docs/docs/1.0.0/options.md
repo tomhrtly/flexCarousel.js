@@ -184,9 +184,69 @@ new flexCarousel('.my-class', {
 
 Type: Boolean
 
-Default: `true`
+Default: `false`
 
-Determines whether the active slide changes to the next slide on a time delay.
+Determines whether the active slide changes to the next slide on a time delay. The carousel will pause when the user hovers their mouse over the selector for improved accessibility.
+
+<div class="preview">
+    <div class="example">
+        <div class="autoplay-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.autoplay-js', {
+                autoplay: true,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    autoplay: true,
+});
+``` 
+
+</div>
+</div>
 
 ### `autoplaySpeed`
 
@@ -195,6 +255,68 @@ Type: Integer
 Default: `5000`
 
 Determines how long the active slide(s) will stay active for before transitioning to the next slide. `autoplay` must be set to `true` for this option to work.
+
+<div class="preview">
+    <div class="example">
+        <div class="autoplay-speed-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.autoplay-speed-js', {
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    autoplay: true,
+    autoplaySpeed: 2000,
+});
+``` 
+
+</div>
+</div>
 
 ### `circles`
 
