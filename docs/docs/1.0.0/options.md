@@ -7,7 +7,7 @@
         - [arrows](#arrows)
         - [arrowsOverlay](#arrowsoverlay)
         - [autoplay](#autoplay)
-        - [autoplaySpeed](#autoplaySpeed)
+        - [autoplaySpeed](#autoplayspeed)
         - [circles](#circles)
         - [circlesOverlay](#circlesoverlay)
         - [height](#height)
