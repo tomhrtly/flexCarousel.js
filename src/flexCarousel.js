@@ -35,6 +35,7 @@ class FlexCarousel {
 
         this.activeBreakpoint = null;
         this.autoplayDirection = 'right';
+        this.autoplayTimer = null;
         this.breakpoints = [];
         this.options = FlexCarousel.extend(this.defaults, options);
         this.originalOptions = this.options;
@@ -70,8 +71,12 @@ class FlexCarousel {
         let pause = false;
         let slide;
 
+        if (this.autoplayTimer) {
+            clearInterval(this.autoplayTimer);
+        }
+
         if (this.options.autoplay) {
-            setInterval(() => {
+            this.autoplayTimer = setInterval(() => {
                 if (!pause) {
                     if (!this.options.infinite) {
                         if (this.autoplayDirection === 'right') {
