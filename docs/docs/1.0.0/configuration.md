@@ -53,7 +53,7 @@ Having trouble getting your carousel to work correctly? Check out this [CodePen 
         </div>
         <script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@latest/dist/flexCarousel.min.js"></script>
         <script>
-           new flexCarousel('.my-class');
+           const carousel = new flexCarousel('.my-class');
         </script>
   </body>
 </html>
