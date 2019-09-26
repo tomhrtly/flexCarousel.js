@@ -44,6 +44,68 @@ Default: `this.selector`
 
 The HTML element which the arrows will be appended to if you want to have more flexibility to how your carousel looks. When using this option, you will most likely want to add your own styles for the previous and next buttons.
 
+<div class="preview">
+    <div class="example">
+        <div class="arrows-js"></div>
+        <div class="append-arrows-js">
+            <ul>
+                <li>
+                    <div>1</div>
+                </li>
+                <li>
+                    <div>2</div>
+                </li>
+                <li>
+                    <div>3</div>
+                </li>
+                <li>
+                    <div>4</div>
+                </li>
+                <li>
+                    <div>5</div>
+                </li>
+            </ul>
+        </div>
+        <script>
+            new flexCarousel('.append-arrows-js', {
+                appendArrows: '.arrows-js',
+            });
+        </script>
+    </div>
+    <div class="code">
+
+```html
+<div class="arrows-js"></div>
+<div class="my-class">
+    <ul>
+        <li>
+            <div>1</div>
+        </li>
+        <li>
+            <div>2</div>
+        </li>
+        <li>
+            <div>3</div>
+        </li>
+        <li>
+            <div>4</div>
+        </li>
+        <li>
+            <div>5</div>
+        </li>
+    </ul>
+</div>
+```
+
+```javascript
+new flexCarousel('.my-class', {
+    appendArrows: '.arrows-js',
+});
+``` 
+
+</div>
+</div>
+
 ### `arrows`
 
 Type: Boolean
