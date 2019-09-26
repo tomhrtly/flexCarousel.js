@@ -18,12 +18,12 @@ For those wanting to quickly prototype carousel's for their applications, feel f
 
 ### CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@latest/dist/flexCarousel.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.css">
 ```
 
 ### JS
 ```html
-<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@latest/dist/flexCarousel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.js"></script>
 ```
 
 ## Download

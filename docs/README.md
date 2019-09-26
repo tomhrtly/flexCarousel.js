@@ -23,13 +23,13 @@ npm install flexcarouseljs
             <h4>CSS</h4>
             
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@latest/dist/flexCarousel.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.css">
 ```
 
 <h4>JS</h4>
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@latest/dist/flexCarousel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.js"></script>
 ```
 
 </div>
