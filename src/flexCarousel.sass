@@ -34,6 +34,34 @@ $fc-prev-next-min-width: $fc-space * 8 !default
     overflow: visible
     text-transform: none
 
+.fc-next,
+.fc-prev
+    align-items: center
+    display: flex
+    justify-content: center
+    min-width: $fc-prev-next-min-width / 2
+
+    .fc-icon
+        color: rgba($fc-black, 0.40)
+        display: inline-flex
+        height: $fc-space * 2
+        justify-content: center
+        width: $fc-space * 2
+
+        svg
+            height: 100%
+            width: 100%
+
+    &:disabled
+        cursor: not-allowed
+        opacity: .5
+
+        .fc-icon
+            color: rgba($fc-black, 0.20)
+
+    &:hover:not(:disabled) .fc-icon
+        color: rgba($fc-black, 0.80)
+
 .fc-circles
     list-style-type: none
     margin: 0
@@ -72,35 +100,9 @@ $fc-prev-next-min-width: $fc-space * 8 !default
     width: 100%
 
     &.fc-has-arrows
-        .fc-next,
-        .fc-prev
-            align-items: center
-            display: flex
-            justify-content: center
-            min-width: $fc-prev-next-min-width / 2
-
-            .fc-icon
-                color: rgba($fc-black, 0.40)
-                display: inline-flex
-                height: $fc-space * 2
-                justify-content: center
-                position: absolute
-                width: $fc-space * 2
-
-                svg
-                    height: 100%
-                    width: 100%
-
-            &:disabled
-                cursor: not-allowed
-                opacity: .5
-
-                .fc-icon
-                    color: rgba($fc-black, 0.20)
-
-            &:hover:not(:disabled) .fc-icon
-                color: rgba($fc-black, 0.80)
-
+        .fc-next .fc-icon,
+        .fc-prev .fc-icon
+            position: absolute
         &.fc-has-arrows-overlay
             position: relative
 

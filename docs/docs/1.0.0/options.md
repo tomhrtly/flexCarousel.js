@@ -46,7 +46,6 @@ The HTML element which the arrows will be appended to if you want to have more f
 
 <div class="preview">
     <div class="example">
-        <div class="arrows-js"></div>
         <div class="append-arrows-js">
             <ul>
                 <li>
@@ -66,16 +65,17 @@ The HTML element which the arrows will be appended to if you want to have more f
                 </li>
             </ul>
         </div>
+        <div class="my-arrows my-arrows-js"></div>
         <script>
             new flexCarousel('.append-arrows-js', {
-                appendArrows: '.arrows-js',
+                appendArrows: document.querySelector('.my-arrows-js'),
             });
         </script>
     </div>
     <div class="code">
 
 ```html
-<div class="arrows-js"></div>
+<div class="my-arrows my-arrows-js"></div>
 <div class="my-class">
     <ul>
         <li>
@@ -99,10 +99,10 @@ The HTML element which the arrows will be appended to if you want to have more f
 
 ```javascript
 new flexCarousel('.my-class', {
-    appendArrows: '.arrows-js',
+    appendArrows: document.querySelector('.my-arrows-js'),
 });
 ``` 
-
+    
 </div>
 </div>
 
