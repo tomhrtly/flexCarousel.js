@@ -29,4 +29,4 @@ For those wanting to quickly prototype carousel's for their applications, feel f
 ## Download
 You can also traditionally download the build files locally if you wish.
 
-<a href="https://github.com/tomhrtly/flexCarousel.js/releases/download/v0.3.0/flexCarousel-0.3.0.zip" class="button is-primary">Download</a>
+<a href="https://github.com/tomhrtly/flexCarousel.js/releases/download/v1.0.0/flexCarousel-1.0.0.zip" class="button is-primary">Download</a>
