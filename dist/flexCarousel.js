@@ -63,6 +63,7 @@ var flexCarousel = (function () {
       };
       this.activeBreakpoint = null;
       this.autoplayDirection = 'right';
+      this.autoplayTimer = null;
       this.breakpoints = [];
       this.options = FlexCarousel.extend(this.defaults, options);
       this.originalOptions = this.options;
@@ -106,8 +107,12 @@ var flexCarousel = (function () {
         var pause = false;
         var slide;
 
+        if (this.autoplayTimer) {
+          clearInterval(this.autoplayTimer);
+        }
+
         if (this.options.autoplay) {
-          setInterval(function () {
+          this.autoplayTimer = setInterval(function () {
             if (!pause) {
               if (!_this2.options.infinite) {
                 if (_this2.autoplayDirection === 'right') {
@@ -286,6 +291,15 @@ var flexCarousel = (function () {
         this.autoplay();
       }
     }, {
+      key: "buildSlideEvents",
+      value: function buildSlideEvents() {
+        var _this7 = this;
+
+        window.addEventListener('orientationchange', function () {
+          _this7.orientationChange();
+        });
+      }
+    }, {
       key: "buildSlides",
       value: function buildSlides() {
         var ul = this.selector.querySelector('ul');
@@ -340,14 +354,16 @@ var flexCarousel = (function () {
 
           this.setTransform(this.getLeftPage(this.currentPage));
         }
+
+        this.buildSlideEvents();
       }
     }, {
       key: "destroy",
       value: function destroy() {
-        var _this7 = this;
+        var _this8 = this;
 
         this.selector.querySelectorAll('.fc-slide.fc-is-clone').forEach(function (element) {
-          _this7.selector.querySelector('.fc-slides').removeChild(element);
+          _this8.selector.querySelector('.fc-slides').removeChild(element);
         });
         this.selector.querySelectorAll('.fc-slide').forEach(function (element) {
           element.removeAttribute('class');
@@ -425,6 +441,12 @@ var flexCarousel = (function () {
         if (this.options.circles) {
           this.updateCircles();
         }
+      }
+    }, {
+      key: "orientationChange",
+      value: function orientationChange() {
+        this.updateResponsive();
+        this.setTransform();
       }
     }, {
       key: "reinit",
