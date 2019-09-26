@@ -8,7 +8,6 @@
         - [Sass](#sass)
             - [Initial Variables](#initial-variables)
             - [Derived Variables](#derived-variables)
-        - [Custom Themes](#custom-themes)
         - [File Structure](#file-structure)
 
 ## How to Use
@@ -76,12 +75,6 @@ Below you can find two tables of all the Sass variables available for you to cha
 |---|---|---|
 | `$fc-prev-next-height` | Computed | `$space * 1.5` |
 | `$fc-prev-next-min-width` | Computed | `$space * 8` |
-
-### Custom Themes
-
-Out of the box, flexCarousel.js has a very basic user interface. This is so developers can easily add their own custom UI without having to fight over CSS specificity and trying to override existing styles.
-
-For example, the carousel shown below is created by creating a "theme" stylesheet and adding styles to work with the basic UI provided. 
 
 ### File Structure
 
