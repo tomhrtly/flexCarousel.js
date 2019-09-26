@@ -5,7 +5,9 @@ test
 .eslintrc.js
 .gitattributes
 .gitignore
+.github
 .idea
 .stylelintrc
+CODE_OF_CONDUCT.md
 rollup.config.js
 package-lock.json
