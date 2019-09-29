@@ -105,6 +105,8 @@ class FlexCarousel {
 
             this.selector.addEventListener('mouseenter', () => { pause = true; });
             this.selector.addEventListener('mouseleave', () => { pause = false; });
+            this.selector.addEventListener('focusin', () => { pause = true; });
+            this.selector.addEventListener('focusout', () => { pause = false; });
         }
     }
 
