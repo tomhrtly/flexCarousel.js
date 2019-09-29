@@ -1,5 +1,5 @@
 /*
- * flexCarousel.js v0.3.0
+ * flexCarousel.js v1.0.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
  * Copyright 2019 Tom Hartley
@@ -257,6 +257,22 @@ class FlexCarousel {
         window.addEventListener('orientationchange', () => {
             this.orientationChange();
         });
+
+        this.selector.onfocus = () => {
+            if (document.activeElement === this.selector) {
+                document.onkeyup = (e) => {
+                    if (e.key === 'ArrowRight') {
+                        this.movePage('next');
+                    } else if (e.key === 'ArrowLeft') {
+                        this.movePage('previous');
+                    }
+                };
+            }
+        };
+
+        this.selector.onblur = () => {
+            document.onkeyup = () => {};
+        };
     }
 
     buildSlides() {
@@ -268,6 +284,8 @@ class FlexCarousel {
         for (let index = 0; index < ul.children.length; index += 1) {
             ul.children[index].classList.add('fc-slide');
         }
+
+        this.selector.setAttribute('tabindex', '0');
 
         // Wrap slides to reduce HTML markup
         this.selector.innerHTML = `<div class="fc-container">${this.selector.innerHTML}</div>`;
