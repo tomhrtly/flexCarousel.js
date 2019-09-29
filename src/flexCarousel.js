@@ -71,6 +71,10 @@ class FlexCarousel {
         let pause = false;
         let slide;
 
+        document.addEventListener('visibilitychange', () => {
+            pause = document.visibilityState !== 'visible';
+        });
+
         if (this.autoplayTimer) {
             clearInterval(this.autoplayTimer);
         }
