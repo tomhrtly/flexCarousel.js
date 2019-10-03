@@ -53,7 +53,7 @@
         },
         methods: {
             redirect() {
-                window.location.replace(`/docs/${this.data.selected}/`);
+                router.push(`/docs/${this.data.selected}/`);
             }
         }
     }

@@ -8,6 +8,7 @@ export default ({
     siteData
 }) => {
     window.flexCarousel = FlexCarousel;
+    window.router = router;
 
     Vue.use(VuePrism);
     router.addRoutes([
