@@ -5,7 +5,7 @@
                 v-for="link in $site.themeConfig.links"
             >
                 <router-link
-                    :to="`/docs/${$site.themeConfig.currentVersion}/${link.slug}`"
+                    :to="`/docs/${data.selected}/${link.slug}`"
                     v-text="link.text"
                 ></router-link>
             </li>
@@ -44,7 +44,10 @@
             data() {
                 return {
                     page: this.$page.frontmatter,
-                    selected: this.$site.themeConfig.currentVersion
+                    selected: this.$route.path.substring(
+                        this.$route.path.indexOf('/docs/') + 6,
+                        this.$route.path.lastIndexOf('/')
+                    ),
                 }
             },
         },
