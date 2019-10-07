@@ -12,7 +12,7 @@
         "docs:dev": "vuepress dev docs",
         "lint": "npm-run-all *-lint",
         "js": "npm-run-all js-lint js-compile js-minify",
-        "js-compile": "rollup --environment BUNDLE:false --config rollup.config.js --sourcemap",
+        "js-compile": "rollup --config rollup.config.js --sourcemap",
         "js-lint": "eslint src/flexCarousel.js",
         "js-minify": "terser --compress --comments all --output dist/flexCarousel.min.js dist/flexCarousel.js",
         "watch": "npm-run-all --parallel watch-*",
