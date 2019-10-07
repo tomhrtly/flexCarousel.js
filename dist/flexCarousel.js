@@ -24,7 +24,7 @@ var flexCarousel = (function () {
   }
 
   /*
-   * flexCarousel.js v0.3.0
+   * flexCarousel.js v1.0.0
    * https://github.com/tomhrtly/flexCarousel.js
    *
    * Copyright 2019 Tom Hartley
@@ -106,6 +106,9 @@ var flexCarousel = (function () {
 
         var pause = false;
         var slide;
+        document.addEventListener('visibilitychange', function () {
+          pause = document.visibilityState !== 'visible';
+        });
 
         if (this.autoplayTimer) {
           clearInterval(this.autoplayTimer);
@@ -139,6 +142,12 @@ var flexCarousel = (function () {
             pause = true;
           });
           this.selector.addEventListener('mouseleave', function () {
+            pause = false;
+          });
+          this.selector.addEventListener('focusin', function () {
+            pause = true;
+          });
+          this.selector.addEventListener('focusout', function () {
             pause = false;
           });
         }
@@ -298,6 +307,22 @@ var flexCarousel = (function () {
         window.addEventListener('orientationchange', function () {
           _this7.orientationChange();
         });
+
+        this.selector.onfocus = function () {
+          if (document.activeElement === _this7.selector) {
+            document.onkeyup = function (e) {
+              if (e.key === 'ArrowRight') {
+                _this7.movePage('next');
+              } else if (e.key === 'ArrowLeft') {
+                _this7.movePage('previous');
+              }
+            };
+          }
+        };
+
+        this.selector.onblur = function () {
+          document.onkeyup = function () {};
+        };
       }
     }, {
       key: "buildSlides",
@@ -307,8 +332,9 @@ var flexCarousel = (function () {
 
         for (var index = 0; index < ul.children.length; index += 1) {
           ul.children[index].classList.add('fc-slide');
-        } // Wrap slides to reduce HTML markup
+        }
 
+        this.selector.setAttribute('tabindex', '0'); // Wrap slides to reduce HTML markup
 
         this.selector.innerHTML = "<div class=\"fc-container\">".concat(this.selector.innerHTML, "</div>");
         var slides = this.selector.querySelector('.fc-slides');
