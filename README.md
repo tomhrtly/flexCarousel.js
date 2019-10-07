@@ -12,7 +12,7 @@ A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork
 
 ### Getting Started
 
-* [Download the latest release.](https://github.com/tomhrtly/flexCarousel.js/archive/v0.1.0.zip)
+* [Download the latest release.](https://github.com/tomhrtly/flexCarousel.js/archive/v1.0.0.zip)
 * Clone the repo: `git clone https://github.com/tomhrtly/flexCarousel.js.git`
 * Install with [npm](https://www.npmjs.com/): `npm install flexcarouseljs`
 
