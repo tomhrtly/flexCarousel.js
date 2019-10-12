@@ -8,6 +8,8 @@ A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork
 [![CSS gzip size](https://img.badgesize.io/tomhrtly/flexCarousel.js/master/dist/flexCarousel.min.css?compression=gzip&label=CSS+gzip+size)](https://github.com/tomhrtly/flexCarousel.js/tree/master/dist/flexCarousel.min.css)
 [![JS gzip size](https://img.badgesize.io/tomhrtly/flexCarousel.js/master/dist/flexCarousel.min.js?compression=gzip&label=JS+gzip+size)](https://github.com/tomhrtly/flexCarousel.js/tree/master/dist/flexCarousel.min.js)
 [![downloads](https://img.shields.io/npm/dm/flexcarouseljs.svg)](https://npmjs.com/package/flexcarouseljs)
+[![peerDependencies Status](https://img.shields.io/david/peer/tomhrtly/flexCarousel.js.svg)](https://david-dm.org/tomhrtly/flexCarousel.js?type=peer)
+[![devDependency Status](https://img.shields.io/david/dev/tomhrtly/flexcarousel.js.svg)](https://david-dm.org/tomhrtly/flexCarousel.js?type=dev)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/bae9e38a-d7f0-4bfb-baed-e25ca02385e6/deploy-status)](https://app.netlify.com/sites/flamboyant-swanson-358ad2/deploys)
 
 ### Getting Started
