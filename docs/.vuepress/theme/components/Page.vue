@@ -11,7 +11,7 @@
                         <p>
                             Think you could improve the documentation on this page?
                             <a
-                                :href="`https://github.com/tomhrtly/flexcarousel.js/blob/master/docs/docs/${$site.themeConfig.currentVersion}/${$page.title.toLowerCase()}.md`"
+                                :href="editLink"
                                 target="_blank"
                             >Edit it on GitHub!</a>
                         </p>
@@ -28,6 +28,15 @@
     export default {
         components: {
             Sidebar
+        },
+        computed: {
+            editLink() {
+                const version = this.$route.path.substring(
+                    this.$route.path.indexOf('/docs/') + 6,
+                    this.$route.path.lastIndexOf('/')
+                );
+                return `https://github.com/tomhrtly/flexcarousel.js-docs/blob/${version}/${this.$page.title.toLowerCase()}.md`;
+            }
         }
     }
 </script>
