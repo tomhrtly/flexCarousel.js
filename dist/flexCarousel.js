@@ -180,12 +180,12 @@ var flexCarousel = (function () {
             this.selector.classList.add('fc-has-arrows'); // Create arrow button
 
             var nextButton = document.createElement('button');
-            nextButton.classList.add('fc-next', 'fc-button');
+            nextButton.classList.add('fc-next');
             nextButton.setAttribute('aria-label', 'Next');
             nextButton.innerHTML = "<span class=\"fc-is-sr-only\">Next</span><span class=\"fc-icon\">".concat(this.options.nextButton, "</span>"); // Create prev button
 
             var prevButton = document.createElement('button');
-            prevButton.classList.add('fc-prev', 'fc-button');
+            prevButton.classList.add('fc-prev');
             prevButton.setAttribute('aria-label', 'Previous');
             prevButton.innerHTML = "<span class=\"fc-is-sr-only\">Previous</span><span class=\"fc-icon\">".concat(this.options.prevButton, "</span>"); // Append next arrow to the selector
 
@@ -268,7 +268,7 @@ var flexCarousel = (function () {
             for (var index = 0; index < amount; index += 1) {
               var li = document.createElement('li');
               var circle = document.createElement('button');
-              circle.classList.add('fc-circle', 'fc-button');
+              circle.classList.add('fc-circle');
               circle.setAttribute('aria-label', "".concat(FlexCarousel.suffix(index + 1), " page"));
               var icon = document.createElement('span');
               icon.classList.add('fc-icon', 'fc-is-circle');

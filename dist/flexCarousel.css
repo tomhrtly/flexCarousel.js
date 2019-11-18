@@ -13,7 +13,8 @@
   box-sizing: border-box;
 }
 
-.fc-button {
+.fc-next,
+.fc-prev {
   -webkit-appearance: button;
   background-color: transparent;
   border: none;
@@ -25,10 +26,6 @@
   padding: 0;
   overflow: visible;
   text-transform: none;
-}
-
-.fc-next,
-.fc-prev {
   align-items: center;
   display: flex;
   justify-content: center;
@@ -77,6 +74,17 @@
 }
 
 .fc-circle {
+  -webkit-appearance: button;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  text-transform: none;
   align-items: center;
   display: flex;
   height: 16px;
