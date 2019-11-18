@@ -1,4 +1,5 @@
 .idea/
+docs/.vuepress/dist/
 docs/docs/
 node_modules/
 test/
