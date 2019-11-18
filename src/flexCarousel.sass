@@ -22,7 +22,7 @@ $fc-slide-min-height: $fc-space * 6 !default
     &::before
         box-sizing: border-box
 
-.fc-button
+=fc-button
     -webkit-appearance: button
     background-color: transparent
     border: none
@@ -37,6 +37,7 @@ $fc-slide-min-height: $fc-space * 6 !default
 
 .fc-next,
 .fc-prev
+    +fc-button
     align-items: center
     display: flex
     justify-content: center
@@ -72,6 +73,7 @@ $fc-slide-min-height: $fc-space * 6 !default
         display: block
 
 .fc-circle
+    +fc-button
     align-items: center
     display: flex
     height: $fc-space

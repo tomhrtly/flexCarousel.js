@@ -136,13 +136,13 @@ class FlexCarousel {
 
                 // Create arrow button
                 const nextButton = document.createElement('button');
-                nextButton.classList.add('fc-next', 'fc-button');
+                nextButton.classList.add('fc-next');
                 nextButton.setAttribute('aria-label', 'Next');
                 nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextButton}</span>`;
 
                 // Create prev button
                 const prevButton = document.createElement('button');
-                prevButton.classList.add('fc-prev', 'fc-button');
+                prevButton.classList.add('fc-prev');
                 prevButton.setAttribute('aria-label', 'Previous');
                 prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevButton}</span>`;
 
@@ -221,7 +221,7 @@ class FlexCarousel {
                     const li = document.createElement('li');
 
                     const circle = document.createElement('button');
-                    circle.classList.add('fc-circle', 'fc-button');
+                    circle.classList.add('fc-circle');
                     circle.setAttribute('aria-label', `${FlexCarousel.suffix(index + 1)} page`);
 
                     const icon = document.createElement('span');
