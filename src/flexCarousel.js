@@ -38,6 +38,7 @@ class FlexCarousel {
         this.autoplayTimer = null;
         this.breakpoints = [];
         this.customEvents = {
+            slid: new CustomEvent('slid'),
             slide: new CustomEvent('slide'),
         };
         this.options = FlexCarousel.extend(this.defaults, options);
@@ -423,6 +424,10 @@ class FlexCarousel {
         }
 
         this.selector.dispatchEvent(this.customEvents.slide);
+
+        setTimeout(() => {
+            this.selector.dispatchEvent(this.customEvents.slid);
+        }, this.options.transitionSpeed);
     }
 
     orientationChange() {
