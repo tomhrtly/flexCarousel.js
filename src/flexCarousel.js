@@ -38,6 +38,7 @@ class FlexCarousel {
         this.autoplayTimer = null;
         this.breakpoints = [];
         this.customEvents = {
+            breakpoint: new CustomEvent('breakpoint'),
             slid: new CustomEvent('slid'),
             slide: new CustomEvent('slide'),
         };
@@ -439,6 +440,7 @@ class FlexCarousel {
         this.destroy();
         this.options = FlexCarousel.extend(this.defaults, options);
         this.init();
+        this.selector.dispatchEvent(this.customEvents.breakpoint);
     }
 
     removeTransition() {
