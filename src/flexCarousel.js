@@ -37,6 +37,9 @@ class FlexCarousel {
         this.autoplayDirection = 'right';
         this.autoplayTimer = null;
         this.breakpoints = [];
+        this.customEvents = {
+            slide: new CustomEvent('slide'),
+        };
         this.options = FlexCarousel.extend(this.defaults, options);
         this.originalOptions = this.options;
         this.pageAmount = null;
@@ -418,6 +421,8 @@ class FlexCarousel {
         if (this.options.circles) {
             this.updateCircles();
         }
+
+        this.selector.dispatchEvent(this.customEvents.slide);
     }
 
     orientationChange() {
