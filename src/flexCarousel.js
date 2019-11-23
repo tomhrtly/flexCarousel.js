@@ -39,8 +39,8 @@ class FlexCarousel {
         this.breakpoints = [];
         this.options = FlexCarousel.extend(this.defaults, options);
         this.originalOptions = this.options;
-        this.slideAmount = null;
-        this.slideWidth = null;
+        this.pageAmount = null;
+        this.pageWidth = null;
 
         this.currentPage = this.options.initialPage;
 
@@ -86,7 +86,7 @@ class FlexCarousel {
                         if (this.autoplayDirection === 'right') {
                             slide = 'next';
 
-                            if ((this.currentPage + 1) === (this.slideAmount - 1)) {
+                            if ((this.currentPage + 1) === (this.pageAmount - 1)) {
                                 this.autoplayDirection = 'left';
                             }
                         } else if (this.autoplayDirection === 'left') {
@@ -205,7 +205,7 @@ class FlexCarousel {
     buildCircles() {
         if (this.options.circles) {
             // Only show the arrows if there are more slides then slidesPerPage option
-            if (this.options.slidesPerPage < this.slideAmount) {
+            if (this.options.slidesPerPage < this.pageAmount) {
                 this.selector.classList.add('fc-has-circles');
 
                 // Create circles container
@@ -215,7 +215,7 @@ class FlexCarousel {
                 this.selector.querySelector('.fc-container').appendChild(circles);
 
                 const option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
-                const amount = Math.ceil(this.slideAmount / option);
+                const amount = Math.ceil(this.pageAmount / option);
 
                 for (let index = 0; index < amount; index += 1) {
                     const li = document.createElement('li');
@@ -295,14 +295,14 @@ class FlexCarousel {
         const slides = this.selector.querySelector('.fc-slides');
         const allSlides = slides.querySelectorAll('.fc-slide');
 
-        this.slideAmount = allSlides.length;
+        this.pageAmount = allSlides.length;
 
-        if (this.options.slidesPerPage < this.slideAmount) {
-            this.slideWidth = 100 / this.options.slidesPerPage;
+        if (this.options.slidesPerPage < this.pageAmount) {
+            this.pageWidth = 100 / this.options.slidesPerPage;
 
             // Add the min-width CSS property to all slides
-            for (let index = 0; index < this.slideAmount; index += 1) {
-                allSlides[index].style.minWidth = `${this.slideWidth}%`;
+            for (let index = 0; index < this.pageAmount; index += 1) {
+                allSlides[index].style.minWidth = `${this.pageWidth}%`;
             }
 
             if (this.options.infinite) {
@@ -312,10 +312,10 @@ class FlexCarousel {
                 let append;
 
                 if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                    prepend = array.slice(this.slideAmount - this.options.slidesPerPage - 1, this.slideAmount).reverse();
+                    prepend = array.slice(this.pageAmount - this.options.slidesPerPage - 1, this.pageAmount).reverse();
                     append = array.slice(0, this.options.slidesPerPage + 1);
                 } else {
-                    prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount).reverse();
+                    prepend = array.slice(this.pageAmount - this.options.slidesPerPage, this.pageAmount).reverse();
                     append = array.slice(0, this.options.slidesPerPage);
                 }
 
@@ -364,11 +364,11 @@ class FlexCarousel {
     getLeftPage(index) {
         let slideOffset;
 
-        if (this.options.slidesPerPage < this.slideAmount) {
+        if (this.options.slidesPerPage < this.pageAmount) {
             if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                slideOffset = (this.slideWidth * (this.options.slidesPerPage + 1)) * -1;
+                slideOffset = (this.pageWidth * (this.options.slidesPerPage + 1)) * -1;
             } else {
-                slideOffset = (this.slideWidth * this.options.slidesPerPage) * -1;
+                slideOffset = (this.pageWidth * this.options.slidesPerPage) * -1;
             }
 
             if (!this.options.infinite) {
@@ -376,7 +376,7 @@ class FlexCarousel {
             }
         }
 
-        return ((index * this.slideWidth) * -1) + slideOffset;
+        return ((index * this.pageWidth) * -1) + slideOffset;
     }
 
     init() {
@@ -391,19 +391,19 @@ class FlexCarousel {
     }
 
     movePage(index) {
-        const unevenOffset = (this.slideAmount % this.options.slidesScrolling !== 0);
-        const indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentPage) % this.options.slidesScrolling;
+        const unevenOffset = (this.pageAmount % this.options.slidesScrolling !== 0);
+        const indexOffset = unevenOffset ? 0 : (this.pageAmount - this.currentPage) % this.options.slidesScrolling;
 
         if (index === 'previous') {
             const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesPerPage - indexOffset;
 
-            if (this.options.slidesPerPage < this.slideAmount) {
+            if (this.options.slidesPerPage < this.pageAmount) {
                 this.slideController(this.currentPage - slideOffset);
             }
         } else if (index === 'next') {
             const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
 
-            if (this.options.slidesPerPage < this.slideAmount) {
+            if (this.options.slidesPerPage < this.pageAmount) {
                 this.slideController(this.currentPage + slideOffset);
             }
         } else {
@@ -448,16 +448,16 @@ class FlexCarousel {
         let nextPage;
 
         if (index < 0) {
-            if (this.slideAmount % this.options.slidesScrolling !== 0) {
-                nextPage = this.slideAmount - (this.slideAmount % this.options.slidesScrolling);
+            if (this.pageAmount % this.options.slidesScrolling !== 0) {
+                nextPage = this.pageAmount - (this.pageAmount % this.options.slidesScrolling);
             } else {
-                nextPage = this.slideAmount + index;
+                nextPage = this.pageAmount + index;
             }
-        } else if (index >= this.slideAmount) {
-            if (this.slideAmount % this.options.slidesScrolling !== 0) {
+        } else if (index >= this.pageAmount) {
+            if (this.pageAmount % this.options.slidesScrolling !== 0) {
                 nextPage = 0;
             } else {
-                nextPage = index - this.slideAmount;
+                nextPage = index - this.pageAmount;
             }
         } else {
             nextPage = index;
@@ -478,7 +478,7 @@ class FlexCarousel {
                 prevButton.removeAttribute('disabled');
             }
 
-            if (this.currentPage === this.slideAmount - 1) {
+            if (this.currentPage === this.pageAmount - 1) {
                 nextButton.setAttribute('disabled', 'disabled');
             } else {
                 nextButton.removeAttribute('disabled');
