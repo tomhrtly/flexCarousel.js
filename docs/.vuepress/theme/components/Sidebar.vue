@@ -2,7 +2,7 @@
     <aside class="menu">
         <ul class="menu-list">
             <li
-                v-for="link in $site.themeConfig.links"
+                v-for="link in links"
             >
                 <router-link
                     :to="`/docs/${data.selected}/${link.slug}`"
@@ -50,6 +50,9 @@
                     ),
                 }
             },
+            links() {
+                return this.$site.themeConfig.links.sort((a, b) => a.text.localeCompare(b.text))
+            }
         },
         methods: {
             redirect() {
