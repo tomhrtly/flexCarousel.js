@@ -2,10 +2,10 @@
     <aside class="menu">
         <ul class="menu-list">
             <li
-                v-for="link in links"
+                v-for="link in alphabetizedLinks"
             >
                 <router-link
-                    :to="`/docs/${data.selected}/${link.slug}`"
+                    :to="`/docs/${version}/${link.slug}`"
                     v-text="link.text"
                 ></router-link>
             </li>
@@ -19,17 +19,7 @@
                 <div class="field">
                     <div class="control">
                         <div class="select">
-                            <select
-                                v-model="data.selected"
-                                @change="redirect"
-                                id="versions"
-                            >
-                                <option
-                                    v-for="(version, index) in $site.themeConfig.versions"
-                                    :key="index"
-                                    v-text="version"
-                                ></option>
-                            </select>
+                            <slot></slot>
                         </div>
                     </div>
                 </div>
@@ -40,27 +30,10 @@
 
 <script>
     export default {
+        props: ['version', 'links'],
         computed: {
-            data() {
-                return {
-                    page: this.$page.frontmatter,
-                    selected: this.$site.themeConfig.docsVersion
-                }
-            },
-            links() {
-                return this.$site.themeConfig.links.sort((a, b) => a.text.localeCompare(b.text))
-            }
-        },
-        methods: {
-            redirect() {
-                this.update();
-                router.push(`/docs/${this.data.selected}/`);
-            },
-            update() {
-                this.$site.themeConfig.docsVersion = this.$route.path.substring(
-                    this.$route.path.indexOf('/docs/') + 6,
-                    this.$route.path.lastIndexOf('/')
-                );
+            alphabetizedLinks() {
+                return this.links.sort((a, b) => a.text.localeCompare(b.text))
             }
         }
     }

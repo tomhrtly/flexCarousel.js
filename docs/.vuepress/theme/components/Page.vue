@@ -2,11 +2,26 @@
     <div>
         <div class="columns">
             <div class="column is-3">
-                <Sidebar/>
+                <Sidebar
+                    :version="version"
+                    :links="links"
+                >
+                    <select
+                        v-model="version"
+                        @change="redirect"
+                        id="versions"
+                    >
+                        <option
+                            v-for="(version, index) in $site.themeConfig.versions"
+                            :key="index"
+                            v-text="version"
+                        ></option>
+                    </select>
+                </Sidebar>
             </div>
             <div class="column is-9">
                 <div class="content">
-                    <Content/>
+                    <Content />
                     <div class="meta">
                         <p>
                             Think you could improve the documentation on this page?
@@ -26,30 +41,47 @@
     import Sidebar from './Sidebar.vue';
 
     export default {
+        data() {
+            return {
+                version: '',
+                links: [],
+            }
+        },
         components: {
             Sidebar,
         },
         computed: {
             editLink() {
-                return `https://github.com/tomhrtly/flexcarousel.js-docs/blob/${this.$site.themeConfig.docsVersion}/${this.$page.title.toLowerCase()}.md`;
+                return `https://github.com/tomhrtly/flexcarousel.js-docs/blob/${this.version}/${this.$page.title.toLowerCase()}.md`;
+            }
+        },
+        methods: {
+            redirect() {
+                router.push(`/docs/${this.version}/`);
+                this.updateLinks();
+            },
+            updateLinks() {
+                this.links = [];
+
+                this.$site.pages.forEach((element) => {
+                    if (element.frontmatter.version) {
+                        if (element.frontmatter.version[0] === this.version) {
+                            this.links.push({
+                                text: element.title,
+                                slug: element.title.toLowerCase(),
+                            });
+                        }
+                    }
+                });
             }
         },
         created() {
-            this.$site.themeConfig.docsVersion = this.$route.path.substring(
+            this.version = this.$route.path.substring(
                 this.$route.path.indexOf('/docs/') + 6,
                 this.$route.path.lastIndexOf('/')
             );
 
-            this.$site.pages.forEach((element) => {
-                if (element.frontmatter.version) {
-                    if (element.frontmatter.version[0] === this.$site.themeConfig.docsVersion) {
-                        this.$site.themeConfig.links.push({
-                            text: element.title,
-                            slug: element.title.toLowerCase(),
-                        });
-                    }
-                }
-            });
+            this.updateLinks();
         }
     }
 </script>
