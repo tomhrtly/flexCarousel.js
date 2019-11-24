@@ -11,10 +11,24 @@ export default ({
     window.router = router;
 
     Vue.use(VuePrism);
-    router.addRoutes([
-        { path: '/docs', redirect: `/docs/${siteData.themeConfig.currentVersion}` },
-        { path: `/docs/master/`, redirect: `/docs/master/installation` },
-        { path: `/docs/1.0.0/`, redirect: `/docs/1.0.0/installation` },
-        { path: '/examples', redirect: '/examples/basic' },
-    ])
+
+    const routes = [
+        {
+            path: '/docs',
+            redirect: `/docs/${siteData.themeConfig.currentVersion}`
+        },
+        {
+            path: '/examples',
+            redirect: '/examples/basic'
+        },
+    ];
+
+    siteData.themeConfig.versions.forEach((element) => {
+        routes.push({
+            path: `/docs/${element}/`,
+            redirect: `/docs/${element}/installation`
+        })
+    });
+
+    router.addRoutes(routes);
 }
