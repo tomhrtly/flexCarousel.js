@@ -44,10 +44,7 @@
             data() {
                 return {
                     page: this.$page.frontmatter,
-                    selected: this.$route.path.substring(
-                        this.$route.path.indexOf('/docs/') + 6,
-                        this.$route.path.lastIndexOf('/')
-                    ),
+                    selected: this.$site.themeConfig.docsVersion
                 }
             },
             links() {
@@ -56,7 +53,14 @@
         },
         methods: {
             redirect() {
+                this.update();
                 router.push(`/docs/${this.data.selected}/`);
+            },
+            update() {
+                this.$site.themeConfig.docsVersion = this.$route.path.substring(
+                    this.$route.path.indexOf('/docs/') + 6,
+                    this.$route.path.lastIndexOf('/')
+                );
             }
         }
     }

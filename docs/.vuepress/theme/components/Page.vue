@@ -27,16 +27,29 @@
 
     export default {
         components: {
-            Sidebar
+            Sidebar,
         },
         computed: {
             editLink() {
-                const version = this.$route.path.substring(
-                    this.$route.path.indexOf('/docs/') + 6,
-                    this.$route.path.lastIndexOf('/')
-                );
-                return `https://github.com/tomhrtly/flexcarousel.js-docs/blob/${version}/${this.$page.title.toLowerCase()}.md`;
+                return `https://github.com/tomhrtly/flexcarousel.js-docs/blob/${this.$site.themeConfig.docsVersion}/${this.$page.title.toLowerCase()}.md`;
             }
+        },
+        created() {
+            this.$site.themeConfig.docsVersion = this.$route.path.substring(
+                this.$route.path.indexOf('/docs/') + 6,
+                this.$route.path.lastIndexOf('/')
+            );
+
+            this.$site.pages.forEach((element) => {
+                if (element.frontmatter.version) {
+                    if (element.frontmatter.version[0] === this.$site.themeConfig.docsVersion) {
+                        this.$site.themeConfig.links.push({
+                            text: element.title,
+                            slug: element.title.toLowerCase(),
+                        });
+                    }
+                }
+            });
         }
     }
 </script>
