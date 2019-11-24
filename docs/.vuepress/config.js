@@ -16,10 +16,19 @@ module.exports = {
             { text: 'Support', url: 'https://github.com/tomhrtly/flexCarousel.js/issues', external: true, },
         ],
     },
-    plugins: {
-        'clean-urls': {
-            normalSuffix: '',
-            indexSuffix: '/',
-        },
-    }
+    plugins: [
+        [
+            '@vuepress/google-analytics',
+            {
+                'ga': 'UA-70809338-11'
+            }
+        ],
+        [
+            'clean-urls',
+            {
+                normalSuffix: '',
+                indexSuffix: '/',
+            }
+        ]
+    ]
 };
