@@ -65,10 +65,15 @@ var flexCarousel = (function () {
       this.autoplayDirection = 'right';
       this.autoplayTimer = null;
       this.breakpoints = [];
+      this.customEvents = {
+        breakpoint: new CustomEvent('breakpoint'),
+        slid: new CustomEvent('slid'),
+        slide: new CustomEvent('slide')
+      };
       this.options = FlexCarousel.extend(this.defaults, options);
       this.originalOptions = this.options;
-      this.slideAmount = null;
-      this.slideWidth = null;
+      this.pageAmount = null;
+      this.pageWidth = null;
       this.currentPage = this.options.initialPage;
       this.init();
     }
@@ -121,7 +126,7 @@ var flexCarousel = (function () {
                 if (_this2.autoplayDirection === 'right') {
                   slide = 'next';
 
-                  if (_this2.currentPage + 1 === _this2.slideAmount - 1) {
+                  if (_this2.currentPage + 1 === _this2.pageAmount - 1) {
                     _this2.autoplayDirection = 'left';
                   }
                 } else if (_this2.autoplayDirection === 'left') {
@@ -256,14 +261,14 @@ var flexCarousel = (function () {
       value: function buildCircles() {
         if (this.options.circles) {
           // Only show the arrows if there are more slides then slidesPerPage option
-          if (this.options.slidesPerPage < this.slideAmount) {
+          if (this.options.slidesPerPage < this.pageAmount) {
             this.selector.classList.add('fc-has-circles'); // Create circles container
 
             var circles = document.createElement('ul');
             circles.classList.add('fc-circles');
             this.selector.querySelector('.fc-container').appendChild(circles);
             var option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
-            var amount = Math.ceil(this.slideAmount / option);
+            var amount = Math.ceil(this.pageAmount / option);
 
             for (var index = 0; index < amount; index += 1) {
               var li = document.createElement('li');
@@ -339,13 +344,13 @@ var flexCarousel = (function () {
         this.selector.innerHTML = "<div class=\"fc-container\">".concat(this.selector.innerHTML, "</div>");
         var slides = this.selector.querySelector('.fc-slides');
         var allSlides = slides.querySelectorAll('.fc-slide');
-        this.slideAmount = allSlides.length;
+        this.pageAmount = allSlides.length;
 
-        if (this.options.slidesPerPage < this.slideAmount) {
-          this.slideWidth = 100 / this.options.slidesPerPage; // Add the min-width CSS property to all slides
+        if (this.options.slidesPerPage < this.pageAmount) {
+          this.pageWidth = 100 / this.options.slidesPerPage; // Add the min-width CSS property to all slides
 
-          for (var _index = 0; _index < this.slideAmount; _index += 1) {
-            allSlides[_index].style.minWidth = "".concat(this.slideWidth, "%");
+          for (var _index = 0; _index < this.pageAmount; _index += 1) {
+            allSlides[_index].style.minWidth = "".concat(this.pageWidth, "%");
           }
 
           if (this.options.infinite) {
@@ -355,10 +360,10 @@ var flexCarousel = (function () {
             var append;
 
             if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-              prepend = array.slice(this.slideAmount - this.options.slidesPerPage - 1, this.slideAmount).reverse();
+              prepend = array.slice(this.pageAmount - this.options.slidesPerPage - 1, this.pageAmount).reverse();
               append = array.slice(0, this.options.slidesPerPage + 1);
             } else {
-              prepend = array.slice(this.slideAmount - this.options.slidesPerPage, this.slideAmount).reverse();
+              prepend = array.slice(this.pageAmount - this.options.slidesPerPage, this.pageAmount).reverse();
               append = array.slice(0, this.options.slidesPerPage);
             }
 
@@ -411,11 +416,11 @@ var flexCarousel = (function () {
       value: function getLeftPage(index) {
         var slideOffset;
 
-        if (this.options.slidesPerPage < this.slideAmount) {
+        if (this.options.slidesPerPage < this.pageAmount) {
           if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-            slideOffset = this.slideWidth * (this.options.slidesPerPage + 1) * -1;
+            slideOffset = this.pageWidth * (this.options.slidesPerPage + 1) * -1;
           } else {
-            slideOffset = this.slideWidth * this.options.slidesPerPage * -1;
+            slideOffset = this.pageWidth * this.options.slidesPerPage * -1;
           }
 
           if (!this.options.infinite) {
@@ -423,7 +428,7 @@ var flexCarousel = (function () {
           }
         }
 
-        return index * this.slideWidth * -1 + slideOffset;
+        return index * this.pageWidth * -1 + slideOffset;
       }
     }, {
       key: "init",
@@ -440,19 +445,21 @@ var flexCarousel = (function () {
     }, {
       key: "movePage",
       value: function movePage(index) {
-        var unevenOffset = this.slideAmount % this.options.slidesScrolling !== 0;
-        var indexOffset = unevenOffset ? 0 : (this.slideAmount - this.currentPage) % this.options.slidesScrolling;
+        var _this9 = this;
+
+        var unevenOffset = this.pageAmount % this.options.slidesScrolling !== 0;
+        var indexOffset = unevenOffset ? 0 : (this.pageAmount - this.currentPage) % this.options.slidesScrolling;
 
         if (index === 'previous') {
           var slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesPerPage - indexOffset;
 
-          if (this.options.slidesPerPage < this.slideAmount) {
+          if (this.options.slidesPerPage < this.pageAmount) {
             this.slideController(this.currentPage - slideOffset);
           }
         } else if (index === 'next') {
           var _slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
 
-          if (this.options.slidesPerPage < this.slideAmount) {
+          if (this.options.slidesPerPage < this.pageAmount) {
             this.slideController(this.currentPage + _slideOffset);
           }
         } else {
@@ -467,6 +474,11 @@ var flexCarousel = (function () {
         if (this.options.circles) {
           this.updateCircles();
         }
+
+        this.selector.dispatchEvent(this.customEvents.slide);
+        setTimeout(function () {
+          _this9.selector.dispatchEvent(_this9.customEvents.slid);
+        }, this.options.transitionSpeed);
       }
     }, {
       key: "orientationChange",
@@ -481,6 +493,7 @@ var flexCarousel = (function () {
         this.destroy();
         this.options = FlexCarousel.extend(this.defaults, options);
         this.init();
+        this.selector.dispatchEvent(this.customEvents.breakpoint);
       }
     }, {
       key: "removeTransition",
@@ -503,16 +516,16 @@ var flexCarousel = (function () {
         var nextPage;
 
         if (index < 0) {
-          if (this.slideAmount % this.options.slidesScrolling !== 0) {
-            nextPage = this.slideAmount - this.slideAmount % this.options.slidesScrolling;
+          if (this.pageAmount % this.options.slidesScrolling !== 0) {
+            nextPage = this.pageAmount - this.pageAmount % this.options.slidesScrolling;
           } else {
-            nextPage = this.slideAmount + index;
+            nextPage = this.pageAmount + index;
           }
-        } else if (index >= this.slideAmount) {
-          if (this.slideAmount % this.options.slidesScrolling !== 0) {
+        } else if (index >= this.pageAmount) {
+          if (this.pageAmount % this.options.slidesScrolling !== 0) {
             nextPage = 0;
           } else {
-            nextPage = index - this.slideAmount;
+            nextPage = index - this.pageAmount;
           }
         } else {
           nextPage = index;
@@ -534,7 +547,7 @@ var flexCarousel = (function () {
             prevButton.removeAttribute('disabled');
           }
 
-          if (this.currentPage === this.slideAmount - 1) {
+          if (this.currentPage === this.pageAmount - 1) {
             nextButton.setAttribute('disabled', 'disabled');
           } else {
             nextButton.removeAttribute('disabled');
