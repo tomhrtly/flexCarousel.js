@@ -39,8 +39,8 @@ class FlexCarousel {
         this.breakpoints = [];
         this.customEvents = {
             breakpoint: new CustomEvent('breakpoint'),
-            slid: new CustomEvent('slid'),
-            slide: new CustomEvent('slide'),
+            pageChanged: new CustomEvent('pageChanged'),
+            pageChanging: new CustomEvent('pageChanging'),
         };
         this.options = FlexCarousel.extend(this.defaults, options);
         this.originalOptions = this.options;
@@ -424,10 +424,10 @@ class FlexCarousel {
             this.updateCircles();
         }
 
-        this.selector.dispatchEvent(this.customEvents.slide);
+        this.selector.dispatchEvent(this.customEvents.pageChanging);
 
         setTimeout(() => {
-            this.selector.dispatchEvent(this.customEvents.slid);
+            this.selector.dispatchEvent(this.customEvents.pageChanged);
         }, this.options.transitionSpeed);
     }
 
