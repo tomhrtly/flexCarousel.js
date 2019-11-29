@@ -1,6 +1,6 @@
 cd docs
 mkdir docs docs/master docs/1.0.0
-git clone https://github.com/tomhrtly/flexCarousel.js-docs.git --depth 1
+git clone https://github.com/tomhrtly/flexCarousel.js-docs.git
 cd flexCarousel.js-docs
 git fetch --all
 rm README.md
