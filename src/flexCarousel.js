@@ -317,9 +317,6 @@ class FlexCarousel {
                 let append;
 
                 if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                    prepend = array.slice(this.pageAmount - this.options.slidesPerPage - 1, this.pageAmount).reverse();
-                    append = array.slice(0, this.options.slidesPerPage + 1);
-                } else {
                     prepend = array.slice(this.pageAmount - this.options.slidesPerPage, this.pageAmount).reverse();
                     append = array.slice(0, this.options.slidesPerPage);
                 }
@@ -371,8 +368,6 @@ class FlexCarousel {
 
         if (this.options.slidesPerPage < this.pageAmount) {
             if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                slideOffset = (this.pageWidth * (this.options.slidesPerPage + 1)) * -1;
-            } else {
                 slideOffset = (this.pageWidth * this.options.slidesPerPage) * -1;
             }
 
