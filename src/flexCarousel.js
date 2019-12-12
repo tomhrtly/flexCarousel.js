@@ -262,7 +262,8 @@ class FlexCarousel {
 
     buildSlideEvents() {
         window.addEventListener('orientationchange', () => {
-            this.orientationChange();
+            this.updateResponsive();
+            this.setTransform();
         });
 
         this.selector.onfocus = () => {
@@ -424,11 +425,6 @@ class FlexCarousel {
         setTimeout(() => {
             this.selector.dispatchEvent(this.customEvents.pageChanged);
         }, this.options.transitionSpeed);
-    }
-
-    orientationChange() {
-        this.updateResponsive();
-        this.setTransform();
     }
 
     reinit(options = {}) {
