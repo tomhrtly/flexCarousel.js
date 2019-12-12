@@ -52,21 +52,21 @@ class FlexCarousel {
         this.init();
     }
 
-    addTransition() {
+    animatePage(target) {
         const slides = this.selector.querySelector('.fc-slides');
 
         if (this.options.transition === 'slide') {
             slides.style.transition = `all ${this.options.transitionSpeed}ms ease-in-out 0s`;
         }
-    }
 
-    animatePage(target) {
-        this.addTransition();
         this.setTransform(Math.ceil(target));
 
         new Promise((resolve) => {
             setTimeout(() => {
-                this.removeTransition();
+                if (this.options.transition === 'slide') {
+                    slides.style.transition = '';
+                }
+
                 resolve(true);
             }, this.options.transitionSpeed);
         }).then(() => this.setTransform(this.getLeftPage(this.currentPage)));
@@ -436,14 +436,6 @@ class FlexCarousel {
         this.options = FlexCarousel.extend(this.defaults, options);
         this.init();
         this.selector.dispatchEvent(this.customEvents.breakpoint);
-    }
-
-    removeTransition() {
-        const slides = this.selector.querySelector('.fc-slides');
-
-        if (this.options.transition === 'slide') {
-            slides.style.transition = '';
-        }
     }
 
     setTransform(position) {
