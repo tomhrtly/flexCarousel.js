@@ -67,8 +67,8 @@ var flexCarousel = (function () {
       this.breakpoints = [];
       this.customEvents = {
         breakpoint: new CustomEvent('breakpoint'),
-        slid: new CustomEvent('slid'),
-        slide: new CustomEvent('slide')
+        pageChanged: new CustomEvent('pageChanged'),
+        pageChanging: new CustomEvent('pageChanging')
       };
       this.options = FlexCarousel.extend(this.defaults, options);
       this.originalOptions = this.options;
@@ -79,24 +79,22 @@ var flexCarousel = (function () {
     }
 
     _createClass(FlexCarousel, [{
-      key: "addTransition",
-      value: function addTransition() {
+      key: "animatePage",
+      value: function animatePage(target) {
+        var _this = this;
+
         var slides = this.selector.querySelector('.fc-slides');
 
         if (this.options.transition === 'slide') {
           slides.style.transition = "all ".concat(this.options.transitionSpeed, "ms ease-in-out 0s");
         }
-      }
-    }, {
-      key: "animatePage",
-      value: function animatePage(target) {
-        var _this = this;
 
-        this.addTransition();
         this.setTransform(Math.ceil(target));
         new Promise(function (resolve) {
           setTimeout(function () {
-            _this.removeTransition();
+            if (_this.options.transition === 'slide') {
+              slides.style.transition = '';
+            }
 
             resolve(true);
           }, _this.options.transitionSpeed);
@@ -360,9 +358,6 @@ var flexCarousel = (function () {
             var append;
 
             if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-              prepend = array.slice(this.pageAmount - this.options.slidesPerPage - 1, this.pageAmount).reverse();
-              append = array.slice(0, this.options.slidesPerPage + 1);
-            } else {
               prepend = array.slice(this.pageAmount - this.options.slidesPerPage, this.pageAmount).reverse();
               append = array.slice(0, this.options.slidesPerPage);
             }
@@ -418,8 +413,6 @@ var flexCarousel = (function () {
 
         if (this.options.slidesPerPage < this.pageAmount) {
           if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-            slideOffset = this.pageWidth * (this.options.slidesPerPage + 1) * -1;
-          } else {
             slideOffset = this.pageWidth * this.options.slidesPerPage * -1;
           }
 
@@ -475,9 +468,9 @@ var flexCarousel = (function () {
           this.updateCircles();
         }
 
-        this.selector.dispatchEvent(this.customEvents.slide);
+        this.selector.dispatchEvent(this.customEvents.pageChanging);
         setTimeout(function () {
-          _this9.selector.dispatchEvent(_this9.customEvents.slid);
+          _this9.selector.dispatchEvent(_this9.customEvents.pageChanged);
         }, this.options.transitionSpeed);
       }
     }, {
@@ -494,15 +487,6 @@ var flexCarousel = (function () {
         this.options = FlexCarousel.extend(this.defaults, options);
         this.init();
         this.selector.dispatchEvent(this.customEvents.breakpoint);
-      }
-    }, {
-      key: "removeTransition",
-      value: function removeTransition() {
-        var slides = this.selector.querySelector('.fc-slides');
-
-        if (this.options.transition === 'slide') {
-          slides.style.transition = '';
-        }
       }
     }, {
       key: "setTransform",
