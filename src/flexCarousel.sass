@@ -44,7 +44,7 @@ $fc-slide-min-height: $fc-space * 6 !default
     min-width: $fc-prev-next-min-width / 2
 
     .fc-icon
-        color: rgba($fc-black, 0.40)
+        color: rgba($fc-black, .4)
         display: inline-flex
         height: $fc-space * 2
         justify-content: center
@@ -59,10 +59,10 @@ $fc-slide-min-height: $fc-space * 6 !default
         opacity: .5
 
         .fc-icon
-            color: rgba($fc-black, 0.20)
+            color: rgba($fc-black, .2)
 
     &:hover:not(:disabled) .fc-icon
-        color: rgba($fc-black, 0.80)
+        color: rgba($fc-black, .8)
 
 .fc-circles
     list-style-type: none
@@ -81,7 +81,7 @@ $fc-slide-min-height: $fc-space * 6 !default
     width: $fc-space
 
     .fc-icon.fc-is-circle
-        background-color: rgba($fc-black, 0.40)
+        background-color: rgba($fc-black, .4)
         border-radius: 50%
         display: flex
         height: $fc-space / 2
@@ -90,7 +90,7 @@ $fc-slide-min-height: $fc-space * 6 !default
     &:hover,
     &.fc-is-active
         .fc-icon.fc-is-circle
-            background-color: rgba($fc-black, 0.80)
+            background-color: rgba($fc-black, .8)
 
 .fc-container
     display: flex
@@ -111,7 +111,7 @@ $fc-slide-min-height: $fc-space * 6 !default
 
             .fc-next,
             .fc-prev
-                color: rgba($fc-black, 0.40)
+                color: rgba($fc-black, .4)
                 font-size: $fc-space * 2
                 height: 100%
                 position: absolute
@@ -185,4 +185,4 @@ $fc-slide-min-height: $fc-space * 6 !default
     padding: 0
     position: absolute
     white-space: nowrap
-    width: 0.01em
+    width: .01em
