@@ -59,7 +59,7 @@ class FlexCarousel {
             slides.style.transition = `all ${this._options.transitionSpeed}ms ease-in-out 0s`;
         }
 
-        this.setTransform(Math.ceil(target));
+        this._setTransform(Math.ceil(target));
 
         new Promise((resolve) => {
             setTimeout(() => {
@@ -69,7 +69,7 @@ class FlexCarousel {
 
                 resolve(true);
             }, this._options.transitionSpeed);
-        }).then(() => this.setTransform(this._getLeftPage(this._currentPage)));
+        }).then(() => this._setTransform(this._getLeftPage(this._currentPage)));
     }
 
     _autoplay() {
