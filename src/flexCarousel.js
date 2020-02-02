@@ -10,11 +10,11 @@
 
 class FlexCarousel {
     constructor(selector, options = {}) {
-        this.selectorName = selector.toString();
-        this.selector = document.querySelector(selector);
+        this._selectorName = selector.toString();
+        this._selector = document.querySelector(selector);
 
-        this.defaults = {
-            appendArrows: this.selector,
+        this._defaults = {
+            appendArrows: this._selector,
             arrows: true,
             arrowsOverlay: true,
             autoplay: false,
@@ -33,46 +33,46 @@ class FlexCarousel {
             transitionSpeed: 250,
         };
 
-        this.activeBreakpoint = null;
-        this.autoplayDirection = 'right';
-        this.autoplayTimer = null;
-        this.breakpoints = [];
-        this.customEvents = {
+        this._activeBreakpoint = null;
+        this._autoplayDirection = 'right';
+        this._autoplayTimer = null;
+        this._breakpoints = [];
+        this._customEvents = {
             breakpoint: new CustomEvent('breakpoint'),
             pageChanged: new CustomEvent('pageChanged'),
             pageChanging: new CustomEvent('pageChanging'),
         };
-        this.options = FlexCarousel.extend(this.defaults, options);
-        this.originalOptions = this.options;
-        this.pageAmount = null;
-        this.pageWidth = null;
+        this._options = FlexCarousel.extend(this._defaults, options);
+        this._originalOptions = this._options;
+        this._pageAmount = null;
+        this._pageWidth = null;
 
-        this.currentPage = this.options.initialPage;
+        this._currentPage = this._options.initialPage;
 
         this.init();
     }
 
-    animatePage(target) {
-        const slides = this.selector.querySelector('.fc-slides');
+    _animatePage(target) {
+        const slides = this._selector.querySelector('.fc-slides');
 
-        if (this.options.transition === 'slide') {
-            slides.style.transition = `all ${this.options.transitionSpeed}ms ease-in-out 0s`;
+        if (this._options.transition === 'slide') {
+            slides.style.transition = `all ${this._options.transitionSpeed}ms ease-in-out 0s`;
         }
 
         this.setTransform(Math.ceil(target));
 
         new Promise((resolve) => {
             setTimeout(() => {
-                if (this.options.transition === 'slide') {
+                if (this._options.transition === 'slide') {
                     slides.style.transition = '';
                 }
 
                 resolve(true);
-            }, this.options.transitionSpeed);
-        }).then(() => this.setTransform(this.getLeftPage(this.currentPage)));
+            }, this._options.transitionSpeed);
+        }).then(() => this.setTransform(this._getLeftPage(this._currentPage)));
     }
 
-    autoplay() {
+    _autoplay() {
         let pause = false;
         let slide;
 
@@ -80,147 +80,145 @@ class FlexCarousel {
             pause = document.visibilityState !== 'visible';
         });
 
-        if (this.autoplayTimer) {
-            clearInterval(this.autoplayTimer);
+        if (this._autoplayTimer) {
+            clearInterval(this._autoplayTimer);
         }
 
-        if (this.options.autoplay) {
-            this.autoplayTimer = setInterval(() => {
+        if (this._options.autoplay) {
+            this._autoplayTimer = setInterval(() => {
                 if (!pause) {
-                    if (!this.options.infinite) {
-                        if (this.autoplayDirection === 'right') {
+                    if (!this._options.infinite) {
+                        if (this._autoplayDirection === 'right') {
                             slide = 'next';
 
-                            if ((this.currentPage + 1) === (this.pageAmount - 1)) {
-                                this.autoplayDirection = 'left';
+                            if ((this._currentPage + 1) === (this._pageAmount - 1)) {
+                                this._autoplayDirection = 'left';
                             }
-                        } else if (this.autoplayDirection === 'left') {
+                        } else if (this._autoplayDirection === 'left') {
                             slide = 'previous';
 
-                            if (this.currentPage === 1) {
-                                this.autoplayDirection = 'right';
+                            if (this._currentPage === 1) {
+                                this._autoplayDirection = 'right';
                             }
                         }
                     } else {
                         slide = 'next';
                     }
-                    this.movePage(slide);
+                    this._movePage(slide);
                 }
-            }, this.options.autoplaySpeed);
+            }, this._options.autoplaySpeed);
 
-            this.selector.addEventListener('mouseenter', () => { pause = true; });
-            this.selector.addEventListener('mouseleave', () => { pause = false; });
-            this.selector.addEventListener('focusin', () => { pause = true; });
-            this.selector.addEventListener('focusout', () => { pause = false; });
+            this._selector.addEventListener('mouseenter', () => { pause = true; });
+            this._selector.addEventListener('mouseleave', () => { pause = false; });
+            this._selector.addEventListener('focusin', () => { pause = true; });
+            this._selector.addEventListener('focusout', () => { pause = false; });
         }
     }
 
-    buildArrowEvents() {
-        const nextButton = this.options.appendArrows.querySelector('.fc-next');
-        const prevButton = this.options.appendArrows.querySelector('.fc-prev');
+    _buildArrowEvents() {
+        const nextButton = this._options.appendArrows.querySelector('.fc-next');
+        const prevButton = this._options.appendArrows.querySelector('.fc-prev');
 
-        // Move to the next slide when clicking the next arrow
         nextButton.addEventListener('click', () => {
-            this.movePage('next');
+            this._movePage('next');
         });
 
-        // Move to the previous slide when clicking the previous arrow
         prevButton.addEventListener('click', () => {
-            this.movePage('previous');
+            this._movePage('previous');
         });
     }
 
-    buildArrows() {
-        const slides = this.selector.querySelector('.fc-slides');
+    _buildArrows() {
+        const slides = this._selector.querySelector('.fc-slides');
         const slide = slides.querySelectorAll('.fc-slide');
 
-        if (this.options.arrows) {
+        if (this._options.arrows) {
             // Only show the arrows if there are more slides then slidesPerPage option
-            if (this.options.slidesPerPage < slide.length) {
-                this.selector.classList.add('fc-has-arrows');
+            if (this._options.slidesPerPage < slide.length) {
+                this._selector.classList.add('fc-has-arrows');
 
                 // Create arrow button
                 const nextButton = document.createElement('button');
                 nextButton.classList.add('fc-next');
                 nextButton.setAttribute('aria-label', 'Next');
-                nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this.options.nextButton}</span>`;
+                nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this._options.nextButton}</span>`;
 
                 // Create prev button
                 const prevButton = document.createElement('button');
                 prevButton.classList.add('fc-prev');
                 prevButton.setAttribute('aria-label', 'Previous');
-                prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this.options.prevButton}</span>`;
+                prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this._options.prevButton}</span>`;
 
                 // Append next arrow to the selector
-                this.options.appendArrows.appendChild(nextButton);
+                this._options.appendArrows.appendChild(nextButton);
 
                 // Prepend prev arrow to the selector
-                this.options.appendArrows.insertBefore(prevButton, this.options.appendArrows.firstChild);
+                this._options.appendArrows.insertBefore(prevButton, this._options.appendArrows.firstChild);
 
                 // Add the overlay class if needed
-                if (this.options.arrowsOverlay) {
-                    this.selector.classList.add('fc-has-arrows-overlay');
+                if (this._options.arrowsOverlay) {
+                    this._selector.classList.add('fc-has-arrows-overlay');
                 }
 
-                this.buildArrowEvents();
-                this.updateArrows();
+                this._buildArrowEvents();
+                this._updateArrows();
             }
         }
     }
 
-    buildBreakpointEvent() {
+    _buildBreakpointEvent() {
         let timer;
 
         window.addEventListener('resize', () => {
             clearTimeout(timer);
             timer = setTimeout(() => {
-                this.updateResponsive();
+                this._updateResponsive();
             }, 500);
         });
     }
 
-    buildBreakpoints() {
+    _buildBreakpoints() {
         const breakpoints = [];
 
-        if (this.options.responsive) {
-            let previous = this.options;
+        if (this._options.responsive) {
+            let previous = this._options;
 
-            this.options.responsive.forEach(({ breakpoint, options }) => {
+            this._options.responsive.forEach(({ breakpoint, options }) => {
                 if (!breakpoints.includes(breakpoint)) {
                     breakpoints.push(breakpoint);
 
-                    this.breakpoints[breakpoint] = FlexCarousel.extend(previous, options);
+                    this._breakpoints[breakpoint] = FlexCarousel.extend(previous, options);
                     previous = FlexCarousel.extend(previous, options);
                 }
             });
         }
 
-        this.buildBreakpointEvent();
-        this.updateResponsive(false);
+        this._buildBreakpointEvent();
+        this._updateResponsive(false);
     }
 
-    buildCircleEvents() {
-        const circles = this.selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
+    _buildCircleEvents() {
+        const circles = this._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
         circles.forEach((element, index) => {
-            element.addEventListener('click', () => this.movePage(index));
+            element.addEventListener('click', () => this._movePage(index));
         });
     }
 
-    buildCircles() {
-        if (this.options.circles) {
+    _buildCircles() {
+        if (this._options.circles) {
             // Only show the arrows if there are more slides then slidesPerPage option
-            if (this.options.slidesPerPage < this.pageAmount) {
-                this.selector.classList.add('fc-has-circles');
+            if (this._options.slidesPerPage < this._pageAmount) {
+                this._selector.classList.add('fc-has-circles');
 
                 // Create circles container
                 const circles = document.createElement('ul');
                 circles.classList.add('fc-circles');
 
-                this.selector.querySelector('.fc-container').appendChild(circles);
+                this._selector.querySelector('.fc-container').appendChild(circles);
 
-                const option = this.options.slidesPerPage > this.options.slidesScrolling ? this.options.slidesScrolling : this.options.slidesPerPage;
-                const amount = Math.ceil(this.pageAmount / option);
+                const option = this._options.slidesPerPage > this._options.slidesScrolling ? this._options.slidesScrolling : this._options.slidesPerPage;
+                const amount = Math.ceil(this._pageAmount / option);
 
                 for (let index = 0; index < amount; index += 1) {
                     const li = document.createElement('li');
@@ -242,49 +240,49 @@ class FlexCarousel {
                     circles.appendChild(li);
                 }
 
-                if (this.options.circlesOverlay) {
-                    this.selector.classList.add('fc-has-circles-overlay');
+                if (this._options.circlesOverlay) {
+                    this._selector.classList.add('fc-has-circles-overlay');
                 }
 
-                this.updateCircles();
-                this.buildCircleEvents();
+                this._updateCircles();
+                this._buildCircleEvents();
             }
         }
     }
 
-    buildOptions() {
-        if (this.options.height) {
-            this.selector.style.height = this.options.height;
+    _buildOptions() {
+        if (this._options.height) {
+            this._selector.style.height = this._options.height;
         }
 
-        this.autoplay();
+        this._autoplay();
     }
 
-    buildSlideEvents() {
+    _buildSlideEvents() {
         window.addEventListener('orientationchange', () => {
-            this.updateResponsive();
-            this.setTransform();
+            this._updateResponsive();
+            this._setTransform();
         });
 
-        this.selector.onfocus = () => {
-            if (document.activeElement === this.selector) {
+        this._selector.onfocus = () => {
+            if (document.activeElement === this._selector) {
                 document.onkeyup = (e) => {
                     if (e.key === 'ArrowRight') {
-                        this.movePage('next');
+                        this._movePage('next');
                     } else if (e.key === 'ArrowLeft') {
-                        this.movePage('previous');
+                        this._movePage('previous');
                     }
                 };
             }
         };
 
-        this.selector.onblur = () => {
+        this._selector.onblur = () => {
             document.onkeyup = () => {};
         };
     }
 
-    buildSlides() {
-        const ul = this.selector.querySelector('ul');
+    _buildSlides() {
+        const ul = this._selector.querySelector('ul');
 
         ul.classList.add('fc-slides');
 
@@ -293,33 +291,33 @@ class FlexCarousel {
             ul.children[index].classList.add('fc-slide');
         }
 
-        this.selector.setAttribute('tabindex', '0');
+        this._selector.setAttribute('tabindex', '0');
 
         // Wrap slides to reduce HTML markup
-        this.selector.innerHTML = `<div class="fc-container">${this.selector.innerHTML}</div>`;
+        this._selector.innerHTML = `<div class="fc-container">${this._selector.innerHTML}</div>`;
 
-        const slides = this.selector.querySelector('.fc-slides');
+        const slides = this._selector.querySelector('.fc-slides');
         const allSlides = slides.querySelectorAll('.fc-slide');
 
-        this.pageAmount = allSlides.length;
+        this._pageAmount = allSlides.length;
 
-        if (this.options.slidesPerPage < this.pageAmount) {
-            this.pageWidth = 100 / this.options.slidesPerPage;
+        if (this._options.slidesPerPage < this._pageAmount) {
+            this._pageWidth = 100 / this._options.slidesPerPage;
 
             // Add the min-width CSS property to all slides
-            for (let index = 0; index < this.pageAmount; index += 1) {
-                allSlides[index].style.minWidth = `${this.pageWidth}%`;
+            for (let index = 0; index < this._pageAmount; index += 1) {
+                allSlides[index].style.minWidth = `${this._pageWidth}%`;
             }
 
-            if (this.options.infinite) {
+            if (this._options.infinite) {
                 // Clone and prepend/append slides
                 const array = Array.from(allSlides);
                 let prepend;
                 let append;
 
-                if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                    prepend = array.slice(this.pageAmount - this.options.slidesPerPage, this.pageAmount).reverse();
-                    append = array.slice(0, this.options.slidesPerPage);
+                if (this._options.slidesPerPage >= this._options.slidesScrolling) {
+                    prepend = array.slice(this._pageAmount - this._options.slidesPerPage, this._pageAmount).reverse();
+                    append = array.slice(0, this._options.slidesPerPage);
                 }
 
                 for (let index = 0; index < prepend.length; index += 1) {
@@ -335,145 +333,145 @@ class FlexCarousel {
                 }
             }
 
-            this.setTransform(this.getLeftPage(this.currentPage));
+            this._setTransform(this._getLeftPage(this._currentPage));
         }
 
-        this.buildSlideEvents();
+        this._buildSlideEvents();
     }
 
-    destroy() {
-        this.selector.querySelectorAll('.fc-slide.fc-is-clone').forEach((element) => {
-            this.selector.querySelector('.fc-slides').removeChild(element);
+    _destroy() {
+        this._selector.querySelectorAll('.fc-slide.fc-is-clone').forEach((element) => {
+            this._selector.querySelector('.fc-slides').removeChild(element);
         });
 
-        this.selector.querySelectorAll('.fc-slide').forEach((element) => {
+        this._selector.querySelectorAll('.fc-slide').forEach((element) => {
             element.removeAttribute('class');
             element.removeAttribute('style');
         });
 
-        this.selector.querySelector('.fc-slides').removeAttribute('style');
-        this.selector.querySelector('.fc-slides').removeAttribute('class');
+        this._selector.querySelector('.fc-slides').removeAttribute('style');
+        this._selector.querySelector('.fc-slides').removeAttribute('class');
 
-        if (this.options.circles) {
-            this.selector.querySelector('.fc-container').removeChild(this.selector.querySelector('.fc-circles'));
+        if (this._options.circles) {
+            this._selector.querySelector('.fc-container').removeChild(this._selector.querySelector('.fc-circles'));
         }
 
-        this.selector.innerHTML = this.selector.querySelector('.fc-container').innerHTML;
+        this._selector.innerHTML = this._selector.querySelector('.fc-container').innerHTML;
 
-        this.selector.className = this.selectorName.replace('.', '');
-        this.selector.removeAttribute('style');
+        this._selector.className = this._selectorName.replace('.', '');
+        this._selector.removeAttribute('style');
     }
 
-    getLeftPage(index) {
+    _getLeftPage(index) {
         let slideOffset;
 
-        if (this.options.slidesPerPage < this.pageAmount) {
-            if (this.options.slidesPerPage >= this.options.slidesScrolling) {
-                slideOffset = (this.pageWidth * this.options.slidesPerPage) * -1;
+        if (this._options.slidesPerPage < this._pageAmount) {
+            if (this._options.slidesPerPage >= this._options.slidesScrolling) {
+                slideOffset = (this._pageWidth * this._options.slidesPerPage) * -1;
             }
 
-            if (!this.options.infinite) {
+            if (!this._options.infinite) {
                 slideOffset = 0;
             }
         }
 
-        return ((index * this.pageWidth) * -1) + slideOffset;
+        return ((index * this._pageWidth) * -1) + slideOffset;
     }
 
     init() {
-        if (!this.selector.classList.contains('fc')) {
-            this.selector.classList.add('fc');
-            this.buildSlides();
-            this.buildArrows();
-            this.buildCircles();
-            this.buildOptions();
-            this.buildBreakpoints();
+        if (!this._selector.classList.contains('fc')) {
+            this._selector.classList.add('fc');
+            this._buildSlides();
+            this._buildArrows();
+            this._buildCircles();
+            this._buildOptions();
+            this._buildBreakpoints();
         }
     }
 
-    movePage(index) {
-        const unevenOffset = (this.pageAmount % this.options.slidesScrolling !== 0);
-        const indexOffset = unevenOffset ? 0 : (this.pageAmount - this.currentPage) % this.options.slidesScrolling;
+    _movePage(index) {
+        const unevenOffset = (this._pageAmount % this._options.slidesScrolling !== 0);
+        const indexOffset = unevenOffset ? 0 : (this._pageAmount - this._currentPage) % this._options.slidesScrolling;
 
         if (index === 'previous') {
-            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : this.options.slidesPerPage - indexOffset;
+            const slideOffset = indexOffset === 0 ? this._options.slidesScrolling : this._options.slidesPerPage - indexOffset;
 
-            if (this.options.slidesPerPage < this.pageAmount) {
-                this.slideController(this.currentPage - slideOffset);
+            if (this._options.slidesPerPage < this._pageAmount) {
+                this._slideController(this._currentPage - slideOffset);
             }
         } else if (index === 'next') {
-            const slideOffset = indexOffset === 0 ? this.options.slidesScrolling : indexOffset;
+            const slideOffset = indexOffset === 0 ? this._options.slidesScrolling : indexOffset;
 
-            if (this.options.slidesPerPage < this.pageAmount) {
-                this.slideController(this.currentPage + slideOffset);
+            if (this._options.slidesPerPage < this._pageAmount) {
+                this._slideController(this._currentPage + slideOffset);
             }
         } else {
-            const page = index === 0 ? 0 : index * this.options.slidesScrolling;
-            this.slideController(page);
+            const page = index === 0 ? 0 : index * this._options.slidesScrolling;
+            this._slideController(page);
         }
 
-        if (this.options.arrows) {
-            this.updateArrows();
+        if (this._options.arrows) {
+            this._updateArrows();
         }
 
-        if (this.options.circles) {
-            this.updateCircles();
+        if (this._options.circles) {
+            this._updateCircles();
         }
 
-        this.selector.dispatchEvent(this.customEvents.pageChanging);
+        this._selector.dispatchEvent(this._customEvents.pageChanging);
 
         setTimeout(() => {
-            this.selector.dispatchEvent(this.customEvents.pageChanged);
-        }, this.options.transitionSpeed);
+            this._selector.dispatchEvent(this._customEvents.pageChanged);
+        }, this._options.transitionSpeed);
     }
 
-    reinit(options = {}) {
-        this.destroy();
-        this.options = FlexCarousel.extend(this.defaults, options);
-        this.init();
-        this.selector.dispatchEvent(this.customEvents.breakpoint);
+    _reinit(options = {}) {
+        this._destroy();
+        this._options = FlexCarousel.extend(this._defaults, options);
+        this._init();
+        this._selector.dispatchEvent(this._customEvents.breakpoint);
     }
 
-    setTransform(position) {
-        const slides = this.selector.querySelector('.fc-slides');
+    _setTransform(position) {
+        const slides = this._selector.querySelector('.fc-slides');
         slides.style.transform = `translate3d(${Math.ceil(position)}%, 0px, 0px)`;
     }
 
-    slideController(index) {
+    _slideController(index) {
         let nextPage;
 
         if (index < 0) {
-            if (this.pageAmount % this.options.slidesScrolling !== 0) {
-                nextPage = this.pageAmount - (this.pageAmount % this.options.slidesScrolling);
+            if (this._pageAmount % this._options.slidesScrolling !== 0) {
+                nextPage = this._pageAmount - (this._pageAmount % this._options.slidesScrolling);
             } else {
-                nextPage = this.pageAmount + index;
+                nextPage = this._pageAmount + index;
             }
-        } else if (index >= this.pageAmount) {
-            if (this.pageAmount % this.options.slidesScrolling !== 0) {
+        } else if (index >= this._pageAmount) {
+            if (this._pageAmount % this._options.slidesScrolling !== 0) {
                 nextPage = 0;
             } else {
-                nextPage = index - this.pageAmount;
+                nextPage = index - this._pageAmount;
             }
         } else {
             nextPage = index;
         }
 
-        this.currentPage = nextPage;
-        this.animatePage(this.getLeftPage(index));
+        this._currentPage = nextPage;
+        this._animatePage(this._getLeftPage(index));
     }
 
-    updateArrows() {
-        const prevButton = this.options.appendArrows.querySelector('.fc-prev');
-        const nextButton = this.options.appendArrows.querySelector('.fc-next');
+    _updateArrows() {
+        const prevButton = this._options.appendArrows.querySelector('.fc-prev');
+        const nextButton = this._options.appendArrows.querySelector('.fc-next');
 
-        if (!this.options.infinite) {
-            if (this.currentPage === 0) {
+        if (!this._options.infinite) {
+            if (this._currentPage === 0) {
                 prevButton.setAttribute('disabled', 'disabled');
             } else {
                 prevButton.removeAttribute('disabled');
             }
 
-            if (this.currentPage === this.pageAmount - 1) {
+            if (this._currentPage === this._pageAmount - 1) {
                 nextButton.setAttribute('disabled', 'disabled');
             } else {
                 nextButton.removeAttribute('disabled');
@@ -481,40 +479,40 @@ class FlexCarousel {
         }
     }
 
-    updateCircles() {
-        const circles = this.selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
+    _updateCircles() {
+        const circles = this._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
         for (let index = 0; index < circles.length; index += 1) {
             circles[index].classList.remove('fc-is-active');
         }
 
-        const index = Math.floor(this.currentPage / this.options.slidesScrolling);
+        const index = Math.floor(this._currentPage / this._options.slidesScrolling);
 
         circles[index].classList.add('fc-is-active');
     }
 
-    updateResponsive() {
+    _updateResponsive() {
         let targetBreakpoint;
 
-        this.breakpoints.forEach((options, breakpoint) => {
+        this._breakpoints.forEach((options, breakpoint) => {
             if (window.innerWidth >= breakpoint) {
                 targetBreakpoint = breakpoint;
             }
         });
 
         if (targetBreakpoint) {
-            if (this.activeBreakpoint) {
-                if (targetBreakpoint !== this.activeBreakpoint) {
-                    this.activeBreakpoint = targetBreakpoint;
-                    this.reinit(this.breakpoints[targetBreakpoint]);
+            if (this._activeBreakpoint) {
+                if (targetBreakpoint !== this._activeBreakpoint) {
+                    this._activeBreakpoint = targetBreakpoint;
+                    this._reinit(this._breakpoints[targetBreakpoint]);
                 }
             } else {
-                this.activeBreakpoint = targetBreakpoint;
-                this.reinit(this.breakpoints[targetBreakpoint]);
+                this._activeBreakpoint = targetBreakpoint;
+                this._reinit(this._breakpoints[targetBreakpoint]);
             }
-        } else if (this.activeBreakpoint !== null) {
-            this.activeBreakpoint = null;
-            this.reinit(this.originalOptions);
+        } else if (this._activeBreakpoint !== null) {
+            this._activeBreakpoint = null;
+            this._reinit(this._originalOptions);
         }
     }
 
