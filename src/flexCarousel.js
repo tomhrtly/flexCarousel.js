@@ -50,6 +50,8 @@ class FlexCarousel {
         this._currentPage = this._options.initialPage;
 
         this._init();
+
+        return this._selector;
     }
 
     _animatePage(target) {
