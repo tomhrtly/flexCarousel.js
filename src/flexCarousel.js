@@ -38,9 +38,9 @@ class FlexCarousel {
         this._autoplayTimer = null;
         this._breakpoints = [];
         this._customEvents = {
-            breakpoint: new CustomEvent('breakpoint'),
-            pageChanged: new CustomEvent('pageChanged'),
-            pageChanging: new CustomEvent('pageChanging'),
+            breakpoint: new CustomEvent('breakpoint.fc'),
+            pageChanged: new CustomEvent('pageChanged.fc'),
+            pageChanging: new CustomEvent('pageChanging.fc'),
         };
         this._options = FlexCarousel.extend(this._defaults, options);
         this._originalOptions = this._options;
@@ -49,7 +49,7 @@ class FlexCarousel {
 
         this._currentPage = this._options.initialPage;
 
-        this.init();
+        this._init();
     }
 
     _animatePage(target) {
@@ -378,7 +378,7 @@ class FlexCarousel {
         return ((index * this._pageWidth) * -1) + slideOffset;
     }
 
-    init() {
+    _init() {
         if (!this._selector.classList.contains('fc')) {
             this._selector.classList.add('fc');
             this._buildSlides();
