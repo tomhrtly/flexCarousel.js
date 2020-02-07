@@ -1,4 +1,4 @@
-import slide from '../events/slide';
+import events from '../events/slide';
 
 export default function (instance) {
     const ul = instance._selector.querySelector('ul');
@@ -49,5 +49,5 @@ export default function (instance) {
         instance._setTransform(instance._getLeftPage(instance._currentPage));
     }
 
-    slide();
+    events();
 }

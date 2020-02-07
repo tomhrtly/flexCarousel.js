@@ -10,6 +10,7 @@
 
 import defaults from './core/defaults';
 import slides from './core/slides';
+import arrows from './components/arrows';
 import autoplay from './components/autoplay';
 import height from './components/height';
 
@@ -56,57 +57,6 @@ class FlexCarousel {
                 resolve(true);
             }, this._options.transitionSpeed);
         }).then(() => this._setTransform(this._getLeftPage(this._currentPage)));
-    }
-
-    _buildArrowEvents() {
-        const nextButton = this._options.appendArrows.querySelector('.fc-next');
-        const prevButton = this._options.appendArrows.querySelector('.fc-prev');
-
-        nextButton.addEventListener('click', () => {
-            this._movePage('next');
-        });
-
-        prevButton.addEventListener('click', () => {
-            this._movePage('previous');
-        });
-    }
-
-    _buildArrows() {
-        const slides = this._selector.querySelector('.fc-slides');
-        const slide = slides.querySelectorAll('.fc-slide');
-
-        if (this._options.arrows) {
-            // Only show the arrows if there are more slides then slidesPerPage option
-            if (this._options.slidesPerPage < slide.length) {
-                this._selector.classList.add('fc-has-arrows');
-
-                // Create arrow button
-                const nextButton = document.createElement('button');
-                nextButton.classList.add('fc-next');
-                nextButton.setAttribute('aria-label', 'Next');
-                nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${this._options.nextButton}</span>`;
-
-                // Create prev button
-                const prevButton = document.createElement('button');
-                prevButton.classList.add('fc-prev');
-                prevButton.setAttribute('aria-label', 'Previous');
-                prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${this._options.prevButton}</span>`;
-
-                // Append next arrow to the selector
-                this._options.appendArrows.appendChild(nextButton);
-
-                // Prepend prev arrow to the selector
-                this._options.appendArrows.insertBefore(prevButton, this._options.appendArrows.firstChild);
-
-                // Add the overlay class if needed
-                if (this._options.arrowsOverlay) {
-                    this._selector.classList.add('fc-has-arrows-overlay');
-                }
-
-                this._buildArrowEvents();
-                this._updateArrows();
-            }
-        }
     }
 
     _buildBreakpointEvent() {
@@ -240,8 +190,8 @@ class FlexCarousel {
     _init() {
         if (!this._selector.classList.contains('fc')) {
             this._selector.classList.add('fc');
-            slides();
-            this._buildArrows();
+            slides(this);
+            arrows(this);
             this._buildCircles();
             this._buildOptions();
             this._buildBreakpoints();
