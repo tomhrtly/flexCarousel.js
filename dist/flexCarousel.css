@@ -2,7 +2,7 @@
  * flexCarousel.js v1.0.0
  * https://github.com/tomhrtly/flexCarousel.js
  *
- * Copyright 2019 Tom Hartley
+ * Copyright 2020 Tom Hartley
  * Released under the MIT license
  */
 * {
@@ -210,7 +210,7 @@
   padding: 0;
   position: absolute;
   white-space: nowrap;
-  width: 0.01em;
+  width: .01em;
 }
 
 /*# sourceMappingURL=flexCarousel.css.map */
