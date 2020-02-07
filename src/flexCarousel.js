@@ -12,9 +12,11 @@ import defaults from './core/defaults';
 import slides from './core/slides';
 import arrows from './components/arrows';
 import autoplay from './components/autoplay';
+import circles from './components/circles';
 import height from './components/height';
+import extend from './utils/extend';
 
-class FlexCarousel {
+export default class FlexCarousel {
     constructor(selector, options = {}) {
         this._selectorName = selector.toString();
         this._selector = document.querySelector(selector);
@@ -27,7 +29,7 @@ class FlexCarousel {
             pageChanged: new CustomEvent('pageChanged.fc'),
             pageChanging: new CustomEvent('pageChanging.fc'),
         };
-        this._options = FlexCarousel.extend(this._defaults, options);
+        this._options = extend(this._defaults, options);
         this._originalOptions = this._options;
         this._pageAmount = null;
         this._pageWidth = null;
@@ -90,59 +92,6 @@ class FlexCarousel {
         this._updateResponsive(false);
     }
 
-    _buildCircleEvents() {
-        const circles = this._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
-
-        circles.forEach((element, index) => {
-            element.addEventListener('click', () => this._movePage(index));
-        });
-    }
-
-    _buildCircles() {
-        if (this._options.circles) {
-            // Only show the arrows if there are more slides then slidesPerPage option
-            if (this._options.slidesPerPage < this._pageAmount) {
-                this._selector.classList.add('fc-has-circles');
-
-                // Create circles container
-                const circles = document.createElement('ul');
-                circles.classList.add('fc-circles');
-
-                this._selector.querySelector('.fc-container').appendChild(circles);
-
-                const option = this._options.slidesPerPage > this._options.slidesScrolling ? this._options.slidesScrolling : this._options.slidesPerPage;
-                const amount = Math.ceil(this._pageAmount / option);
-
-                for (let index = 0; index < amount; index += 1) {
-                    const li = document.createElement('li');
-
-                    const circle = document.createElement('button');
-                    circle.classList.add('fc-circle');
-                    circle.setAttribute('aria-label', `${FlexCarousel.suffix(index + 1)} page`);
-
-                    const icon = document.createElement('span');
-                    icon.classList.add('fc-icon', 'fc-is-circle');
-
-                    const text = document.createElement('span');
-                    text.classList.add('fc-is-sr-only');
-                    text.innerHTML = index + 1;
-
-                    circle.appendChild(icon);
-                    circle.appendChild(text);
-                    li.appendChild(circle);
-                    circles.appendChild(li);
-                }
-
-                if (this._options.circlesOverlay) {
-                    this._selector.classList.add('fc-has-circles-overlay');
-                }
-
-                this._updateCircles();
-                this._buildCircleEvents();
-            }
-        }
-    }
-
     _buildOptions() {
         autoplay(this);
         height();
@@ -192,7 +141,7 @@ class FlexCarousel {
             this._selector.classList.add('fc');
             slides(this);
             arrows(this);
-            this._buildCircles();
+            circles(this);
             this._buildOptions();
             this._buildBreakpoints();
         }
@@ -269,25 +218,6 @@ class FlexCarousel {
         this._animatePage(this._getLeftPage(index));
     }
 
-    _updateArrows() {
-        const prevButton = this._options.appendArrows.querySelector('.fc-prev');
-        const nextButton = this._options.appendArrows.querySelector('.fc-next');
-
-        if (!this._options.infinite) {
-            if (this._currentPage === 0) {
-                prevButton.setAttribute('disabled', 'disabled');
-            } else {
-                prevButton.removeAttribute('disabled');
-            }
-
-            if (this._currentPage === this._pageAmount - 1) {
-                nextButton.setAttribute('disabled', 'disabled');
-            } else {
-                nextButton.removeAttribute('disabled');
-            }
-        }
-    }
-
     _updateCircles() {
         const circles = this._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
@@ -324,51 +254,4 @@ class FlexCarousel {
             this._reinit(this._originalOptions);
         }
     }
-
-    static extend(obj1, obj2) {
-        const extended = {};
-
-        if (obj1) {
-            const keys = Object.keys(obj1);
-
-            keys.forEach((value) => {
-                if (Object.prototype.hasOwnProperty.call(obj1, value)) {
-                    extended[value] = obj1[value];
-                }
-            });
-        }
-
-        if (obj2) {
-            const keys = Object.keys(obj2);
-
-            keys.forEach((value) => {
-                if (Object.prototype.hasOwnProperty.call(obj2, value)) {
-                    extended[value] = obj2[value];
-                }
-            });
-        }
-
-        return extended;
-    }
-
-    static suffix(index) {
-        const j = index % 10;
-        const k = index % 100;
-
-        if (j === 1 && k !== 11) {
-            return `${index}st`;
-        }
-
-        if (j === 2 && k !== 12) {
-            return `${index}nd`;
-        }
-
-        if (j === 3 && k !== 13) {
-            return `${index}rd`;
-        }
-
-        return `${index}th`;
-    }
 }
-
-export default FlexCarousel;
