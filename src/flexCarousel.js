@@ -9,6 +9,8 @@
  */
 
 import defaults from './core/defaults';
+import slides from './core/slides';
+import autoplay from './components/autoplay';
 import height from './components/height';
 
 class FlexCarousel {
@@ -18,8 +20,6 @@ class FlexCarousel {
         this._defaults = defaults(this);
 
         this._activeBreakpoint = null;
-        this._autoplayDirection = 'right';
-        this._autoplayTimer = null;
         this._breakpoints = [];
         this._customEvents = {
             breakpoint: new CustomEvent('breakpoint.fc'),
@@ -56,49 +56,6 @@ class FlexCarousel {
                 resolve(true);
             }, this._options.transitionSpeed);
         }).then(() => this._setTransform(this._getLeftPage(this._currentPage)));
-    }
-
-    _autoplay() {
-        let pause = false;
-        let slide;
-
-        document.addEventListener('visibilitychange', () => {
-            pause = document.visibilityState !== 'visible';
-        });
-
-        if (this._autoplayTimer) {
-            clearInterval(this._autoplayTimer);
-        }
-
-        if (this._options.autoplay) {
-            this._autoplayTimer = setInterval(() => {
-                if (!pause) {
-                    if (!this._options.infinite) {
-                        if (this._autoplayDirection === 'right') {
-                            slide = 'next';
-
-                            if ((this._currentPage + 1) === (this._pageAmount - 1)) {
-                                this._autoplayDirection = 'left';
-                            }
-                        } else if (this._autoplayDirection === 'left') {
-                            slide = 'previous';
-
-                            if (this._currentPage === 1) {
-                                this._autoplayDirection = 'right';
-                            }
-                        }
-                    } else {
-                        slide = 'next';
-                    }
-                    this._movePage(slide);
-                }
-            }, this._options.autoplaySpeed);
-
-            this._selector.addEventListener('mouseenter', () => { pause = true; });
-            this._selector.addEventListener('mouseleave', () => { pause = false; });
-            this._selector.addEventListener('focusin', () => { pause = true; });
-            this._selector.addEventListener('focusout', () => { pause = false; });
-        }
     }
 
     _buildArrowEvents() {
@@ -237,90 +194,8 @@ class FlexCarousel {
     }
 
     _buildOptions() {
+        autoplay(this);
         height();
-
-        this._autoplay();
-    }
-
-    _buildSlideEvents() {
-        window.addEventListener('orientationchange', () => {
-            this._updateResponsive();
-            this._setTransform();
-        });
-
-        this._selector.onfocus = () => {
-            if (document.activeElement === this._selector) {
-                document.onkeyup = (e) => {
-                    if (e.key === 'ArrowRight') {
-                        this._movePage('next');
-                    } else if (e.key === 'ArrowLeft') {
-                        this._movePage('previous');
-                    }
-                };
-            }
-        };
-
-        this._selector.onblur = () => {
-            document.onkeyup = () => {};
-        };
-    }
-
-    _buildSlides() {
-        const ul = this._selector.querySelector('ul');
-
-        ul.classList.add('fc-slides');
-
-        // Add the slide class to all child div elements
-        for (let index = 0; index < ul.children.length; index += 1) {
-            ul.children[index].classList.add('fc-slide');
-        }
-
-        this._selector.setAttribute('tabindex', '0');
-
-        // Wrap slides to reduce HTML markup
-        this._selector.innerHTML = `<div class="fc-container">${this._selector.innerHTML}</div>`;
-
-        const slides = this._selector.querySelector('.fc-slides');
-        const allSlides = slides.querySelectorAll('.fc-slide');
-
-        this._pageAmount = allSlides.length;
-
-        if (this._options.slidesPerPage < this._pageAmount) {
-            this._pageWidth = 100 / this._options.slidesPerPage;
-
-            // Add the min-width CSS property to all slides
-            for (let index = 0; index < this._pageAmount; index += 1) {
-                allSlides[index].style.minWidth = `${this._pageWidth}%`;
-            }
-
-            if (this._options.infinite) {
-                // Clone and prepend/append slides
-                const array = Array.from(allSlides);
-                let prepend;
-                let append;
-
-                if (this._options.slidesPerPage >= this._options.slidesScrolling) {
-                    prepend = array.slice(this._pageAmount - this._options.slidesPerPage, this._pageAmount).reverse();
-                    append = array.slice(0, this._options.slidesPerPage);
-                }
-
-                for (let index = 0; index < prepend.length; index += 1) {
-                    const clone = prepend[index].cloneNode(true);
-                    clone.classList.add('fc-is-clone');
-                    slides.insertBefore(clone, slides.firstChild);
-                }
-
-                for (let index = 0; index < append.length; index += 1) {
-                    const clone = append[index].cloneNode(true);
-                    clone.classList.add('fc-is-clone');
-                    slides.appendChild(clone);
-                }
-            }
-
-            this._setTransform(this._getLeftPage(this._currentPage));
-        }
-
-        this._buildSlideEvents();
     }
 
     _destroy() {
@@ -365,7 +240,7 @@ class FlexCarousel {
     _init() {
         if (!this._selector.classList.contains('fc')) {
             this._selector.classList.add('fc');
-            this._buildSlides();
+            slides();
             this._buildArrows();
             this._buildCircles();
             this._buildOptions();
