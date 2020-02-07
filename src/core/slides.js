@@ -1,4 +1,5 @@
 import events from '../events/slide';
+import transform from './transform';
 
 export default function (instance) {
     const ul = instance._selector.querySelector('ul');
@@ -46,8 +47,8 @@ export default function (instance) {
             }
         }
 
-        instance._setTransform(instance._getLeftPage(instance._currentPage));
+        transform(instance, instance._getLeftPage(instance._currentPage));
     }
 
-    events();
+    events(instance);
 }

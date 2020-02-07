@@ -1,23 +1,5 @@
 import events from '../events/arrow';
-
-const update = (instance) => {
-    const prevButton = instance._options.appendArrows.querySelector('.fc-prev');
-    const nextButton = instance._options.appendArrows.querySelector('.fc-next');
-
-    if (!instance._options.infinite) {
-        if (instance._currentPage === 0) {
-            prevButton.setAttribute('disabled', 'disabled');
-        } else {
-            prevButton.removeAttribute('disabled');
-        }
-
-        if (instance._currentPage === instance._pageAmount - 1) {
-            nextButton.setAttribute('disabled', 'disabled');
-        } else {
-            nextButton.removeAttribute('disabled');
-        }
-    }
-};
+import update from '../updaters/arrows';
 
 export default function (instance) {
     const slides = instance._selector.querySelector('.fc-slides');
@@ -44,7 +26,7 @@ export default function (instance) {
                 instance._selector.classList.add('fc-has-arrows-overlay');
             }
 
-            events();
+            events(instance);
             update(instance);
         }
     }

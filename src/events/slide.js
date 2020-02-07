@@ -1,16 +1,20 @@
+import responsive from '../updaters/responsive';
+import move from '../core/move';
+import transform from '../core/transform';
+
 export default function (instance) {
     window.addEventListener('orientationchange', () => {
-        instance._updateResponsive();
-        instance._setTransform();
+        responsive(instance);
+        transform(instance);
     });
 
     instance._selector.onfocus = () => {
         if (document.activeElement === instance._selector) {
             document.onkeyup = (e) => {
                 if (e.key === 'ArrowRight') {
-                    instance._movePage('next');
+                    move(instance, 'next');
                 } else if (e.key === 'ArrowLeft') {
-                    instance._movePage('previous');
+                    move(instance, 'previous');
                 }
             };
         }
