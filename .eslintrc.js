@@ -7,6 +7,7 @@ module.exports = {
         'airbnb-base',
     ],
     rules: {
+        'class-methods-use-this': 0,
         'indent': ['error', 4],
         'max-len': 0,
         'no-param-reassign': [2, { 'props': false }],
