@@ -1,26 +1,26 @@
-export default function (instance) {
-    instance._originalOptions = instance._options;
+export default function (fc) {
+    fc._originalOptions = fc._options;
 
     let targetBreakpoint;
 
-    instance._breakpoints.forEach((options, breakpoint) => {
+    fc._breakpoints.forEach((options, breakpoint) => {
         if (window.innerWidth >= breakpoint) {
             targetBreakpoint = breakpoint;
         }
     });
 
     if (targetBreakpoint) {
-        if (instance._activeBreakpoint) {
-            if (targetBreakpoint !== instance._activeBreakpoint) {
-                instance._activeBreakpoint = targetBreakpoint;
-                instance._reinit(instance._breakpoints[targetBreakpoint]);
+        if (fc._activeBreakpoint) {
+            if (targetBreakpoint !== fc._activeBreakpoint) {
+                fc._activeBreakpoint = targetBreakpoint;
+                fc._reinit(fc._breakpoints[targetBreakpoint]);
             }
         } else {
-            instance._activeBreakpoint = targetBreakpoint;
-            instance._reinit(instance._breakpoints[targetBreakpoint]);
+            fc._activeBreakpoint = targetBreakpoint;
+            fc._reinit(fc._breakpoints[targetBreakpoint]);
         }
-    } else if (instance._activeBreakpoint !== null) {
-        instance._activeBreakpoint = null;
-        instance._reinit(instance._originalOptions);
+    } else if (fc._activeBreakpoint !== null) {
+        fc._activeBreakpoint = null;
+        fc._reinit(fc._originalOptions);
     }
 }

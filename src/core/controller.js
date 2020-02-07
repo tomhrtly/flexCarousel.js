@@ -1,25 +1,25 @@
 import animate from './animate';
 import leftPage from './leftPage';
 
-export default function (instance, index) {
+export default function (fc, index) {
     let nextPage;
 
     if (index < 0) {
-        if (instance._pageAmount % instance._options.slidesScrolling !== 0) {
-            nextPage = instance._pageAmount - (instance._pageAmount % instance._options.slidesScrolling);
+        if (fc._pageAmount % fc._options.slidesScrolling !== 0) {
+            nextPage = fc._pageAmount - (fc._pageAmount % fc._options.slidesScrolling);
         } else {
-            nextPage = instance._pageAmount + index;
+            nextPage = fc._pageAmount + index;
         }
-    } else if (index >= instance._pageAmount) {
-        if (instance._pageAmount % instance._options.slidesScrolling !== 0) {
+    } else if (index >= fc._pageAmount) {
+        if (fc._pageAmount % fc._options.slidesScrolling !== 0) {
             nextPage = 0;
         } else {
-            nextPage = index - instance._pageAmount;
+            nextPage = index - fc._pageAmount;
         }
     } else {
         nextPage = index;
     }
 
-    instance._currentPage = nextPage;
-    animate(instance, leftPage(instance, index));
+    fc._currentPage = nextPage;
+    animate(fc, leftPage(fc, index));
 }

@@ -1,6 +1,6 @@
-export default function (instance) {
-    instance._autoplayDirection = 'right';
-    instance._autoplayTimer = null;
+export default function (fc) {
+    fc._autoplayDirection = 'right';
+    fc._autoplayTimer = null;
 
     let pause = false;
     let slide;
@@ -9,37 +9,37 @@ export default function (instance) {
         pause = document.visibilityState !== 'visible';
     });
 
-    if (instance._autoplayTimer) {
-        clearInterval(instance._autoplayTimer);
+    if (fc._autoplayTimer) {
+        clearInterval(fc._autoplayTimer);
     }
 
-    if (instance._options.autoplay) {
-        instance._autoplayTimer = setInterval(() => {
+    if (fc._options.autoplay) {
+        fc._autoplayTimer = setInterval(() => {
             if (!pause) {
-                if (!instance._options.infinite) {
-                    if (instance._autoplayDirection === 'right') {
+                if (!fc._options.infinite) {
+                    if (fc._autoplayDirection === 'right') {
                         slide = 'next';
 
-                        if ((instance._currentPage + 1) === (instance._pageAmount - 1)) {
-                            instance._autoplayDirection = 'left';
+                        if ((fc._currentPage + 1) === (fc._pageAmount - 1)) {
+                            fc._autoplayDirection = 'left';
                         }
-                    } else if (instance._autoplayDirection === 'left') {
+                    } else if (fc._autoplayDirection === 'left') {
                         slide = 'previous';
 
-                        if (instance._currentPage === 1) {
-                            instance._autoplayDirection = 'right';
+                        if (fc._currentPage === 1) {
+                            fc._autoplayDirection = 'right';
                         }
                     }
                 } else {
                     slide = 'next';
                 }
-                instance._movePage(slide);
+                fc._movePage(slide);
             }
-        }, instance._options.autoplaySpeed);
+        }, fc._options.autoplaySpeed);
 
-        instance._selector.addEventListener('mouseenter', () => { pause = true; });
-        instance._selector.addEventListener('mouseleave', () => { pause = false; });
-        instance._selector.addEventListener('focusin', () => { pause = true; });
-        instance._selector.addEventListener('focusout', () => { pause = false; });
+        fc._selector.addEventListener('mouseenter', () => { pause = true; });
+        fc._selector.addEventListener('mouseleave', () => { pause = false; });
+        fc._selector.addEventListener('focusin', () => { pause = true; });
+        fc._selector.addEventListener('focusout', () => { pause = false; });
     }
 }

@@ -1,6 +1,6 @@
-export default function (instance) {
+export default function (fc) {
     return {
-        appendArrows: instance._selector,
+        appendArrows: fc._selector,
         arrows: true,
         arrowsOverlay: true,
         autoplay: false,

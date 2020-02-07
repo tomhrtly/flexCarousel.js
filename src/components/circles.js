@@ -2,18 +2,18 @@ import suffix from '../utils/suffix';
 import update from '../updaters/circles';
 import event from '../events/circle';
 
-export default function (instance) {
-    if (instance._options.circles) {
-        if (instance._options.slidesPerPage < instance._pageAmount) {
-            instance._selector.classList.add('fc-has-circles');
+export default function (fc) {
+    if (fc._options.circles) {
+        if (fc._options.slidesPerPage < fc._pageAmount) {
+            fc._selector.classList.add('fc-has-circles');
 
             const element = document.createElement('ul');
             element.classList.add('fc-circles');
 
-            instance._selector.querySelector('.fc-container').appendChild(element);
+            fc._selector.querySelector('.fc-container').appendChild(element);
 
-            const option = instance._options.slidesPerPage > instance._options.slidesScrolling ? instance._options.slidesScrolling : instance._options.slidesPerPage;
-            const amount = Math.ceil(instance._pageAmount / option);
+            const option = fc._options.slidesPerPage > fc._options.slidesScrolling ? fc._options.slidesScrolling : fc._options.slidesPerPage;
+            const amount = Math.ceil(fc._pageAmount / option);
 
             for (let index = 0; index < amount; index += 1) {
                 const li = document.createElement('li');
@@ -35,12 +35,12 @@ export default function (instance) {
                 element.appendChild(li);
             }
 
-            if (instance._options.circlesOverlay) {
-                instance._selector.classList.add('fc-has-circles-overlay');
+            if (fc._options.circlesOverlay) {
+                fc._selector.classList.add('fc-has-circles-overlay');
             }
 
-            update(instance);
-            event(instance);
+            update(fc);
+            event(fc);
         }
     }
 }

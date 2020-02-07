@@ -1,14 +1,14 @@
 import move from '../core/move';
 
-export default function (instance) {
-    const nextButton = instance._options.appendArrows.querySelector('.fc-next');
-    const prevButton = instance._options.appendArrows.querySelector('.fc-prev');
+export default function (fc) {
+    const nextButton = fc._options.appendArrows.querySelector('.fc-next');
+    const prevButton = fc._options.appendArrows.querySelector('.fc-prev');
 
     nextButton.addEventListener('click', () => {
-        move(instance, 'next');
+        move(fc, 'next');
     });
 
     prevButton.addEventListener('click', () => {
-        move(instance, 'previous');
+        move(fc, 'previous');
     });
 }

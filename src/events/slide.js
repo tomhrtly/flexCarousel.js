@@ -2,25 +2,25 @@ import responsive from '../updaters/responsive';
 import move from '../core/move';
 import transform from '../core/transform';
 
-export default function (instance) {
+export default function (fc) {
     window.addEventListener('orientationchange', () => {
-        responsive(instance);
-        transform(instance);
+        responsive(fc);
+        transform(fc);
     });
 
-    instance._selector.onfocus = () => {
-        if (document.activeElement === instance._selector) {
+    fc._selector.onfocus = () => {
+        if (document.activeElement === fc._selector) {
             document.onkeyup = (e) => {
                 if (e.key === 'ArrowRight') {
-                    move(instance, 'next');
+                    move(fc, 'next');
                 } else if (e.key === 'ArrowLeft') {
-                    move(instance, 'previous');
+                    move(fc, 'previous');
                 }
             };
         }
     };
 
-    instance._selector.onblur = () => {
+    fc._selector.onblur = () => {
         document.onkeyup = () => {};
     };
 }

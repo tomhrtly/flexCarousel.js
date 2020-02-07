@@ -2,38 +2,38 @@ import arrows from '../updaters/arrows';
 import circles from '../updaters/circles';
 import controller from './controller';
 
-export default function (instance, index) {
-    const unevenOffset = (instance._pageAmount % instance._options.slidesScrolling !== 0);
-    const indexOffset = unevenOffset ? 0 : (instance._pageAmount - instance._currentPage) % instance._options.slidesScrolling;
+export default function (fc, index) {
+    const unevenOffset = (fc._pageAmount % fc._options.slidesScrolling !== 0);
+    const indexOffset = unevenOffset ? 0 : (fc._pageAmount - fc._currentPage) % fc._options.slidesScrolling;
 
     if (index === 'previous') {
-        const slideOffset = indexOffset === 0 ? instance._options.slidesScrolling : instance._options.slidesPerPage - indexOffset;
+        const slideOffset = indexOffset === 0 ? fc._options.slidesScrolling : fc._options.slidesPerPage - indexOffset;
 
-        if (instance._options.slidesPerPage < instance._pageAmount) {
-            controller(instance, instance._currentPage - slideOffset);
+        if (fc._options.slidesPerPage < fc._pageAmount) {
+            controller(fc, fc._currentPage - slideOffset);
         }
     } else if (index === 'next') {
-        const slideOffset = indexOffset === 0 ? instance._options.slidesScrolling : indexOffset;
+        const slideOffset = indexOffset === 0 ? fc._options.slidesScrolling : indexOffset;
 
-        if (instance._options.slidesPerPage < instance._pageAmount) {
-            controller(instance, instance._currentPage + slideOffset);
+        if (fc._options.slidesPerPage < fc._pageAmount) {
+            controller(fc, fc._currentPage + slideOffset);
         }
     } else {
-        const page = index === 0 ? 0 : index * instance._options.slidesScrolling;
-        controller(instance, page);
+        const page = index === 0 ? 0 : index * fc._options.slidesScrolling;
+        controller(fc, page);
     }
 
-    if (instance._options.arrows) {
-        arrows(instance);
+    if (fc._options.arrows) {
+        arrows(fc);
     }
 
-    if (instance._options.circles) {
-        circles(instance);
+    if (fc._options.circles) {
+        circles(fc);
     }
 
-    instance._selector.dispatchEvent(instance._customEvents.pageChanging);
+    fc._selector.dispatchEvent(fc._customEvents.pageChanging);
 
     setTimeout(() => {
-        instance._selector.dispatchEvent(instance._customEvents.pageChanged);
-    }, instance._options.transitionSpeed);
+        fc._selector.dispatchEvent(fc._customEvents.pageChanged);
+    }, fc._options.transitionSpeed);
 }
