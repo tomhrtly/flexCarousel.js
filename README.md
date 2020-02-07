@@ -18,6 +18,36 @@ A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork
 * Clone the repo: `git clone https://github.com/tomhrtly/flexCarousel.js.git`
 * Install with [npm](https://www.npmjs.com/): `npm install flexcarouseljs`
 
+Include the necessary CSS into your web page first.
+
+```
+<link rel="stylesheet=" href="flexCarousel.css">
+```
+
+Then add some basic markup for your carousel.
+
+```
+<div class="my-class">
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+</div>
+```
+
+Lastly, import and initialize your carousel.
+
+```
+import flexCarousel from 'flexcarouseljs/src/flexCarousel.js';
+
+const carousel = new flexCarousel('.my-class');
+```
+
+This provides you with a basic "out of the box" carousel, for more customisation including options, <a href="https://flexcarousel.com/docs/">view our full documentation</a>.
+
 ### Compatibility
 
 flexCarousel.js supports the latest, stable releases of all major browsers except Internet Explorer.
