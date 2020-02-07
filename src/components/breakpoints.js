@@ -3,6 +3,9 @@ import extend from '../utils/extend';
 import update from '../updaters/responsive';
 
 export default function (instance) {
+    instance._activeBreakpoint = null;
+    instance._breakpoints = [];
+
     const breakpoints = [];
 
     if (instance._options.responsive) {

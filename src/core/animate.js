@@ -1,4 +1,5 @@
 import transform from './transform';
+import leftPage from './leftPage';
 
 export default function (instance, target) {
     const slides = instance._selector.querySelector('.fc-slides');
@@ -17,5 +18,5 @@ export default function (instance, target) {
 
             resolve(true);
         }, instance._options.transitionSpeed);
-    }).then(() => transform(instance, instance._getLeftPage(instance._currentPage)));
+    }).then(() => transform(instance, leftPage(instance, instance._currentPage)));
 }

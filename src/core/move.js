@@ -1,5 +1,6 @@
 import arrows from '../updaters/arrows';
 import circles from '../updaters/circles';
+import controller from './controller';
 
 export default function (instance, index) {
     const unevenOffset = (instance._pageAmount % instance._options.slidesScrolling !== 0);
@@ -9,17 +10,17 @@ export default function (instance, index) {
         const slideOffset = indexOffset === 0 ? instance._options.slidesScrolling : instance._options.slidesPerPage - indexOffset;
 
         if (instance._options.slidesPerPage < instance._pageAmount) {
-            instance._slideController(instance._currentPage - slideOffset);
+            controller(instance, instance._currentPage - slideOffset);
         }
     } else if (index === 'next') {
         const slideOffset = indexOffset === 0 ? instance._options.slidesScrolling : indexOffset;
 
         if (instance._options.slidesPerPage < instance._pageAmount) {
-            instance._slideController(instance._currentPage + slideOffset);
+            controller(instance, instance._currentPage + slideOffset);
         }
     } else {
         const page = index === 0 ? 0 : index * instance._options.slidesScrolling;
-        instance._slideController(page);
+        controller(instance, page);
     }
 
     if (instance._options.arrows) {
@@ -27,7 +28,7 @@ export default function (instance, index) {
     }
 
     if (instance._options.circles) {
-       circles(instance);
+        circles(instance);
     }
 
     instance._selector.dispatchEvent(instance._customEvents.pageChanging);

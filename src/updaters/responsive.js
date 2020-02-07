@@ -1,4 +1,6 @@
 export default function (instance) {
+    instance._originalOptions = instance._options;
+
     let targetBreakpoint;
 
     instance._breakpoints.forEach((options, breakpoint) => {

@@ -8,7 +8,6 @@
  * Icons provided by Font Awesome: https://fontawesome.com
  */
 
-import animate from './core/animate';
 import defaults from './core/defaults';
 import destroy from './core/destroy';
 import slides from './core/slides';
@@ -24,45 +23,18 @@ export default class FlexCarousel {
         this._selectorName = selector.toString();
         this._selector = document.querySelector(selector);
         this._defaults = defaults(this);
-
-        this._activeBreakpoint = null;
-        this._breakpoints = [];
+        this._options = extend(this._defaults, options);
         this._customEvents = {
             breakpoint: new CustomEvent('breakpoint.fc'),
             pageChanged: new CustomEvent('pageChanged.fc'),
             pageChanging: new CustomEvent('pageChanging.fc'),
         };
-        this._options = extend(this._defaults, options);
-        this._originalOptions = this._options;
         this._pageAmount = null;
         this._pageWidth = null;
-
         this._currentPage = this._options.initialPage;
-
         this._init();
 
         return this._selector;
-    }
-
-    _buildOptions() {
-        autoplay(this);
-        height(this);
-    }
-
-    _getLeftPage(index) {
-        let slideOffset;
-
-        if (this._options.slidesPerPage < this._pageAmount) {
-            if (this._options.slidesPerPage >= this._options.slidesScrolling) {
-                slideOffset = (this._pageWidth * this._options.slidesPerPage) * -1;
-            }
-
-            if (!this._options.infinite) {
-                slideOffset = 0;
-            }
-        }
-
-        return ((index * this._pageWidth) * -1) + slideOffset;
     }
 
     _init() {
@@ -71,7 +43,8 @@ export default class FlexCarousel {
             slides(this);
             arrows(this);
             circles(this);
-            this._buildOptions();
+            autoplay(this);
+            height(this);
             breakpoints(this);
         }
     }
@@ -81,28 +54,5 @@ export default class FlexCarousel {
         this._options = extend(this._defaults, options);
         this._init();
         this._selector.dispatchEvent(this._customEvents.breakpoint);
-    }
-
-    _slideController(index) {
-        let nextPage;
-
-        if (index < 0) {
-            if (this._pageAmount % this._options.slidesScrolling !== 0) {
-                nextPage = this._pageAmount - (this._pageAmount % this._options.slidesScrolling);
-            } else {
-                nextPage = this._pageAmount + index;
-            }
-        } else if (index >= this._pageAmount) {
-            if (this._pageAmount % this._options.slidesScrolling !== 0) {
-                nextPage = 0;
-            } else {
-                nextPage = index - this._pageAmount;
-            }
-        } else {
-            nextPage = index;
-        }
-
-        this._currentPage = nextPage;
-        animate(this, this._getLeftPage(index));
     }
 }
