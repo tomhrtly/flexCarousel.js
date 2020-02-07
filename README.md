@@ -21,7 +21,7 @@ A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork
 Include the necessary CSS into your web page first.
 
 ```
-<link rel="stylesheet=" href="flexCarousel.css">
+<link rel="stylesheet" href="flexCarousel.css">
 ```
 
 Then add some basic markup for your carousel.
