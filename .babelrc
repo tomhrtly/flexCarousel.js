@@ -1,10 +1,13 @@
 {
-  "presets": [
-    [
-      "@babel/env",
-      {
-        "modules": false
-      }
+    "presets": [
+        [
+            "@babel/env",
+            {
+                "modules": false
+            }
+        ]
+    ],
+    "plugins": [
+        "@babel/plugin-proposal-export-default-from"
     ]
-  ]
 }
