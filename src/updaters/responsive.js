@@ -5,7 +5,7 @@ function reinit(options = {}) {
     destroy(this);
     this._options = extend(this._defaults, options);
     this._init();
-    this._selector.dispatchEvent(this._customEvents.breakpoint);
+    this._selector.dispatchEvent(this._events.breakpoint);
 }
 
 export default function (fc) {

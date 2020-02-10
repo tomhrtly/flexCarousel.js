@@ -75,9 +75,9 @@ export default function (fc, index) {
         circles(fc);
     }
 
-    fc._selector.dispatchEvent(fc._customEvents.pageChanging);
+    fc._selector.dispatchEvent(fc._events.pageChanging);
 
     setTimeout(() => {
-        fc._selector.dispatchEvent(fc._customEvents.pageChanged);
+        fc._selector.dispatchEvent(fc._events.pageChanged);
     }, fc._options.transitionSpeed);
 }
