@@ -1,3 +1,13 @@
+import destroy from '../core/destroy';
+import extend from '../utils/extend';
+
+function reinit(options = {}) {
+    destroy(this);
+    this._options = extend(this._defaults, options);
+    this._init();
+    this._selector.dispatchEvent(this._customEvents.breakpoint);
+}
+
 export default function (fc) {
     fc._originalOptions = fc._options;
 
@@ -13,14 +23,14 @@ export default function (fc) {
         if (fc._activeBreakpoint) {
             if (targetBreakpoint !== fc._activeBreakpoint) {
                 fc._activeBreakpoint = targetBreakpoint;
-                fc._reinit(fc._breakpoints[targetBreakpoint]);
+                reinit(fc._breakpoints[targetBreakpoint]);
             }
         } else {
             fc._activeBreakpoint = targetBreakpoint;
-            fc._reinit(fc._breakpoints[targetBreakpoint]);
+            reinit(fc._breakpoints[targetBreakpoint]);
         }
     } else if (fc._activeBreakpoint !== null) {
         fc._activeBreakpoint = null;
-        fc._reinit(fc._originalOptions);
+        reinit(fc._originalOptions);
     }
 }

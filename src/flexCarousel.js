@@ -9,7 +9,6 @@
  */
 
 import defaults from './core/defaults';
-import destroy from './core/destroy';
 import slides from './core/slides';
 import * as component from './components/index';
 import extend from './utils/extend';
@@ -43,12 +42,5 @@ export default class FlexCarousel {
             component.height(this);
             component.breakpoints(this);
         }
-    }
-
-    _reinit(options = {}) {
-        destroy(this);
-        this._options = extend(this._defaults, options);
-        this._init();
-        this._selector.dispatchEvent(this._customEvents.breakpoint);
     }
 }
