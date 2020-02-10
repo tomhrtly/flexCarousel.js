@@ -1,6 +1,50 @@
 import arrows from '../updaters/arrows';
 import circles from '../updaters/circles';
-import controller from './controller';
+import transform from './transform';
+import leftPage from './leftPage';
+
+function animate(fc, target) {
+    const slides = fc._selector.querySelector('.fc-slides');
+
+    if (fc._options.transition === 'slide') {
+        slides.style.transition = `all ${fc._options.transitionSpeed}ms ease-in-out 0s`;
+    }
+
+    transform(fc, Math.ceil(target));
+
+    new Promise((resolve) => {
+        setTimeout(() => {
+            if (fc._options.transition === 'slide') {
+                slides.style.transition = '';
+            }
+
+            resolve(true);
+        }, fc._options.transitionSpeed);
+    }).then(() => transform(fc, leftPage(fc, fc._currentPage)));
+}
+
+function controller(fc, index) {
+    let nextPage;
+
+    if (index < 0) {
+        if (fc._pageAmount % fc._options.slidesScrolling !== 0) {
+            nextPage = fc._pageAmount - (fc._pageAmount % fc._options.slidesScrolling);
+        } else {
+            nextPage = fc._pageAmount + index;
+        }
+    } else if (index >= fc._pageAmount) {
+        if (fc._pageAmount % fc._options.slidesScrolling !== 0) {
+            nextPage = 0;
+        } else {
+            nextPage = index - fc._pageAmount;
+        }
+    } else {
+        nextPage = index;
+    }
+
+    fc._currentPage = nextPage;
+    animate(fc, leftPage(fc, index));
+}
 
 export default function (fc, index) {
     const unevenOffset = (fc._pageAmount % fc._options.slidesScrolling !== 0);

@@ -11,11 +11,7 @@
 import defaults from './core/defaults';
 import destroy from './core/destroy';
 import slides from './core/slides';
-import arrows from './components/arrows';
-import autoplay from './components/autoplay';
-import breakpoints from './components/breakpoints';
-import circles from './components/circles';
-import height from './components/height';
+import * as component from './components/index';
 import extend from './utils/extend';
 
 export default class FlexCarousel {
@@ -41,11 +37,11 @@ export default class FlexCarousel {
         if (!this._selector.classList.contains('fc')) {
             this._selector.classList.add('fc');
             slides(this);
-            arrows(this);
-            circles(this);
-            autoplay(this);
-            height(this);
-            breakpoints(this);
+            component.arrows(this);
+            component.circles(this);
+            component.autoplay(this);
+            component.height(this);
+            component.breakpoints(this);
         }
     }
 
