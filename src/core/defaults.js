@@ -15,6 +15,8 @@ export default function (fc) {
         responsive: null,
         slidesPerPage: 1,
         slidesScrolling: 1,
+        swipe: true,
+        touchThreshold: 5,
         transition: 'slide',
         transitionSpeed: 250,
     };

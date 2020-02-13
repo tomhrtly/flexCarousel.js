@@ -24,8 +24,9 @@ export default class FlexCarousel {
 
         this._events = custom;
 
-        this._pageAmount = null;
-        this._pageWidth = null;
+        this._pageAmount = '';
+        this._pageWidth = '';
+        this._touch = {};
         this._currentPage = this._options.initialPage;
 
         this._init();
@@ -36,11 +37,12 @@ export default class FlexCarousel {
         if (!this._selector.classList.contains('fc')) {
             this._selector.classList.add('fc');
             slides(this);
-            component.arrows(this);
-            component.circles(this);
             component.autoplay(this);
-            component.height(this);
+            component.arrows(this);
             component.breakpoints(this);
+            component.circles(this);
+            component.height(this);
+            component.swipe(this);
         }
     }
 }
