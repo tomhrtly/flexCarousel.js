@@ -25,11 +25,8 @@ export default class FlexCarousel {
         this._events = custom;
 
         this._currentPage = this._options.initialPage;
-        this._dragging = false;
         this._pageAmount = '';
         this._pageWidth = '';
-        this._scrolling = false;
-        this._swiping = false;
         this._touch = {};
 
         this._init();

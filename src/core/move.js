@@ -23,7 +23,7 @@ function animate(fc, target) {
     }).then(() => transform(fc, leftPage(fc, fc._currentPage)));
 }
 
-function controller(fc, index) {
+export function controller(fc, index) {
     let nextPage;
 
     if (index < 0) {
@@ -63,8 +63,7 @@ export default function (fc, index) {
             controller(fc, fc._currentPage + slideOffset);
         }
     } else {
-        const page = index === 0 ? 0 : index * fc._options.slidesScrolling;
-        controller(fc, page);
+        controller(fc, index === 0 ? 0 : index * fc._options.slidesScrolling);
     }
 
     if (fc._options.arrows) {

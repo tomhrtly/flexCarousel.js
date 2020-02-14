@@ -1,5 +1,6 @@
 import leftPage from '../core/leftPage';
 import transform from '../core/transform';
+import controller from '../core/move';
 
 function direction(fc) {
     const xDist = fc._touch.startX - fc._touch.curX;
@@ -47,30 +48,21 @@ function start(fc, event) {
         return false;
     }
 
-    fc._dragging = true;
     return true;
 }
 
 function move(fc, event) {
-    if (!fc._dragging) {
-        return false;
-    }
-
     set(fc, event);
 
     fc._touch.swipeLength = Math.round(Math.sqrt((fc._touch.curX - fc._touch.startX) ** 2));
 
-    if (fc._touch.swipeLength > 4) {
-        fc._swiping = true;
+    if (fc._touch.swipeLength) {
         event.preventDefault();
     }
 
-    fc._touch.edgeHit = false;
-
     if (!fc._options.infinite) {
         if ((fc._currentPage === 0 && direction(fc) === 'right') || direction(fc) === 'left') {
-            fc._touch.swipeLength *= 0.35;
-            fc._touch.edgeHit = true;
+            fc._touch.swipeLength *= 0.15;
         }
     }
 
@@ -78,7 +70,22 @@ function move(fc, event) {
     return true;
 }
 
-function controller(fc, event) {
+function end(fc) {
+    if (!fc._touch.curX) {
+        return false;
+    }
+
+    if (fc._touch.swipeLength >= fc._touch.minSwipe) {
+        controller(fc, fc._currentPage + fc._pageAmount);
+    } else if (fc._touch.startX !== fc._touch.curX) {
+        controller(fc, fc._currentPage);
+    }
+    fc._touch = {};
+
+    return true;
+}
+
+function swipe(fc, event) {
     fc._touch.fingers = event.touches !== undefined ? event.touches.length : 1;
     fc._touch.minSwipe = fc._selector.querySelector('.fc-slides').offsetWidth / fc._options.touchThreshold;
 
@@ -86,6 +93,8 @@ function controller(fc, event) {
         start(fc, event);
     } else if (event.type === 'touchmove' || event.type === 'mousemove') {
         move(fc, event);
+    } else if (event.type === 'touchcancel' || event.type === 'mouseleave') {
+        end(fc);
     }
 }
 
@@ -105,7 +114,7 @@ export default function (fc) {
 
         events.forEach((element) => {
             container.addEventListener(element, (event) => {
-                controller(fc, event);
+                swipe(fc, event);
             });
         });
     }
