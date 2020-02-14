@@ -1,3 +1,30 @@
+import leftPage from '../core/leftPage';
+import transform from '../core/transform';
+
+function direction(fc) {
+    const xDist = fc._touch.startX - fc._touch.curX;
+    const yDist = fc._touch.startY - fc._touch.curY;
+    let swipeAngle = Math.round((Math.atan2(yDist, xDist) * 180) / Math.PI);
+
+    if (swipeAngle < 0) {
+        swipeAngle = 360 - Math.abs(swipeAngle);
+    }
+
+    if ((swipeAngle <= 45) && (swipeAngle >= 0)) {
+        return 'left';
+    }
+
+    if ((swipeAngle <= 360) && (swipeAngle >= 315)) {
+        return 'left';
+    }
+
+    if ((swipeAngle >= 135) && (swipeAngle <= 225)) {
+        return 'right';
+    }
+
+    return true;
+}
+
 function set(fc, event) {
     let touches;
 
@@ -33,18 +60,22 @@ function move(fc, event) {
 
     fc._touch.swipeLength = Math.round(Math.sqrt((fc._touch.curX - fc._touch.startX) ** 2));
 
-    if (!fc._swiping) {
-        fc._scrolling = true;
-        return false;
-    }
-
     if (fc._touch.swipeLength > 4) {
         fc._swiping = true;
         event.preventDefault();
     }
 
-    const positionOffset = (fc._touch.curX > fc._touch.startX ? 1 : -1);
     fc._touch.edgeHit = false;
+
+    if (!fc._options.infinite) {
+        if ((fc._currentPage === 0 && direction(fc) === 'right') || direction(fc) === 'left') {
+            fc._touch.swipeLength *= 0.35;
+            fc._touch.edgeHit = true;
+        }
+    }
+
+    transform(fc, leftPage(fc, fc._currentPage) + fc._touch.swipeLength * (fc._touch.curX > fc._touch.startX ? 1 : -1));
+    return true;
 }
 
 function controller(fc, event) {
