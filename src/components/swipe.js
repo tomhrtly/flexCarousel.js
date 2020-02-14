@@ -60,28 +60,22 @@ function move(fc, event) {
         event.preventDefault();
     }
 
-    if (!fc._options.infinite) {
-        if ((fc._currentPage === 0 && direction(fc) === 'right') || direction(fc) === 'left') {
-            fc._touch.swipeLength *= 0.15;
-        }
-    }
-
     transform(fc, leftPage(fc, fc._currentPage) + fc._touch.swipeLength * (fc._touch.curX > fc._touch.startX ? 1 : -1));
     return true;
 }
 
 function end(fc) {
-    if (!fc._touch.curX) {
-        return false;
-    }
-
     if (fc._touch.swipeLength >= fc._touch.minSwipe) {
-        controller(fc, fc._currentPage + fc._pageAmount);
+        if (direction() === 'left' || direction() === 'down') {
+            controller(fc, 3);
+        } else if (direction() === 'right' || direction() === 'up') {
+            controller(fc, 2);
+        }
     } else if (fc._touch.startX !== fc._touch.curX) {
         controller(fc, fc._currentPage);
     }
-    fc._touch = {};
 
+    fc._touch = {};
     return true;
 }
 
