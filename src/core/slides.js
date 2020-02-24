@@ -19,12 +19,6 @@ export default function (fc) {
     fc._pageAmount = allSlides.length;
 
     if (fc._options.slidesPerPage < fc._pageAmount) {
-        fc._pageWidth = 100 / fc._options.slidesPerPage;
-
-        for (let index = 0; index < fc._pageAmount; index += 1) {
-            allSlides[index].style.minWidth = `${fc._pageWidth}%`;
-        }
-
         if (fc._options.infinite) {
             const array = Array.from(allSlides);
             let prepend;
@@ -46,6 +40,16 @@ export default function (fc) {
                 clone.classList.add('fc-is-clone');
                 slides.appendChild(clone);
             }
+        }
+
+        const container = fc._selector.querySelector('.fc-container').clientWidth;
+        const pageAmount = slides.querySelectorAll('.fc-slide').length;
+
+        slides.style.width = `${pageAmount * container}px`;
+        fc._pageWidth = container / fc._options.slidesPerPage;
+
+        for (let index = 0; index < pageAmount; index += 1) {
+            slides.querySelectorAll('.fc-slide')[index].style.width = `${fc._pageWidth}px`;
         }
 
         transform(fc, leftPage(fc, fc._currentPage));
