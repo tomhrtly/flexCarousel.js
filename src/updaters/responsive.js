@@ -9,7 +9,7 @@ function reinit(options = {}) {
 }
 
 export default function (fc) {
-    fc._originalOptions = fc._options;
+    const original = fc._options;
 
     let targetBreakpoint;
 
@@ -31,6 +31,6 @@ export default function (fc) {
         }
     } else if (fc._activeBreakpoint !== null) {
         fc._activeBreakpoint = null;
-        reinit(fc._originalOptions);
+        reinit(original);
     }
 }

@@ -2,9 +2,7 @@ export default function (obj1, obj2) {
     const extended = {};
 
     if (obj1) {
-        const keys = Object.keys(obj1);
-
-        keys.forEach((value) => {
+        Object.keys(obj1).forEach((value) => {
             if (Object.prototype.hasOwnProperty.call(obj1, value)) {
                 extended[value] = obj1[value];
             }
@@ -12,9 +10,7 @@ export default function (obj1, obj2) {
     }
 
     if (obj2) {
-        const keys = Object.keys(obj2);
-
-        keys.forEach((value) => {
+        Object.keys(obj2).forEach((value) => {
             if (Object.prototype.hasOwnProperty.call(obj2, value)) {
                 extended[value] = obj2[value];
             }
