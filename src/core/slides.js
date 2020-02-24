@@ -1,6 +1,5 @@
 import events from '../events/slide';
 import sizes from './sizes';
-import responsive from "../updaters/responsive";
 
 export default function (fc) {
     const ul = fc._selector.querySelector('ul');
