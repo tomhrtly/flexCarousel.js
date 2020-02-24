@@ -1,6 +1,6 @@
 import events from '../events/slide';
-import transform from './transform';
-import leftPage from './leftPage';
+import sizes from './sizes';
+import responsive from "../updaters/responsive";
 
 export default function (fc) {
     const ul = fc._selector.querySelector('ul');
@@ -42,17 +42,16 @@ export default function (fc) {
             }
         }
 
-        const container = fc._selector.querySelector('.fc-container').clientWidth;
-        const pageAmount = slides.querySelectorAll('.fc-slide').length;
+        sizes(fc);
 
-        slides.style.width = `${pageAmount * container}px`;
-        fc._pageWidth = container / fc._options.slidesPerPage;
+        let timer;
 
-        for (let index = 0; index < pageAmount; index += 1) {
-            slides.querySelectorAll('.fc-slide')[index].style.width = `${fc._pageWidth}px`;
-        }
-
-        transform(fc, leftPage(fc, fc._currentPage));
+        window.addEventListener('resize', () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                sizes(fc);
+            }, 500);
+        });
     }
 
     events(fc);
