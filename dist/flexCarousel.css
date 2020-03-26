@@ -175,6 +175,7 @@
 
 .fc-slide {
   display: block;
+  float: left;
   min-height: 96px;
   padding: 16px;
 }

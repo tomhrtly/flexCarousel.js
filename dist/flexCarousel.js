@@ -23,9 +23,9 @@ var flexCarousel = (function () {
     return Constructor;
   }
 
-  function defaults (instance) {
+  function defaults (fc) {
     return {
-      appendArrows: instance._selector,
+      appendArrows: fc._selector,
       arrows: true,
       arrowsOverlay: true,
       autoplay: false,
@@ -40,392 +40,18 @@ var flexCarousel = (function () {
       responsive: null,
       slidesPerPage: 1,
       slidesScrolling: 1,
+      swipe: false,
+      touchThreshold: 5,
       transition: 'slide',
       transitionSpeed: 250
     };
-  }
-
-  function destroy (instance) {
-    instance._selector.querySelectorAll('.fc-slide.fc-is-clone').forEach(function (element) {
-      instance._selector.querySelector('.fc-slides').removeChild(element);
-    });
-
-    instance._selector.querySelectorAll('.fc-slide').forEach(function (element) {
-      element.removeAttribute('class');
-      element.removeAttribute('style');
-    });
-
-    instance._selector.querySelector('.fc-slides').removeAttribute('style');
-
-    instance._selector.querySelector('.fc-slides').removeAttribute('class');
-
-    if (instance._options.circles) {
-      instance._selector.querySelector('.fc-container').removeChild(instance._selector.querySelector('.fc-circles'));
-    }
-
-    instance._selector.innerHTML = instance._selector.querySelector('.fc-container').innerHTML;
-    instance._selector.className = instance._selectorName.replace('.', '');
-
-    instance._selector.removeAttribute('style');
-  }
-
-  function update (instance) {
-    instance._originalOptions = instance._options;
-    var targetBreakpoint;
-
-    instance._breakpoints.forEach(function (options, breakpoint) {
-      if (window.innerWidth >= breakpoint) {
-        targetBreakpoint = breakpoint;
-      }
-    });
-
-    if (targetBreakpoint) {
-      if (instance._activeBreakpoint) {
-        if (targetBreakpoint !== instance._activeBreakpoint) {
-          instance._activeBreakpoint = targetBreakpoint;
-
-          instance._reinit(instance._breakpoints[targetBreakpoint]);
-        }
-      } else {
-        instance._activeBreakpoint = targetBreakpoint;
-
-        instance._reinit(instance._breakpoints[targetBreakpoint]);
-      }
-    } else if (instance._activeBreakpoint !== null) {
-      instance._activeBreakpoint = null;
-
-      instance._reinit(instance._originalOptions);
-    }
-  }
-
-  function update$1 (instance) {
-    var prevButton = instance._options.appendArrows.querySelector('.fc-prev');
-
-    var nextButton = instance._options.appendArrows.querySelector('.fc-next');
-
-    if (!instance._options.infinite) {
-      if (instance._currentPage === 0) {
-        prevButton.setAttribute('disabled', 'disabled');
-      } else {
-        prevButton.removeAttribute('disabled');
-      }
-
-      if (instance._currentPage === instance._pageAmount - 1) {
-        nextButton.setAttribute('disabled', 'disabled');
-      } else {
-        nextButton.removeAttribute('disabled');
-      }
-    }
-  }
-
-  function update$2 (instance) {
-    var circles = instance._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
-
-    for (var _index = 0; _index < circles.length; _index += 1) {
-      circles[_index].classList.remove('fc-is-active');
-    }
-
-    var index = Math.floor(instance._currentPage / instance._options.slidesScrolling);
-    circles[index].classList.add('fc-is-active');
-  }
-
-  function transform (instance, position) {
-    instance._selector.querySelector('.fc-slides').style.transform = "translate3d(".concat(Math.ceil(position), "%, 0px, 0px)");
-  }
-
-  function leftPage (instance, index) {
-    var slideOffset;
-
-    if (instance._options.slidesPerPage < instance._pageAmount) {
-      if (instance._options.slidesPerPage >= instance._options.slidesScrolling) {
-        slideOffset = instance._pageWidth * instance._options.slidesPerPage * -1;
-      }
-
-      if (!instance._options.infinite) {
-        slideOffset = 0;
-      }
-    }
-
-    return index * instance._pageWidth * -1 + slideOffset;
-  }
-
-  function animate (instance, target) {
-    var slides = instance._selector.querySelector('.fc-slides');
-
-    if (instance._options.transition === 'slide') {
-      slides.style.transition = "all ".concat(instance._options.transitionSpeed, "ms ease-in-out 0s");
-    }
-
-    transform(instance, Math.ceil(target));
-    new Promise(function (resolve) {
-      setTimeout(function () {
-        if (instance._options.transition === 'slide') {
-          slides.style.transition = '';
-        }
-
-        resolve(true);
-      }, instance._options.transitionSpeed);
-    }).then(function () {
-      return transform(instance, leftPage(instance, instance._currentPage));
-    });
-  }
-
-  function controller (instance, index) {
-    var nextPage;
-
-    if (index < 0) {
-      if (instance._pageAmount % instance._options.slidesScrolling !== 0) {
-        nextPage = instance._pageAmount - instance._pageAmount % instance._options.slidesScrolling;
-      } else {
-        nextPage = instance._pageAmount + index;
-      }
-    } else if (index >= instance._pageAmount) {
-      if (instance._pageAmount % instance._options.slidesScrolling !== 0) {
-        nextPage = 0;
-      } else {
-        nextPage = index - instance._pageAmount;
-      }
-    } else {
-      nextPage = index;
-    }
-
-    instance._currentPage = nextPage;
-    animate(instance, leftPage(instance, index));
-  }
-
-  function move (instance, index) {
-    var unevenOffset = instance._pageAmount % instance._options.slidesScrolling !== 0;
-    var indexOffset = unevenOffset ? 0 : (instance._pageAmount - instance._currentPage) % instance._options.slidesScrolling;
-
-    if (index === 'previous') {
-      var slideOffset = indexOffset === 0 ? instance._options.slidesScrolling : instance._options.slidesPerPage - indexOffset;
-
-      if (instance._options.slidesPerPage < instance._pageAmount) {
-        controller(instance, instance._currentPage - slideOffset);
-      }
-    } else if (index === 'next') {
-      var _slideOffset = indexOffset === 0 ? instance._options.slidesScrolling : indexOffset;
-
-      if (instance._options.slidesPerPage < instance._pageAmount) {
-        controller(instance, instance._currentPage + _slideOffset);
-      }
-    } else {
-      var page = index === 0 ? 0 : index * instance._options.slidesScrolling;
-      controller(instance, page);
-    }
-
-    if (instance._options.arrows) {
-      update$1(instance);
-    }
-
-    if (instance._options.circles) {
-      update$2(instance);
-    }
-
-    instance._selector.dispatchEvent(instance._customEvents.pageChanging);
-
-    setTimeout(function () {
-      instance._selector.dispatchEvent(instance._customEvents.pageChanged);
-    }, instance._options.transitionSpeed);
-  }
-
-  function events (instance) {
-    window.addEventListener('orientationchange', function () {
-      update(instance);
-      transform(instance);
-    });
-
-    instance._selector.onfocus = function () {
-      if (document.activeElement === instance._selector) {
-        document.onkeyup = function (e) {
-          if (e.key === 'ArrowRight') {
-            move(instance, 'next');
-          } else if (e.key === 'ArrowLeft') {
-            move(instance, 'previous');
-          }
-        };
-      }
-    };
-
-    instance._selector.onblur = function () {
-      document.onkeyup = function () {};
-    };
-  }
-
-  function slides (instance) {
-    var ul = instance._selector.querySelector('ul');
-
-    ul.classList.add('fc-slides');
-
-    for (var index = 0; index < ul.children.length; index += 1) {
-      ul.children[index].classList.add('fc-slide');
-    }
-
-    instance._selector.setAttribute('tabindex', '0');
-
-    instance._selector.innerHTML = "<div class=\"fc-container\">".concat(instance._selector.innerHTML, "</div>");
-
-    var slides = instance._selector.querySelector('.fc-slides');
-
-    var allSlides = slides.querySelectorAll('.fc-slide');
-    instance._pageAmount = allSlides.length;
-
-    if (instance._options.slidesPerPage < instance._pageAmount) {
-      instance._pageWidth = 100 / instance._options.slidesPerPage;
-
-      for (var _index = 0; _index < instance._pageAmount; _index += 1) {
-        allSlides[_index].style.minWidth = "".concat(instance._pageWidth, "%");
-      }
-
-      if (instance._options.infinite) {
-        var array = Array.from(allSlides);
-        var prepend;
-        var append;
-
-        if (instance._options.slidesPerPage >= instance._options.slidesScrolling) {
-          prepend = array.slice(instance._pageAmount - instance._options.slidesPerPage, instance._pageAmount).reverse();
-          append = array.slice(0, instance._options.slidesPerPage);
-        }
-
-        for (var _index2 = 0; _index2 < prepend.length; _index2 += 1) {
-          var clone = prepend[_index2].cloneNode(true);
-
-          clone.classList.add('fc-is-clone');
-          slides.insertBefore(clone, slides.firstChild);
-        }
-
-        for (var _index3 = 0; _index3 < append.length; _index3 += 1) {
-          var _clone = append[_index3].cloneNode(true);
-
-          _clone.classList.add('fc-is-clone');
-
-          slides.appendChild(_clone);
-        }
-      }
-
-      transform(instance, leftPage(instance, instance._currentPage));
-    }
-
-    events(instance);
-  }
-
-  function events$1 (instance) {
-    var nextButton = instance._options.appendArrows.querySelector('.fc-next');
-
-    var prevButton = instance._options.appendArrows.querySelector('.fc-prev');
-
-    nextButton.addEventListener('click', function () {
-      move(instance, 'next');
-    });
-    prevButton.addEventListener('click', function () {
-      move(instance, 'previous');
-    });
-  }
-
-  function arrows (instance) {
-    var slides = instance._selector.querySelector('.fc-slides');
-
-    var slide = slides.querySelectorAll('.fc-slide');
-
-    if (instance._options.arrows) {
-      if (instance._options.slidesPerPage < slide.length) {
-        instance._selector.classList.add('fc-has-arrows');
-
-        var nextButton = document.createElement('button');
-        nextButton.classList.add('fc-next');
-        nextButton.setAttribute('aria-label', 'Next');
-        nextButton.innerHTML = "<span class=\"fc-is-sr-only\">Next</span><span class=\"fc-icon\">".concat(instance._options.nextButton, "</span>");
-        var prevButton = document.createElement('button');
-        prevButton.classList.add('fc-prev');
-        prevButton.setAttribute('aria-label', 'Previous');
-        prevButton.innerHTML = "<span class=\"fc-is-sr-only\">Previous</span><span class=\"fc-icon\">".concat(instance._options.prevButton, "</span>");
-
-        instance._options.appendArrows.appendChild(nextButton);
-
-        instance._options.appendArrows.insertBefore(prevButton, instance._options.appendArrows.firstChild);
-
-        if (instance._options.arrowsOverlay) {
-          instance._selector.classList.add('fc-has-arrows-overlay');
-        }
-
-        events$1(instance);
-        update$1(instance);
-      }
-    }
-  }
-
-  function autoplay (instance) {
-    instance._autoplayDirection = 'right';
-    instance._autoplayTimer = null;
-    var pause = false;
-    var slide;
-    document.addEventListener('visibilitychange', function () {
-      pause = document.visibilityState !== 'visible';
-    });
-
-    if (instance._autoplayTimer) {
-      clearInterval(instance._autoplayTimer);
-    }
-
-    if (instance._options.autoplay) {
-      instance._autoplayTimer = setInterval(function () {
-        if (!pause) {
-          if (!instance._options.infinite) {
-            if (instance._autoplayDirection === 'right') {
-              slide = 'next';
-
-              if (instance._currentPage + 1 === instance._pageAmount - 1) {
-                instance._autoplayDirection = 'left';
-              }
-            } else if (instance._autoplayDirection === 'left') {
-              slide = 'previous';
-
-              if (instance._currentPage === 1) {
-                instance._autoplayDirection = 'right';
-              }
-            }
-          } else {
-            slide = 'next';
-          }
-
-          instance._movePage(slide);
-        }
-      }, instance._options.autoplaySpeed);
-
-      instance._selector.addEventListener('mouseenter', function () {
-        pause = true;
-      });
-
-      instance._selector.addEventListener('mouseleave', function () {
-        pause = false;
-      });
-
-      instance._selector.addEventListener('focusin', function () {
-        pause = true;
-      });
-
-      instance._selector.addEventListener('focusout', function () {
-        pause = false;
-      });
-    }
-  }
-
-  function event (instance) {
-    var timer;
-    window.addEventListener('resize', function () {
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        update(instance);
-      }, 500);
-    });
   }
 
   function extend (obj1, obj2) {
     var extended = {};
 
     if (obj1) {
-      var keys = Object.keys(obj1);
-      keys.forEach(function (value) {
+      Object.keys(obj1).forEach(function (value) {
         if (Object.prototype.hasOwnProperty.call(obj1, value)) {
           extended[value] = obj1[value];
         }
@@ -433,9 +59,7 @@ var flexCarousel = (function () {
     }
 
     if (obj2) {
-      var _keys = Object.keys(obj2);
-
-      _keys.forEach(function (value) {
+      Object.keys(obj2).forEach(function (value) {
         if (Object.prototype.hasOwnProperty.call(obj2, value)) {
           extended[value] = obj2[value];
         }
@@ -445,28 +69,421 @@ var flexCarousel = (function () {
     return extended;
   }
 
-  function breakpoints (instance) {
-    instance._activeBreakpoint = null;
-    instance._breakpoints = [];
+  function destroy (fc) {
+    fc._selector.querySelectorAll('.fc-slide.fc-is-clone').forEach(function (element) {
+      fc._selector.querySelector('.fc-slides').removeChild(element);
+    });
+
+    fc._selector.querySelectorAll('.fc-slide').forEach(function (element) {
+      element.removeAttribute('class');
+      element.removeAttribute('style');
+    });
+
+    fc._selector.querySelector('.fc-slides').removeAttribute('style');
+
+    fc._selector.querySelector('.fc-slides').removeAttribute('class');
+
+    if (fc._options.circles) {
+      fc._selector.querySelector('.fc-container').removeChild(fc._selector.querySelector('.fc-circles'));
+    }
+
+    fc._selector.innerHTML = fc._selector.querySelector('.fc-container').innerHTML;
+    fc._selector.className = fc._selectorName.replace('.', '');
+
+    fc._selector.removeAttribute('style');
+
+    fc._selector.removeAttribute('tabindex');
+  }
+
+  function reinit(fc) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    destroy(fc);
+    fc._options = extend(fc._defaults, options);
+
+    fc._init();
+
+    fc._selector.dispatchEvent(fc._events.breakpoint);
+  }
+
+  function update (fc) {
+    var targetBreakpoint;
+
+    fc._breakpoints.forEach(function (options, breakpoint) {
+      if (window.innerWidth >= breakpoint) {
+        targetBreakpoint = breakpoint;
+      }
+    });
+
+    if (targetBreakpoint) {
+      if (fc._activeBreakpoint) {
+        if (targetBreakpoint !== fc._activeBreakpoint) {
+          fc._activeBreakpoint = targetBreakpoint;
+          reinit(fc, fc._breakpoints[targetBreakpoint]);
+        }
+      } else {
+        fc._activeBreakpoint = targetBreakpoint;
+        reinit(fc, fc._breakpoints[targetBreakpoint]);
+      }
+    } else if (fc._activeBreakpoint !== null) {
+      fc._activeBreakpoint = null;
+      reinit(fc, fc._originalOptions);
+    }
+  }
+
+  function update$1 (fc) {
+    var prevButton = fc._options.appendArrows.querySelector('.fc-prev');
+
+    var nextButton = fc._options.appendArrows.querySelector('.fc-next');
+
+    if (!fc._options.infinite) {
+      if (fc._currentPage === 0) {
+        prevButton.setAttribute('disabled', 'disabled');
+      } else {
+        prevButton.removeAttribute('disabled');
+      }
+
+      if (fc._currentPage === fc._pageAmount - 1) {
+        nextButton.setAttribute('disabled', 'disabled');
+      } else {
+        nextButton.removeAttribute('disabled');
+      }
+    }
+  }
+
+  function update$2 (fc) {
+    var circles = fc._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
+
+    for (var index = 0; index < circles.length; index += 1) {
+      circles[index].classList.remove('fc-is-active');
+    }
+
+    circles[Math.floor(fc._currentPage / fc._options.slidesScrolling)].classList.add('fc-is-active');
+  }
+
+  function transform (fc, position) {
+    fc._selector.querySelector('.fc-slides').style.transform = "translate3d(".concat(Math.ceil(position), "px, 0px, 0px)");
+  }
+
+  function leftPage (fc, index) {
+    var slideOffset;
+
+    if (fc._options.slidesPerPage < fc._pageAmount) {
+      if (fc._options.slidesPerPage >= fc._options.slidesScrolling) {
+        slideOffset = fc._pageWidth * fc._options.slidesPerPage * -1;
+      }
+
+      if (!fc._options.infinite) {
+        slideOffset = 0;
+      }
+    }
+
+    return index * fc._pageWidth * -1 + slideOffset;
+  }
+
+  function animate(fc, target) {
+    var slides = fc._selector.querySelector('.fc-slides');
+
+    if (fc._options.transition === 'slide') {
+      slides.style.transition = "all ".concat(fc._options.transitionSpeed, "ms ease-in-out 0s");
+    }
+
+    transform(fc, Math.ceil(target));
+    new Promise(function (resolve) {
+      setTimeout(function () {
+        if (fc._options.transition === 'slide') {
+          slides.style.transition = '';
+        }
+
+        resolve(true);
+      }, fc._options.transitionSpeed);
+    }).then(function () {
+      return transform(fc, leftPage(fc, fc._currentPage));
+    });
+  }
+
+  function controller(fc, index) {
+    var nextPage;
+
+    if (index < 0) {
+      if (fc._pageAmount % fc._options.slidesScrolling !== 0) {
+        nextPage = fc._pageAmount - fc._pageAmount % fc._options.slidesScrolling;
+      } else {
+        nextPage = fc._pageAmount + index;
+      }
+    } else if (index >= fc._pageAmount) {
+      if (fc._pageAmount % fc._options.slidesScrolling !== 0) {
+        nextPage = 0;
+      } else {
+        nextPage = index - fc._pageAmount;
+      }
+    } else {
+      nextPage = index;
+    }
+
+    fc._currentPage = nextPage;
+    animate(fc, leftPage(fc, index));
+  }
+  function controller$1 (fc, index) {
+    var unevenOffset = fc._pageAmount % fc._options.slidesScrolling !== 0;
+    var indexOffset = unevenOffset ? 0 : (fc._pageAmount - fc._currentPage) % fc._options.slidesScrolling;
+
+    if (index === 'previous') {
+      var slideOffset = indexOffset === 0 ? fc._options.slidesScrolling : fc._options.slidesPerPage - indexOffset;
+
+      if (fc._options.slidesPerPage < fc._pageAmount) {
+        controller(fc, fc._currentPage - slideOffset);
+      }
+    } else if (index === 'next') {
+      var _slideOffset = indexOffset === 0 ? fc._options.slidesScrolling : indexOffset;
+
+      if (fc._options.slidesPerPage < fc._pageAmount) {
+        controller(fc, fc._currentPage + _slideOffset);
+      }
+    } else {
+      controller(fc, index === 0 ? 0 : index * fc._options.slidesScrolling);
+    }
+
+    if (fc._options.arrows) {
+      update$1(fc);
+    }
+
+    if (fc._options.circles) {
+      update$2(fc);
+    }
+
+    fc._selector.dispatchEvent(fc._events.pageChanging);
+
+    setTimeout(function () {
+      fc._selector.dispatchEvent(fc._events.pageChanged);
+    }, fc._options.transitionSpeed);
+  }
+
+  function events (fc) {
+    window.addEventListener('orientationchange', function () {
+      update(fc);
+      transform(fc);
+    });
+
+    fc._selector.onfocus = function () {
+      if (document.activeElement === fc._selector) {
+        document.onkeyup = function (e) {
+          if (e.key === 'ArrowRight') {
+            controller$1(fc, 'next');
+          } else if (e.key === 'ArrowLeft') {
+            controller$1(fc, 'previous');
+          }
+        };
+      }
+    };
+
+    fc._selector.onblur = function () {
+      document.onkeyup = function () {};
+    };
+  }
+
+  function sizes (fc) {
+    var container = fc._selector.querySelector('.fc-container').clientWidth;
+
+    var slides = fc._selector.querySelector('.fc-slides');
+
+    var pageAmount = slides.querySelectorAll('.fc-slide').length;
+    slides.style.width = "".concat(pageAmount * container, "px");
+    fc._pageWidth = container / fc._options.slidesPerPage;
+
+    for (var index = 0; index < pageAmount; index += 1) {
+      slides.querySelectorAll('.fc-slide')[index].style.width = "".concat(fc._pageWidth, "px");
+    }
+
+    transform(fc, leftPage(fc, fc._currentPage));
+  }
+
+  function slides (fc) {
+    var ul = fc._selector.querySelector('ul');
+
+    ul.classList.add('fc-slides');
+
+    for (var index = 0; index < ul.children.length; index += 1) {
+      ul.children[index].classList.add('fc-slide');
+    }
+
+    fc._selector.setAttribute('tabindex', '0');
+
+    fc._selector.innerHTML = "<div class=\"fc-container\">".concat(fc._selector.innerHTML, "</div>");
+
+    var slides = fc._selector.querySelector('.fc-slides');
+
+    var allSlides = slides.querySelectorAll('.fc-slide');
+    fc._pageAmount = allSlides.length;
+
+    if (fc._options.slidesPerPage < fc._pageAmount) {
+      if (fc._options.infinite) {
+        var array = Array.from(allSlides);
+        var prepend;
+        var append;
+
+        if (fc._options.slidesPerPage >= fc._options.slidesScrolling) {
+          prepend = array.slice(fc._pageAmount - fc._options.slidesPerPage, fc._pageAmount).reverse();
+          append = array.slice(0, fc._options.slidesPerPage);
+        }
+
+        for (var _index = 0; _index < prepend.length; _index += 1) {
+          var clone = prepend[_index].cloneNode(true);
+
+          clone.classList.add('fc-is-clone');
+          slides.insertBefore(clone, slides.firstChild);
+        }
+
+        for (var _index2 = 0; _index2 < append.length; _index2 += 1) {
+          var _clone = append[_index2].cloneNode(true);
+
+          _clone.classList.add('fc-is-clone');
+
+          slides.appendChild(_clone);
+        }
+      }
+
+      sizes(fc);
+      var timer;
+      window.addEventListener('resize', function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          sizes(fc);
+        }, 500);
+      });
+    }
+
+    events(fc);
+  }
+
+  function events$1 (fc) {
+    fc._options.appendArrows.querySelector('.fc-next').addEventListener('click', function () {
+      controller$1(fc, 'next');
+    });
+
+    fc._options.appendArrows.querySelector('.fc-prev').addEventListener('click', function () {
+      controller$1(fc, 'previous');
+    });
+  }
+
+  function arrows (fc) {
+    var slides = fc._selector.querySelector('.fc-slides');
+
+    var slide = slides.querySelectorAll('.fc-slide');
+
+    if (fc._options.arrows) {
+      if (fc._options.slidesPerPage < slide.length) {
+        fc._selector.classList.add('fc-has-arrows');
+
+        var nextButton = document.createElement('button');
+        nextButton.classList.add('fc-next');
+        nextButton.setAttribute('aria-label', 'Next');
+        nextButton.innerHTML = "<span class=\"fc-is-sr-only\">Next</span><span class=\"fc-icon\">".concat(fc._options.nextButton, "</span>");
+        var prevButton = document.createElement('button');
+        prevButton.classList.add('fc-prev');
+        prevButton.setAttribute('aria-label', 'Previous');
+        prevButton.innerHTML = "<span class=\"fc-is-sr-only\">Previous</span><span class=\"fc-icon\">".concat(fc._options.prevButton, "</span>");
+
+        fc._options.appendArrows.appendChild(nextButton);
+
+        fc._options.appendArrows.insertBefore(prevButton, fc._options.appendArrows.firstChild);
+
+        if (fc._options.arrowsOverlay) {
+          fc._selector.classList.add('fc-has-arrows-overlay');
+        }
+
+        events$1(fc);
+        update$1(fc);
+      }
+    }
+  }
+
+  function autoplay (fc) {
+    fc._autoplayDirection = 'right';
+    fc._autoplayTimer = null;
+    var pause = false;
+    var slide;
+    document.addEventListener('visibilitychange', function () {
+      pause = document.visibilityState !== 'visible';
+    });
+
+    if (fc._autoplayTimer) {
+      clearInterval(fc._autoplayTimer);
+    }
+
+    if (fc._options.autoplay) {
+      fc._autoplayTimer = setInterval(function () {
+        if (!pause) {
+          if (!fc._options.infinite) {
+            if (fc._autoplayDirection === 'right') {
+              slide = 'next';
+
+              if (fc._currentPage + 1 === fc._pageAmount - 1) {
+                fc._autoplayDirection = 'left';
+              }
+            } else if (fc._autoplayDirection === 'left') {
+              slide = 'previous';
+
+              if (fc._currentPage === 1) {
+                fc._autoplayDirection = 'right';
+              }
+            }
+          } else {
+            slide = 'next';
+          }
+
+          controller$1(fc, slide);
+        }
+      }, fc._options.autoplaySpeed);
+
+      fc._selector.addEventListener('mouseenter', function () {
+        pause = true;
+      });
+
+      fc._selector.addEventListener('mouseleave', function () {
+        pause = false;
+      });
+
+      fc._selector.addEventListener('focusin', function () {
+        pause = true;
+      });
+
+      fc._selector.addEventListener('focusout', function () {
+        pause = false;
+      });
+    }
+  }
+
+  function event (fc) {
+    var timer;
+    window.addEventListener('resize', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        update(fc);
+      }, 500);
+    });
+  }
+
+  function breakpoints (fc) {
+    fc._breakpoints = [];
     var breakpoints = [];
 
-    if (instance._options.responsive) {
-      var previous = instance._options;
+    if (fc._options.responsive) {
+      var previous = fc._options;
 
-      instance._options.responsive.forEach(function (_ref) {
+      fc._options.responsive.forEach(function (_ref) {
         var breakpoint = _ref.breakpoint,
             options = _ref.options;
 
         if (!breakpoints.includes(breakpoint)) {
           breakpoints.push(breakpoint);
-          instance._breakpoints[breakpoint] = extend(previous, options);
+          fc._breakpoints[breakpoint] = extend(previous, options);
           previous = extend(previous, options);
         }
       });
     }
 
-    event(instance);
-    update(instance);
+    event(fc);
+    update(fc);
   }
 
   function suffix (index) {
@@ -488,28 +505,28 @@ var flexCarousel = (function () {
     return "".concat(index, "th");
   }
 
-  function event$1 (instance) {
-    var circles = instance._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
+  function event$1 (fc) {
+    var circles = fc._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
     circles.forEach(function (element, index) {
       element.addEventListener('click', function () {
-        return move(instance, index);
+        return controller$1(fc, index);
       });
     });
   }
 
-  function circles (instance) {
-    if (instance._options.circles) {
-      if (instance._options.slidesPerPage < instance._pageAmount) {
-        instance._selector.classList.add('fc-has-circles');
+  function circles (fc) {
+    if (fc._options.circles) {
+      if (fc._options.slidesPerPage < fc._pageAmount) {
+        fc._selector.classList.add('fc-has-circles');
 
         var element = document.createElement('ul');
         element.classList.add('fc-circles');
 
-        instance._selector.querySelector('.fc-container').appendChild(element);
+        fc._selector.querySelector('.fc-container').appendChild(element);
 
-        var option = instance._options.slidesPerPage > instance._options.slidesScrolling ? instance._options.slidesScrolling : instance._options.slidesPerPage;
-        var amount = Math.ceil(instance._pageAmount / option);
+        var option = fc._options.slidesPerPage > fc._options.slidesScrolling ? fc._options.slidesScrolling : fc._options.slidesPerPage;
+        var amount = Math.ceil(fc._pageAmount / option);
 
         for (var index = 0; index < amount; index += 1) {
           var li = document.createElement('li');
@@ -527,21 +544,129 @@ var flexCarousel = (function () {
           element.appendChild(li);
         }
 
-        if (instance._options.circlesOverlay) {
-          instance._selector.classList.add('fc-has-circles-overlay');
+        if (fc._options.circlesOverlay) {
+          fc._selector.classList.add('fc-has-circles-overlay');
         }
 
-        update$2(instance);
-        event$1(instance);
+        update$2(fc);
+        event$1(fc);
       }
     }
   }
 
-  function height (instance) {
-    if (instance._options.height) {
-      instance._selector.style.height = instance._options.height;
+  function height (fc) {
+    if (fc._options.height) {
+      fc._selector.style.height = fc._options.height;
     }
   }
+
+  function direction(fc) {
+    var xDist = fc._touch.startX - fc._touch.curX;
+    var yDist = fc._touch.startY - fc._touch.curY;
+    var swipeAngle = Math.round(Math.atan2(yDist, xDist) * 180 / Math.PI);
+
+    if (swipeAngle < 0) {
+      swipeAngle = 360 - Math.abs(swipeAngle);
+    }
+
+    if (swipeAngle <= 45 && swipeAngle >= 0) {
+      return 'left';
+    }
+
+    if (swipeAngle <= 360 && swipeAngle >= 315) {
+      return 'left';
+    }
+
+    if (swipeAngle >= 135 && swipeAngle <= 225) {
+      return 'right';
+    }
+
+    return true;
+  }
+
+  function set(fc, event) {
+    var touches;
+
+    if (event.touches && event.touches.length) {
+      touches = event.touches;
+    }
+
+    fc._touch.curX = touches ? touches[0].pageX : event.clientX;
+    fc._touch.curY = touches ? touches[0].pageY : event.clientY;
+  }
+
+  function start(fc, event) {
+    set(fc, event);
+    fc._touch.startX = fc._touch.curX;
+    fc._touch.startY = fc._touch.curY;
+
+    if (fc._touch.fingers !== 1 || fc._pageAmount <= fc._options.slidesPerPage) {
+      fc._touch = {};
+      return false;
+    }
+
+    return true;
+  }
+
+  function move(fc, event) {
+    set(fc, event);
+    fc._touch.swipeLength = Math.round(Math.sqrt(Math.pow(fc._touch.curX - fc._touch.startX, 2)));
+
+    if (fc._touch.swipeLength) {
+      event.preventDefault();
+    }
+
+    transform(fc, leftPage(fc, fc._currentPage) + fc._touch.swipeLength * (fc._touch.curX > fc._touch.startX ? 1 : -1));
+    return true;
+  }
+
+  function end(fc) {
+    if (fc._touch.swipeLength >= fc._touch.minSwipe) {
+      if (direction() === 'left' || direction() === 'down') {
+        controller$1(fc, 3);
+      } else if (direction() === 'right' || direction() === 'up') {
+        controller$1(fc, 2);
+      }
+    } else if (fc._touch.startX !== fc._touch.curX) {
+      controller$1(fc, fc._currentPage);
+    }
+
+    fc._touch = {};
+    return true;
+  }
+
+  function swipe(fc, event) {
+    fc._touch.fingers = event.touches !== undefined ? event.touches.length : 1;
+    fc._touch.minSwipe = fc._selector.querySelector('.fc-slides').offsetWidth / fc._options.touchThreshold;
+
+    if (event.type === 'touchstart' || event.type === 'mousedown') {
+      start(fc, event);
+    } else if (event.type === 'touchmove' || event.type === 'mousemove') {
+      move(fc, event);
+    } else if (event.type === 'touchcancel' || event.type === 'mouseleave') {
+      end(fc);
+    }
+  }
+
+  function swipe$1 (fc) {
+    if (fc._options.swipe) {
+      var container = fc._selector.querySelector('.fc-container');
+
+      var events = ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'mousedown', 'mousemove', 'mouseup', 'mouseleave'];
+      events.forEach(function (element) {
+        container.addEventListener(element, function (event) {
+          swipe(fc, event);
+        });
+      });
+    }
+  }
+
+  var suffix$1 = '.fc';
+  var custom = {
+    breakpoint: new CustomEvent("breakpoint".concat(suffix$1)),
+    pageChanged: new CustomEvent("pageChanged".concat(suffix$1)),
+    pageChanging: new CustomEvent("pageChanging".concat(suffix$1))
+  };
 
   var FlexCarousel =
   /*#__PURE__*/
@@ -555,14 +680,13 @@ var flexCarousel = (function () {
       this._selector = document.querySelector(selector);
       this._defaults = defaults(this);
       this._options = extend(this._defaults, options);
-      this._customEvents = {
-        breakpoint: new CustomEvent('breakpoint.fc'),
-        pageChanged: new CustomEvent('pageChanged.fc'),
-        pageChanging: new CustomEvent('pageChanging.fc')
-      };
-      this._pageAmount = null;
-      this._pageWidth = null;
+      this._activeBreakpoint = null;
       this._currentPage = this._options.initialPage;
+      this._events = custom;
+      this._originalOptions = this._options;
+      this._pageAmount = '';
+      this._pageWidth = '';
+      this._touch = {};
 
       this._init();
 
@@ -576,23 +700,13 @@ var flexCarousel = (function () {
           this._selector.classList.add('fc');
 
           slides(this);
+          autoplay(this);
           arrows(this);
           circles(this);
-          autoplay(this);
           height(this);
           breakpoints(this);
+          swipe$1(this);
         }
-      }
-    }, {
-      key: "_reinit",
-      value: function _reinit() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        destroy(this);
-        this._options = extend(this._defaults, options);
-
-        this._init();
-
-        this._selector.dispatchEvent(this._customEvents.breakpoint);
       }
     }]);
 

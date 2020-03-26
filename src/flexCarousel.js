@@ -22,9 +22,10 @@ export default class FlexCarousel {
         this._defaults = defaults(this);
         this._options = extend(this._defaults, options);
 
-        this._events = custom;
-
+        this._activeBreakpoint = null;
         this._currentPage = this._options.initialPage;
+        this._events = custom;
+        this._originalOptions = this._options;
         this._pageAmount = '';
         this._pageWidth = '';
         this._touch = {};
@@ -39,9 +40,9 @@ export default class FlexCarousel {
             slides(this);
             component.autoplay(this);
             component.arrows(this);
-            component.breakpoints(this);
             component.circles(this);
             component.height(this);
+            component.breakpoints(this);
             component.swipe(this);
         }
     }

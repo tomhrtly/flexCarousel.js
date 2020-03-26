@@ -1,4 +1,4 @@
-import responsive from '../updaters/responsive';
+import update from '../updaters/responsive';
 
 export default function (fc) {
     let timer;
@@ -6,7 +6,7 @@ export default function (fc) {
     window.addEventListener('resize', () => {
         clearTimeout(timer);
         timer = setTimeout(() => {
-            responsive(fc);
+            update(fc);
         }, 500);
     });
 }

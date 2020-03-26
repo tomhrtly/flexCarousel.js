@@ -3,7 +3,6 @@ import extend from '../utils/extend';
 import update from '../updaters/responsive';
 
 export default function (fc) {
-    fc._activeBreakpoint = null;
     fc._breakpoints = [];
 
     const breakpoints = [];
