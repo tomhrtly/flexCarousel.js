@@ -1,16 +1,14 @@
 import destroy from '../core/destroy';
 import extend from '../utils/extend';
 
-function reinit(options = {}) {
-    destroy(this);
-    this._options = extend(this._defaults, options);
-    this._init();
-    this._selector.dispatchEvent(this._events.breakpoint);
+function reinit(fc, options = {}) {
+    destroy(fc);
+    fc._options = extend(fc._defaults, options);
+    fc._init();
+    fc._selector.dispatchEvent(fc._events.breakpoint);
 }
 
 export default function (fc) {
-    fc._originalOptions = fc._options;
-
     let targetBreakpoint;
 
     fc._breakpoints.forEach((options, breakpoint) => {
@@ -23,14 +21,14 @@ export default function (fc) {
         if (fc._activeBreakpoint) {
             if (targetBreakpoint !== fc._activeBreakpoint) {
                 fc._activeBreakpoint = targetBreakpoint;
-                reinit(fc._breakpoints[targetBreakpoint]);
+                reinit(fc, fc._breakpoints[targetBreakpoint]);
             }
         } else {
             fc._activeBreakpoint = targetBreakpoint;
-            reinit(fc._breakpoints[targetBreakpoint]);
+            reinit(fc, fc._breakpoints[targetBreakpoint]);
         }
     } else if (fc._activeBreakpoint !== null) {
         fc._activeBreakpoint = null;
-        reinit(fc._originalOptions);
+        reinit(fc, fc._originalOptions);
     }
 }

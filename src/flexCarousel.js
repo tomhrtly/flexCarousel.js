@@ -21,9 +21,11 @@ export default class FlexCarousel {
 
         this._defaults = defaults(this);
         this._options = extend(this._defaults, options);
+        this._originalOptions = this._options;
 
         this._events = custom;
 
+        this._activeBreakpoint = null;
         this._pageAmount = null;
         this._pageWidth = null;
         this._currentPage = this._options.initialPage;
