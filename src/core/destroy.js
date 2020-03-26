@@ -19,4 +19,5 @@ export default function (fc) {
 
     fc._selector.className = fc._selectorName.replace('.', '');
     fc._selector.removeAttribute('style');
+    fc._selector.removeAttribute('tabindex');
 }
