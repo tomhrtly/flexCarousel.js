@@ -102,6 +102,12 @@ $fc-slide-min-height: $fc-space * 6 !default
     display: flex
     width: 100%
 
+    &.fc-is-swipe
+        cursor: grab
+
+    &.fc-is-grabbing
+        cursor: grabbing
+
     &.fc-has-arrows
         .fc-next .fc-icon,
         .fc-prev .fc-icon

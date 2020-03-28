@@ -42,6 +42,7 @@ function set(fc, event) {
 function start(fc, event) {
     set(fc, event);
 
+    fc._selector.classList.add('fc-is-grabbing');
     fc._touch.startX = fc._touch.curX;
     fc._touch.startY = fc._touch.curY;
 
@@ -67,6 +68,8 @@ function move(fc, event) {
 }
 
 function end(fc) {
+    fc._selector.classList.remove('fc-is-grabbing');
+
     if (fc._touch.swipeLength >= fc._touch.minSwipe) {
         if (direction() === 'left' || direction() === 'down') {
             movePage(fc, 3);
@@ -82,18 +85,15 @@ function end(fc) {
 }
 
 function swipe(fc, event) {
-    fc._touch.fingers = event.touches !== undefined ? event.touches.length : 1;
+    fc._touch.fingers = event.touches ? event.touches.length : 1;
     fc._touch.minSwipe = fc._selector.querySelector('.fc-slides').offsetWidth / fc._options.touchThreshold;
 
     if (event.type === 'touchstart' || event.type === 'mousedown') {
         active = true;
-
-        if (active) {
-            start(fc, event);
-        }
+        start(fc, event);
     } else if ((event.type === 'touchmove' || event.type === 'mousemove') && active) {
         move(fc, event);
-    } else if ((event.type === 'touchcancel' || event.type === 'mouseleave') && active) {
+    } else if ((event.type === 'touchend' || event.type === 'mouseup' || event.type === 'touchcancel' || event.type === 'mouseleave') && active) {
         end(fc);
         active = false;
     }
@@ -101,6 +101,8 @@ function swipe(fc, event) {
 
 export default function (fc) {
     if (fc._options.swipe) {
+        fc._selector.classList.add('fc-is-swipe');
+
         const events = [
             'touchstart',
             'touchmove',
