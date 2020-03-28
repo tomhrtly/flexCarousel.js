@@ -1,5 +1,6 @@
 import events from '../events/slide';
-import sizes from './sizes';
+import transform from './transform';
+import leftPage from './leftPage';
 
 export default function (fc) {
     const ul = fc._selector.querySelector('ul');
@@ -18,6 +19,12 @@ export default function (fc) {
     fc._pageAmount = allSlides.length;
 
     if (fc._options.slidesPerPage < fc._pageAmount) {
+        fc._pageWidth = 100 / fc._options.slidesPerPage;
+
+        for (let index = 0; index < fc._pageAmount; index += 1) {
+            allSlides[index].style.minWidth = `${fc._pageWidth}%`;
+        }
+
         if (fc._options.infinite) {
             const array = Array.from(allSlides);
             let prepend;
@@ -41,16 +48,7 @@ export default function (fc) {
             }
         }
 
-        sizes(fc);
-
-        let timer;
-
-        window.addEventListener('resize', () => {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                sizes(fc);
-            }, 500);
-        });
+        transform(fc, leftPage(fc, fc._currentPage));
     }
 
     events(fc);
