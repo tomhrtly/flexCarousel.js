@@ -1,6 +1,8 @@
 import leftPage from '../core/leftPage';
 import transform from '../core/transform';
-import controller from '../core/move';
+import movePage from '../core/move';
+
+let active = false;
 
 function direction(fc) {
     const xDist = fc._touch.startX - fc._touch.curX;
@@ -67,12 +69,12 @@ function move(fc, event) {
 function end(fc) {
     if (fc._touch.swipeLength >= fc._touch.minSwipe) {
         if (direction() === 'left' || direction() === 'down') {
-            controller(fc, 3);
+            movePage(fc, 3);
         } else if (direction() === 'right' || direction() === 'up') {
-            controller(fc, 2);
+            movePage(fc, 2);
         }
     } else if (fc._touch.startX !== fc._touch.curX) {
-        controller(fc, fc._currentPage);
+        movePage(fc, fc._currentPage);
     }
 
     fc._touch = {};
@@ -84,17 +86,21 @@ function swipe(fc, event) {
     fc._touch.minSwipe = fc._selector.querySelector('.fc-slides').offsetWidth / fc._options.touchThreshold;
 
     if (event.type === 'touchstart' || event.type === 'mousedown') {
-        start(fc, event);
-    } else if (event.type === 'touchmove' || event.type === 'mousemove') {
+        active = true;
+
+        if (active) {
+            start(fc, event);
+        }
+    } else if ((event.type === 'touchmove' || event.type === 'mousemove') && active) {
         move(fc, event);
-    } else if (event.type === 'touchcancel' || event.type === 'mouseleave') {
+    } else if ((event.type === 'touchcancel' || event.type === 'mouseleave') && active) {
         end(fc);
+        active = false;
     }
 }
 
 export default function (fc) {
     if (fc._options.swipe) {
-        const container = fc._selector.querySelector('.fc-container');
         const events = [
             'touchstart',
             'touchmove',
@@ -107,7 +113,7 @@ export default function (fc) {
         ];
 
         events.forEach((element) => {
-            container.addEventListener(element, (event) => {
+            fc._selector.querySelector('.fc-container').addEventListener(element, (event) => {
                 swipe(fc, event);
             });
         });
