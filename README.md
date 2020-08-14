@@ -1,16 +1,13 @@
-## [FlexCarousel.js](https://flexcarousel.com)
+## FlexCarousel.js
 
 A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork of [Slick Carousel](https://github.com/kenwheeler/slick/).
 
 ### Status
 
 [![npm version](https://img.shields.io/npm/v/flexcarouseljs.svg)](https://npmjs.com/package/flexcarouseljs)
-[![CSS gzip size](https://img.badgesize.io/tomhrtly/FlexCarousel.js/master/dist/FlexCarousel.min.css?compression=gzip&label=CSS+gzip+size)](https://github.com/tomhrtly/FlexCarousel.js/tree/master/dist/FlexCarousel.min.css)
-[![JS gzip size](https://img.badgesize.io/tomhrtly/FlexCarousel.js/master/dist/FlexCarousel.min.js?compression=gzip&label=JS+gzip+size)](https://github.com/tomhrtly/FlexCarousel.js/tree/master/dist/FlexCarousel.min.js)
 [![downloads](https://img.shields.io/npm/dm/flexcarouseljs.svg)](https://npmjs.com/package/flexcarouseljs)
-[![Dependencies Status](https://david-dm.org/tomhrtly/FlexCarousel.js/status.svg)](https://david-dm.org/tomhrtly/FlexCarousel.js)
-[![devDependency Status](https://david-dm.org/tomhrtly/FlexCarousel.js/dev-status.svg)](https://david-dm.org/tomhrtly/FlexCarousel.js?type=dev)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/bae9e38a-d7f0-4bfb-baed-e25ca02385e6/deploy-status)](https://app.netlify.com/sites/flamboyant-swanson-358ad2/deploys)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tomhrtly/FlexCarousel.js/blob/master/LICENSE)
+[![Contributing](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
 ### Getting Started
 
