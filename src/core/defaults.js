@@ -17,5 +17,5 @@ export default function (fc) {
         slidesScrolling: 1,
         transition: 'slide',
         transitionSpeed: 250,
-    }
-};
+    };
+}

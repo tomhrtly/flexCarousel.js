@@ -5,30 +5,30 @@
     "scripts": {
         "build": "npm-run-all css js docs:build",
         "css": "npm-run-all css-lint css-compile css-minify",
-        "css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true src/flexCarousel.sass dist/flexCarousel.css",
-        "css-lint": "stylelint 'src/flexCarousel.sass'",
-        "css-minify": "cleancss -o dist/flexCarousel.min.css dist/flexCarousel.css",
+        "css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true src/FlexCarousel.sass dist/FlexCarousel.css",
+        "css-lint": "stylelint 'src/FlexCarousel.sass'",
+        "css-minify": "cleancss -o dist/FlexCarousel.min.css dist/FlexCarousel.css",
         "docs:build": "vuepress build docs",
         "docs:dev": "vuepress dev docs",
         "lint": "npm-run-all *-lint",
         "js": "npm-run-all js-lint js-compile js-minify",
         "js-compile": "rollup --config rollup.config.js --sourcemap",
-        "js-lint": "eslint src/flexCarousel.js",
-        "js-minify": "terser --compress --comments all --output dist/flexCarousel.min.js dist/flexCarousel.js",
+        "js-lint": "eslint src/FlexCarousel.js",
+        "js-minify": "terser --compress --comments all --output dist/FlexCarousel.min.js dist/FlexCarousel.js",
         "watch": "npm-run-all --parallel watch-*",
         "watch-css": "nodemon --watch src/ --ext sass --exec 'npm run css'",
         "watch-js": "nodemon --watch src/ --ext js --exec 'npm run js'"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/tomhrtly/flexCarousel.js.git"
+        "url": "git+https://github.com/tomhrtly/FlexCarousel.js.git"
     },
     "author": "Tom Hartley",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/tomhrtly/flexCarousel.js/issues"
+        "url": "https://github.com/tomhrtly/FlexCarousel.js/issues"
     },
-    "homepage": "https://github.com/tomhrtly/flexCarousel.js#readme",
+    "homepage": "https://github.com/tomhrtly/FlexCarousel.js#readme",
     "devDependencies": {
         "@babel/cli": "^7.10.5",
         "@babel/core": "^7.11.1",
