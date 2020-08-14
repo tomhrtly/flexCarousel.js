@@ -163,7 +163,7 @@ var FlexCarousel = (function () {
   }
 
   function transform (fc, position) {
-    fc._selector.querySelector('.fc-slides').style.transform = "translate3d(".concat(Math.ceil(position), "%, 0px, 0px)");
+    fc._selector.querySelector('.fc-slides').style.transform = "translate3d(".concat(position, "%, 0px, 0px)");
   }
 
   function leftPage (fc, index) {

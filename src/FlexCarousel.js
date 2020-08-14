@@ -1,6 +1,6 @@
 /*
- * FlexCarousel.js v1.0.0
- * https://github.com/tomhrtly/flexCarousel.js
+ * FlexCarousel.js v1.1.0
+ * https://github.com/tomhrtly/FlexCarousel.js
  *
  * Copyright 2020 Tom Hartley
  * Released under the MIT license

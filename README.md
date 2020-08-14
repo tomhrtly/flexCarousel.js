@@ -12,7 +12,7 @@ A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork
 
 ### Getting Started
 
-* [Download the latest release.](https://github.com/tomhrtly/FlexCarousel.js/releases/download/v1.0.0/FlexCarousel-1.0.0.zip)
+* [Download the latest release.](https://github.com/tomhrtly/FlexCarousel.js/releases/download/v1.1.0/FlexCarousel-1.1.0.zip)
 * Clone the repo: `git clone https://github.com/tomhrtly/FlexCarousel.js.git`
 * Install with [npm](https://www.npmjs.com/): `npm install flexcarouseljs`
 
@@ -69,16 +69,16 @@ For those wanting to quickly prototype carousel's for their applications, feel f
 
 ##### CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.1.0/dist/FlexCarousel.min.css">
 ```
 
 ##### JS
 ```html
-<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.1.0/dist/FlexCarousel.min.js"></script>
 ```
 
 #### Download
-You can also traditionally [download](https://github.com/tomhrtly/FlexCarousel.js/releases/download/v1.0.0/FlexCarousel-1.0.0.zip) the build files locally if you wish.
+You can also traditionally [download](https://github.com/tomhrtly/FlexCarousel.js/releases/download/v1.1.0/FlexCarousel-1.1.0.zip) the build files locally if you wish.
 
 ### Configuration
 
@@ -110,7 +110,7 @@ Having trouble getting your carousel to work correctly? Check out this [CodePen 
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.1.0/dist/FlexCarousel.min.css">
     </head>
     <body>
         <div class="my-class">
@@ -122,7 +122,7 @@ Having trouble getting your carousel to work correctly? Check out this [CodePen 
                 <li>5</li>
             </ul>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.1.0/dist/FlexCarousel.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const carousel = new FlexCarousel('.my-class');

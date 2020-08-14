@@ -1,6 +1,6 @@
 /*!
- * FlexCarousel.js v1.0.0
- * https://github.com/tomhrtly/flexCarousel.js
+ * FlexCarousel.js v1.1.0
+ * https://github.com/tomhrtly/FlexCarousel.js
  *
  * Copyright 2020 Tom Hartley
  * Released under the MIT license
@@ -108,11 +108,12 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow: hidden;
+  width: 100%;
 }
 
 .fc {
   display: flex;
+  overflow: hidden;
   width: 100%;
 }
 
