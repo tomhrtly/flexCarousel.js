@@ -52,12 +52,12 @@ For those wanting to quickly prototype carousel's for their applications, feel f
 
 ##### CSS
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.css">
 ```
 
 ##### JS
 ```html
-<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.js"></script>
 ```
 
 #### Download
@@ -81,7 +81,7 @@ Before you start using FlexCarousel.js, make sure your web page is set up to the
 ```
 
 ##### Quick-start Template
-After setting up your web page correctly, this is what your full HTML structure should look like to initialize flexCarousel.js.
+After setting up your web page correctly, this is what your full HTML structure should look like to initialize FlexCarousel.js.
 
 Use a semantic unordered list with a list item for each carousel slide wrapped in a HTML tag with a unique identifier to initialize the carousel.
 
@@ -93,7 +93,7 @@ Having trouble getting your carousel to work correctly? Check out this [CodePen 
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.css">
     </head>
     <body>
         <div class="my-class">
@@ -105,7 +105,7 @@ Having trouble getting your carousel to work correctly? Check out this [CodePen 
                 <li>5</li>
             </ul>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/flexCarousel.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flexcarouseljs@1.0.0/dist/FlexCarousel.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const carousel = new FlexCarousel('.my-class');
@@ -116,7 +116,7 @@ Having trouble getting your carousel to work correctly? Check out this [CodePen 
 ```
 
 #### Styling
-It's very easy to take advantage of the flexCarousel.js Sass file so that you can style your carousel components easily to integrate with your current projects.
+It's very easy to take advantage of the FlexCarousel.js Sass file so that you can style your carousel components easily to integrate with your current projects.
 
 Your file structure will depend on your project and if you are using a package manager such as [npm](https://www.npmjs.com/) (recommended).
 
@@ -140,7 +140,7 @@ Each variable also has a prefix, `fc-` to avoid conflicts with other frameworks 
 
 ##### File Structure
 
-We do not recommend that you edit the flexCarousel.js source files within `node_modules`, this is because when you update the package through npm, your changes will be removed and there may be problems sharing your repository with flexCarousel.js as a dependency.
+We do not recommend that you edit the FlexCarousel.js source files within `node_modules`, this is because when you update the package through npm, your changes will be removed and there may be problems sharing your repository with FlexCarousel.js as a dependency.
 
 To change any of the available Sass variables stated above, you should import the source file into your Sass setup and override the default variables. Your file structure should look something like this if using a package manager.
 
@@ -151,7 +151,7 @@ my-project/
 └── node_modules/
     └── flexcarouseljs
         └── src
-            └── flexCarousel.sass
+            └── FlexCarousel.sass
 ```
 
 Next, you need to override the default variables *before* importing the Sass file and lastly compile your custom Sass file.
@@ -159,15 +159,15 @@ Next, you need to override the default variables *before* importing the Sass fil
 ```
 $fc-black: blue
 
-import '~flexcarouseljs/src/flexCarousel'
+import '~flexcarouseljs/src/FlexCarousel'
 ```
 
 ### Options
 
-It's very easy to customise your carousel by changing the options given to you. All you have to do is invoke the flexCarousel function and pass an object with the options you wish to change from the default value.
+It's very easy to customise your carousel by changing the options given to you. All you have to do is invoke the FlexCarousel function and pass an object with the options you wish to change from the default value.
 
 ```javascript
-const carousel = new flexCarousel('.my-class', {
+const carousel = new FlexCarousel('.my-class', {
     option: value,
 });
 ```
@@ -254,7 +254,7 @@ Default: `true`
 Determines whether navigation circles should be shown at the bottom of the carousel for users to quickly select which slide to view.
 
 ```
-const carousel = new flexCarousel('.my-class', {
+const carousel = new FlexCarousel('.my-class', {
     circles: false,
 });
 ``` 
