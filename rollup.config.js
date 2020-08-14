@@ -1,10 +1,10 @@
 import babel from 'rollup-plugin-babel';
 
 export default {
-    input: 'src/flexCarousel.js',
+    input: 'src/FlexCarousel.js',
     output: {
-        file: 'dist/flexCarousel.js',
-        name: 'flexCarousel',
+        file: 'dist/FlexCarousel.js',
+        name: 'FlexCarousel',
         format: 'iife',
         sourceMap: 'inline',
     },
