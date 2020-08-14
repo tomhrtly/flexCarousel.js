@@ -1,6 +1,6 @@
 {
     "name": "flexcarouseljs",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "A simple, lightweight Flexbox carousel JavaScript plugin.",
     "scripts": {
         "build": "npm-run-all css js",
