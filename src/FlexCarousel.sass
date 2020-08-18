@@ -14,6 +14,9 @@ $fc-space: 16px !default
 $fc-prev-next-height: $fc-space * 1.5 !default
 $fc-prev-next-min-width: $fc-space * 8 !default
 $fc-slide-min-height: $fc-space * 6 !default
+$fc-slide-padding: $fc-space !default
+$fc-circle-height: $fc-space !default
+$fc-circle-width: $fc-space !default
 
 *
     box-sizing: border-box
@@ -76,16 +79,16 @@ $fc-slide-min-height: $fc-space * 6 !default
     +fc-button
     align-items: center
     display: flex
-    height: $fc-space
+    height: $fc-circle-height
     justify-content: center
-    width: $fc-space
+    width: $fc-circle-width
 
     .fc-icon.fc-is-circle
         background-color: rgba($fc-black, .4)
         border-radius: 50%
         display: flex
-        height: $fc-space / 2
-        width: $fc-space / 2
+        height: $fc-circle-height / 2
+        width: $fc-circle-width / 2
 
     &:hover,
     &.fc-is-active
@@ -157,7 +160,7 @@ $fc-slide-min-height: $fc-space * 6 !default
 .fc-slide
     display: block
     min-height: $fc-slide-min-height
-    padding: $fc-space
+    padding: $fc-slide-padding
 
     video
         height: auto
