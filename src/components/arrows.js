@@ -11,13 +11,11 @@ export default function (fc) {
 
             const nextButton = document.createElement('button');
             nextButton.classList.add('fc-next');
-            nextButton.setAttribute('aria-label', 'Next');
-            nextButton.innerHTML = `<span class="fc-is-sr-only">Next</span><span class="fc-icon">${fc._options.nextButton}</span>`;
+            nextButton.innerHTML = `<span class="fc-is-sr-only">Next page</span><span class="fc-icon">${fc._options.nextButton}</span>`;
 
             const prevButton = document.createElement('button');
             prevButton.classList.add('fc-prev');
-            prevButton.setAttribute('aria-label', 'Previous');
-            prevButton.innerHTML = `<span class="fc-is-sr-only">Previous</span><span class="fc-icon">${fc._options.prevButton}</span>`;
+            prevButton.innerHTML = `<span class="fc-is-sr-only">Previous page</span><span class="fc-icon">${fc._options.prevButton}</span>`;
 
             fc._options.appendArrows.appendChild(nextButton);
             fc._options.appendArrows.insertBefore(prevButton, fc._options.appendArrows.firstChild);

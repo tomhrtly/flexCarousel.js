@@ -20,14 +20,13 @@ export default function (fc) {
 
                 const circle = document.createElement('button');
                 circle.classList.add('fc-circle');
-                circle.setAttribute('aria-label', `${suffix(index + 1)} page`);
 
                 const icon = document.createElement('span');
                 icon.classList.add('fc-icon', 'fc-is-circle');
 
                 const text = document.createElement('span');
                 text.classList.add('fc-is-sr-only');
-                text.innerHTML = index + 1;
+                text.innerHTML = `${suffix(index + 1)} page`;
 
                 circle.appendChild(icon);
                 circle.appendChild(text);
