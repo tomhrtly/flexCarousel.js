@@ -10,7 +10,7 @@
 
 import defaults from './core/defaults';
 import slides from './core/slides';
-import * as component from './components/index';
+import components from './components/index';
 import extend from './utils/extend';
 import custom from './events/custom';
 
@@ -38,11 +38,11 @@ export default class FlexCarousel {
         if (document.querySelector(this._selectorName) && !this._selector.classList.contains('fc')) {
             this._selector.classList.add('fc');
             slides(this);
-            component.arrows(this);
-            component.circles(this);
-            component.autoplay(this);
-            component.height(this);
-            component.breakpoints(this);
+            components.arrows(this);
+            components.circles(this);
+            components.autoplay(this);
+            components.height(this);
+            components.breakpoints(this);
         }
     }
 }

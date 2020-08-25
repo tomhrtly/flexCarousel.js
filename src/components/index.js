@@ -1,5 +1,13 @@
-export arrows from './arrows';
-export autoplay from './autoplay';
-export breakpoints from './breakpoints';
-export circles from './circles';
-export height from './height';
+import arrows from './arrows';
+import autoplay from './autoplay';
+import breakpoints from './breakpoints';
+import circles from './circles';
+import height from './height';
+
+export default {
+    arrows,
+    autoplay,
+    breakpoints,
+    circles,
+    height,
+};
