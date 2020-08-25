@@ -366,12 +366,10 @@ var FlexCarousel = (function () {
 
         var nextButton = document.createElement('button');
         nextButton.classList.add('fc-next');
-        nextButton.setAttribute('aria-label', 'Next');
-        nextButton.innerHTML = "<span class=\"fc-is-sr-only\">Next</span><span class=\"fc-icon\">".concat(fc._options.nextButton, "</span>");
+        nextButton.innerHTML = "<span class=\"fc-is-sr-only\">Next page</span><span class=\"fc-icon\">".concat(fc._options.nextButton, "</span>");
         var prevButton = document.createElement('button');
         prevButton.classList.add('fc-prev');
-        prevButton.setAttribute('aria-label', 'Previous');
-        prevButton.innerHTML = "<span class=\"fc-is-sr-only\">Previous</span><span class=\"fc-icon\">".concat(fc._options.prevButton, "</span>");
+        prevButton.innerHTML = "<span class=\"fc-is-sr-only\">Previous page</span><span class=\"fc-icon\">".concat(fc._options.prevButton, "</span>");
 
         fc._options.appendArrows.appendChild(nextButton);
 
@@ -421,7 +419,7 @@ var FlexCarousel = (function () {
             slide = 'next';
           }
 
-          fc._movePage(slide);
+          move(fc, slide);
         }
       }, fc._options.autoplaySpeed);
 
@@ -522,12 +520,11 @@ var FlexCarousel = (function () {
           var li = document.createElement('li');
           var circle = document.createElement('button');
           circle.classList.add('fc-circle');
-          circle.setAttribute('aria-label', "".concat(suffix(index + 1), " page"));
           var icon = document.createElement('span');
           icon.classList.add('fc-icon', 'fc-is-circle');
           var text = document.createElement('span');
           text.classList.add('fc-is-sr-only');
-          text.innerHTML = index + 1;
+          text.innerHTML = "".concat(suffix(index + 1), " page");
           circle.appendChild(icon);
           circle.appendChild(text);
           li.appendChild(circle);
@@ -549,6 +546,14 @@ var FlexCarousel = (function () {
       fc._selector.style.height = fc._options.height;
     }
   }
+
+  var components = {
+    arrows: arrows,
+    autoplay: autoplay,
+    breakpoints: breakpoints,
+    circles: circles,
+    height: height
+  };
 
   var custom = {
     breakpoint: new CustomEvent('breakpoint.fc'),
@@ -581,15 +586,15 @@ var FlexCarousel = (function () {
     _createClass(FlexCarousel, [{
       key: "_init",
       value: function _init() {
-        if (!this._selector.classList.contains('fc')) {
+        if (document.querySelector(this._selectorName) && !this._selector.classList.contains('fc')) {
           this._selector.classList.add('fc');
 
           slides(this);
-          arrows(this);
-          circles(this);
-          autoplay(this);
-          height(this);
-          breakpoints(this);
+          components.arrows(this);
+          components.circles(this);
+          components.autoplay(this);
+          components.height(this);
+          components.breakpoints(this);
         }
       }
     }]);
