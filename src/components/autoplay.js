@@ -1,3 +1,5 @@
+import move from '../core/move';
+
 export default function (fc) {
     fc._autoplayDirection = 'right';
     fc._autoplayTimer = null;
@@ -33,7 +35,7 @@ export default function (fc) {
                 } else {
                     slide = 'next';
                 }
-                fc._movePage(slide);
+                move(fc, slide);
             }
         }, fc._options.autoplaySpeed);
 
