@@ -151,9 +151,12 @@ Each variable also has a prefix, `fc-` to avoid conflicts with other frameworks 
 ###### Derived Variables
 | Name | Type | Default |
 |---|---|---|
-| `$fc-prev-next-height` | Computed | `$space * 1.5` |
-| `$fc-prev-next-min-width` | Computed | `$space * 8` |
-| `$fc-slide-min-height` | Computed | `$space * 6` |
+| `$fc-prev-next-height` | Computed | `$fc-space * 1.5` |
+| `$fc-prev-next-min-width` | Computed | `$fc-space * 8` |
+| `$fc-slide-min-height` | Computed | `$fc-space * 6` |
+| `$fc-slide-padding` | Computed | `$fc-spacer` |
+| `$fc-circle-height` | Computed | `$fc-spacer` |
+| `$fc-circle-width` | Computed | `$fc-spacer` |
 
 ##### File Structure
 
