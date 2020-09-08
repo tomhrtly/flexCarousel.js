@@ -154,12 +154,11 @@ var FlexCarousel = (function () {
   function update$2 (fc) {
     var circles = fc._selector.querySelector('.fc-container').querySelectorAll('.fc-circle');
 
-    for (var _index = 0; _index < circles.length; _index += 1) {
-      circles[_index].classList.remove('fc-is-active');
+    for (var index = 0; index < circles.length; index += 1) {
+      circles[index].classList.remove('fc-is-active');
     }
 
-    var index = Math.floor(fc._currentPage / fc._options.slidesScrolling);
-    circles[index].classList.add('fc-is-active');
+    circles[Math.floor(fc._currentPage / fc._options.slidesScrolling)].classList.add('fc-is-active');
   }
 
   function transform (fc, position) {
