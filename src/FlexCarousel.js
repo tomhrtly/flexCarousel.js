@@ -35,7 +35,7 @@ export default class FlexCarousel {
     }
 
     _init() {
-        if (document.querySelector(this._selectorName) && !this._selector.classList.contains('fc')) {
+        if (this._selector && !this._selector.classList.contains('fc')) {
             this._selector.classList.add('fc');
             slides(this);
             components.arrows(this);
