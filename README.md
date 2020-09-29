@@ -60,7 +60,7 @@ A simple, lightweight Flexbox carousel ES6 JavaScript plugin. An unofficial fork
 
 To get started, install FlexCarousel.js via the npm package manager. This is the recommended way of installing FlexCarousel.js and it also integrates with module bundlers such as [Webpack](https://webpack.js.org/).
 
-```
+```shell script
 $ npm install flexcarouseljs
 ```
 
@@ -176,7 +176,7 @@ my-project/
 
 Next, you need to override the default variables *before* importing the Sass file and lastly compile your custom Sass file.
 
-```
+```scss
 $fc-black: blue
 
 import '~flexcarouseljs/src/FlexCarousel'
@@ -200,7 +200,7 @@ Default: `this.selector`
 
 The HTML element which the arrows will be appended to if you want to have more flexibility to how your carousel looks. When using this option, you will most likely want to add your own styles for the previous and next buttons.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     appendArrows: document.querySelector('.my-arrows'),
 });
@@ -214,7 +214,7 @@ Default: `true`
 
 Determines whether a previous and next arrow should be shown on either side of the slides so that the user can change the active page.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     arrows: false,
 });
@@ -228,7 +228,7 @@ Default: `true`
 
 Determines whether the arrows overlay onto the active slide or have their own wrapping elements. `arrows` must be set to `true` for this option to work.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     arrowsOverlay: false,
 });
@@ -242,7 +242,7 @@ Default: `false`
 
 Determines whether the active slide changes to the next slide on a time delay. The carousel will pause when the user hovers their mouse over the selector for improved accessibility.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     autoplay: true,
 });
@@ -258,7 +258,7 @@ Determines how long the active slide(s) will stay active for before transitionin
 
 `autoplay` must be set to `true` for this option to work.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     autoplay: true,
     autoplaySpeed: 2000,
@@ -273,7 +273,7 @@ Default: `true`
 
 Determines whether navigation circles should be shown at the bottom of the carousel for users to quickly select which slide to view.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     circles: false,
 });
@@ -287,7 +287,7 @@ Default: `true`
 
 Determines whether the circles overlay onto the active slide(s) or have their own wrapping elements. `circles` must be set to `true` for this option to work.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     circlesOverlay: false,
 });
@@ -301,7 +301,7 @@ Default: `null`
 
 Defines whether a fixed height is to be added to the carousel selector element.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     height: '400px',
 });
@@ -315,7 +315,7 @@ Default: `true`
 
 Determines if the carousel will continuously loop over the slides or have the prev/next buttons disabled when on the first/last slide.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     infinite: false,
 });
@@ -329,7 +329,7 @@ Default: `0`
 
 Defines which page index the carousel will start on.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     initialPage: 2,
 });
@@ -343,7 +343,7 @@ Default: `<svg ...`
 
 Defines the HTML code for the element which changes the active slide(s) to the next slide when clicked on. Out of the box, we use [Font Awesome](https://fontawesome.com) icons.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     nextButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-circle-right" class="svg-inline--fa fa-arrow-circle-right fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8c137 0 248 111 248 248S393 504 256 504 8 393 8 256 119 8 256 8zm-28.9 143.6l75.5 72.4H120c-13.3 0-24 10.7-24 24v16c0 13.3 10.7 24 24 24h182.6l-75.5 72.4c-9.7 9.3-9.9 24.8-.4 34.3l11 10.9c9.4 9.4 24.6 9.4 33.9 0L404.3 273c9.4-9.4 9.4-24.6 0-33.9L271.6 106.3c-9.4-9.4-24.6-9.4-33.9 0l-11 10.9c-9.5 9.6-9.3 25.1.4 34.4z"></path></svg>',
 });
@@ -357,7 +357,7 @@ Default: `<svg ...`
 
 Defines the HTML code for the element which changes the active slide(s) to the previous slide when clicked on. Out of the box, we use [Font Awesome](https://fontawesome.com) icons.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     prevButton: '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-circle-left" class="svg-inline--fa fa-arrow-circle-left fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 504C119 504 8 393 8 256S119 8 256 8s248 111 248 248-111 248-248 248zm28.9-143.6L209.4 288H392c13.3 0 24-10.7 24-24v-16c0-13.3-10.7-24-24-24H209.4l75.5-72.4c9.7-9.3 9.9-24.8.4-34.3l-11-10.9c-9.4-9.4-24.6-9.4-33.9 0L107.7 239c-9.4 9.4-9.4 24.6 0 33.9l132.7 132.7c9.4 9.4 24.6 9.4 33.9 0l11-10.9c9.5-9.5 9.3-25-.4-34.3z"></path></svg>';
 });
@@ -375,7 +375,7 @@ Each object must contain a `breakpoint` and `options` key. The former key must b
 
 This works from a mobile-first approach and each breakpoint will use the previous breakpoint's options.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     arrows: false,
     responsive: [
@@ -397,7 +397,7 @@ Default: `1`
 
 Defines how many slides are visible on a page at any given time.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     slidesPerPage: 3,
 });
@@ -411,7 +411,7 @@ Default: `1`
 
 Defines how many slides should be moved when going to the next page of slides. You don't want to have this option value higher than `slidesPerPage` as this may lead to poor accessibility and user experience.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     slidesPerPage: 3,
     slidesScrolling: 3,
@@ -426,7 +426,7 @@ Default: `slide`
 
 Defines which transition should be used when changing the active slide(s). Current transitions available are: `none` and `slide`.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     transition: 'none',
 });
@@ -440,7 +440,7 @@ Default: `250`
 
 Defines the transition speed when the slide is being changed. `transition` must be set to `slide` for this option to work.
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class', {
     transitionSpeed: 1000,
 });
@@ -458,10 +458,10 @@ Below you will find a table complete with all of the custom events available and
 | `pageChanged` | This event fires when the current page has stopped changing. |
 | `pageChanging` | This event is fired immediately when the current page changes. |
 
-```
+```javascript
 const carousel = new FlexCarousel('.my-class');
 
-carousel.selector.addEventListener('pageChanged', function () => {
+carousel.selector.addEventListener('pageChanged', () => {
     console.log(`You're viewing page index: ${carousel.currentPage}`);
 });
 ```
